@@ -15,7 +15,12 @@ public class Produkt {
         antalPaaLager += antal;
     }
 
+    /**
+     * Kaster en IllegalArgumentException hvis der ikke er nok tilbage på lager
+     */
     public void fjernAntalPaaLager(int antal) {
+        if(antalPaaLager - antal < 0)
+            throw new IllegalArgumentException("Der er kun " + antalPaaLager + " tilbage på lager");
         antalPaaLager -= antal;
     }
 }
