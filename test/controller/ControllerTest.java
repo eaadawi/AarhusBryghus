@@ -22,7 +22,8 @@ class ControllerTest {
         ProduktGruppe pg = Controller.opretProduktGruppe(navn);
 
         // Assert
-        assert(Storage.getTestStorage.hentProduktGrupper().contains(pg));
+        assertTrue(Storage.getTestStorage().hentProduktGrupper().contains(pg));
+
     }
 
     @Test
@@ -41,7 +42,7 @@ class ControllerTest {
         // Assert
         assertEquals(p.hentNavn(), produktNavn);
         assertEquals(p.hentAntalPaaLager(), antal);
-        assert(pg.hentProdukter().contains(p));
+        assertTrue(pg.hentProdukter().contains(p));
     }
 
     @Test
@@ -50,12 +51,31 @@ class ControllerTest {
 
         // Arrange
         String navn = "Produktgruppe test";
+        ProduktGruppe pg = Controller.opretProduktGruppe(navn);
 
         // Act
-        ProduktGruppe pg = Controller.opretProduktGruppe(navn);
         Controller.fjernProduktGruppe(pg);
 
         // Assert
+        assertFalse(Storage.getTestStorage().hentProduktGrupper().contains(pg));
 
+    }
+
+    @Test
+    @Order(4)
+    void fjernProduktTest() {
+
+        // Arrange
+        String produktNavn = "Test øl";
+        String produktgruppeNavn = "Test gruppe";
+        int antal = 100;
+        ProduktGruppe pg = Controller.opretProduktGruppe(produktgruppeNavn);
+        Produkt p = Controller.opretProdukt(produktNavn, antal, pg);
+
+        // Act
+        Controller.fjernProdukt(p, pg);
+
+        // Assert
+        assertFalse(pg.hentProdukter().contains(p));
     }
 }
