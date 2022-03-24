@@ -135,10 +135,20 @@ public class ProduktGruppeTab extends GridPane {
         this.add(vbAntal, 4, 3);
 
 
+
     }
 
     private void opretProduktGruppe(){
-        ProduktGruppeOpret dialog = new ProduktGruppeOpret();
+        ProduktGruppeOpret dialog = new ProduktGruppeOpret("Opret Produkt gruppe", null);
+        dialog.showAndWait();
+
+        // Wait for the modal dialog to close
+
+        //--- mangles metoder fra controller
+        //produktGruppeListView.getItems().setAll(Controller.hentProduktGrupper());
+        int index =produktGruppeListView.getItems().size()-1;
+        produktListView.getSelectionModel().select(index);
+
     }
 
 }
