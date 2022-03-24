@@ -1,9 +1,7 @@
 package model;
 
-import java.util.Objects;
-
 public class Produkt {
-    private String navn;
+    private final String navn;
     private int antalPaaLager;
 
     ProduktGruppe produktGruppe; // OBS: Package visibility

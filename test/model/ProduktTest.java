@@ -33,6 +33,22 @@ class ProduktTest {
     }
 
     @Test
+    void hentProduktGruppe() {
+        // Arrange
+        String navn = "Øl";
+        int antal = 10;
+        Produkt produkt = new Produkt(navn, antal);
+        ProduktGruppe forventetProduktGruppe = new ProduktGruppe("Flaskeøl");
+        produkt.produktGruppe = forventetProduktGruppe;
+
+        // Act
+        ProduktGruppe produktGruppe = produkt.hentProduktGruppe();
+
+        // Assert
+        assertEquals(forventetProduktGruppe, produktGruppe);
+    }
+
+    @Test
     void tilfoejAntalPaaLager() {
         // Arrange
         String navn = "Øl";

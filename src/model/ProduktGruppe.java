@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProduktGruppe {
-    private String navn;
+    private final String navn;
 
-    private List<Produkt> produkter = new ArrayList<>();
+    private final List<Produkt> produkter = new ArrayList<>();
 
     public ProduktGruppe(String navn) {
         this.navn = navn;
