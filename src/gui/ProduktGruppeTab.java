@@ -37,9 +37,7 @@ public class ProduktGruppeTab extends GridPane {
         this.add(produktGruppeListView, 0, 1, 2, 4);
         produktGruppeListView.setPrefWidth(200);
         produktGruppeListView.setPrefHeight(200);
-
-        //---mangles controller hentproduktgrupper metode
-       // produktGruppeListView.getItems().setAll(Storage.hentProduktGrupper());
+        produktGruppeListView.getItems().setAll(Storage.hentInstans().hentProduktGrupper());
 
         //Knappe tilfoej til produktGrupper oprettes
         Button tiljoejProduktGrupperKnappe = new Button();
