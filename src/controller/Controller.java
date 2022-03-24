@@ -21,7 +21,7 @@ public class Controller {
 
     public static ProduktGruppe opretProduktGruppe(String navn){
         ProduktGruppe pg = new ProduktGruppe(navn);
-        Storage.tiljoejProduktGruppe(pg);
+        Storage.getInstance().tiljoejProduktGruppe(pg);
         return pg;
     }
 
@@ -37,6 +37,6 @@ public class Controller {
      * Fjerner produktGruppe fra Storage
      */
     public static void fjernProduktGruppe(ProduktGruppe produktGruppe){
-        Storage.fjernjProduktGruppe(produktGruppe);
+        Storage.getInstance().fjernjProduktGruppe(produktGruppe);
     }
 }
