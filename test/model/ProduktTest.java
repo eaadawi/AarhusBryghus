@@ -26,9 +26,7 @@ class ProduktTest {
         int antal = -3;
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            new Produkt(navn, antal);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> new Produkt(navn, antal));
         assertTrue(exception.getMessage().contains("Antal må ikke være negativt"));
     }
 
@@ -86,9 +84,7 @@ class ProduktTest {
         Produkt produkt = new Produkt(navn, antal);
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            produkt.fjernAntalPaaLager(11);
-        });
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> produkt.fjernAntalPaaLager(11));
         assertTrue(exception.getMessage().contains("Der er kun " + antal + " tilbage på lager"));
     }
 }
