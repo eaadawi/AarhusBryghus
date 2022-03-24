@@ -14,23 +14,23 @@ class StorageTest {
         ProduktGruppe produktGruppe = new ProduktGruppe("Flaskeøl");
 
         // Act
-        Storage.getTestStorage().tiljoejProduktGruppe(produktGruppe);
+        Storage.hentTestStorage().tiljoejProduktGruppe(produktGruppe);
 
         // Assert
-        assertTrue(Storage.getTestStorage().hentProduktGrupper().contains(produktGruppe));
+        assertTrue(Storage.hentTestStorage().hentProduktGrupper().contains(produktGruppe));
     }
 
     @Test
     void fjernjProduktGruppe() {
         // Arrange
         ProduktGruppe produktGruppe = new ProduktGruppe("Flaskeøl");
-        Storage.getTestStorage().tiljoejProduktGruppe(produktGruppe);
+        Storage.hentTestStorage().tiljoejProduktGruppe(produktGruppe);
 
         // Act
-        Storage.getTestStorage().fjernjProduktGruppe(produktGruppe);
+        Storage.hentTestStorage().fjernjProduktGruppe(produktGruppe);
 
         // Assert
-        assertFalse(Storage.getTestStorage().hentProduktGrupper().contains(produktGruppe));
+        assertFalse(Storage.hentTestStorage().hentProduktGrupper().contains(produktGruppe));
     }
 
 }
