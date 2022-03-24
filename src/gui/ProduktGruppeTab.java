@@ -37,7 +37,9 @@ public class ProduktGruppeTab extends GridPane {
         this.add(produktGruppeListView, 0, 1, 2, 4);
         produktGruppeListView.setPrefWidth(200);
         produktGruppeListView.setPrefHeight(200);
-        produktGruppeListView.getItems().setAll(Storage.hentProduktGrupper());
+
+        //---mangles controller hentproduktgrupper metode
+       // produktGruppeListView.getItems().setAll(Storage.hentProduktGrupper());
 
         //Knappe tilfoej til produktGrupper oprettes
         Button tiljoejProduktGrupperKnappe = new Button();
@@ -135,10 +137,20 @@ public class ProduktGruppeTab extends GridPane {
         this.add(vbAntal, 4, 3);
 
 
+
     }
 
     private void opretProduktGruppe(){
-        ProduktGruppeOpret dialog = new ProduktGruppeOpret();
+        ProduktGruppeOpret dialog = new ProduktGruppeOpret("Opret Produkt gruppe", null);
+        dialog.showAndWait();
+
+        // Wait for the modal dialog to close
+
+        //--- mangles metoder fra controller
+        //produktGruppeListView.getItems().setAll(Controller.hentProduktGrupper());
+        int index =produktGruppeListView.getItems().size()-1;
+        produktListView.getSelectionModel().select(index);
+
     }
 
 }

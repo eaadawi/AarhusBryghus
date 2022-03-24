@@ -2,6 +2,7 @@ package gui;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -9,6 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.ProduktGruppe;
+
 
 public class ProduktGruppeOpret extends Stage {
 
@@ -48,10 +50,22 @@ public class ProduktGruppeOpret extends Stage {
         //text field oprettes
         TextField textFieldNavnPG = new TextField();
 
-        //
+        //textfield tilfoejes til pane
         pane.add(textFieldNavnPG, 1, 0);
 
+        //knap opret oprettes
+        Button opretPG = new Button();
+        opretPG.setText("Opret");
 
 
+        //knap tilfoejes til pane
+        pane.add(opretPG, 1, 1);
+
+        //knap cancell oprettes
+        Button cancellButton = new Button();
+        cancellButton.setText("Cancell");
+
+        //knap cancel action tilfoejes at gemme vinduet
+        cancellButton.setOnAction(event -> this.hide());
     }
 }
