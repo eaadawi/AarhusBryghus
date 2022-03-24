@@ -7,26 +7,43 @@ import java.util.Set;
 
 public class Storage {
 
-    private static Set<ProduktGruppe> produktGruppeSet = new HashSet<>();
+    private volatile static Storage uniqueInstans = new Storage();
+
+    private static final Set<ProduktGruppe> produktGruppeSet = new HashSet<>();
+
+    public static Storage hentInstans() {
+        if(uniqueInstans == null) {
+            synchronized (Storage.class) {
+                if(uniqueInstans == null) {
+                    uniqueInstans = new Storage();
+                }
+            }
+        }
+        return uniqueInstans;
+    }
+
+    public static Storage hentTestStorage() {
+        return new Storage();
+    }
 
     /**
      * Pre:
      */
-    public static void tiljoejProduktGruppe (ProduktGruppe produktGruppe){
+    public void tiljoejProduktGruppe (ProduktGruppe produktGruppe){
         produktGruppeSet.add(produktGruppe);
     }
 
     /**
      * Pre: produktGruppe er ind i settet
      */
-    public static void fjernjProduktGruppe (ProduktGruppe produktGruppe){
+    public void fjernjProduktGruppe (ProduktGruppe produktGruppe){
         produktGruppeSet.remove(produktGruppe);
     }
 
     /**
      * Henter en kopi af produktGruppeSet
      */
-    public static Set<ProduktGruppe> hentProduktGrupper(){
+    public Set<ProduktGruppe> hentProduktGrupper(){
         return new HashSet<>(produktGruppeSet);
     }
 

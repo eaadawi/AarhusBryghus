@@ -10,9 +10,9 @@ public class Controller {
      * ProduktGruppe opretter og returnere produkt med given navn og antalPåLager
      */
 
-    public static Produkt opretProdukt(String navn, int antalPåLager, ProduktGruppe produktGruppe){
-        Produkt p = produktGruppe.opretProdukt(navn,antalPåLager);
-        return p;
+    public static Produkt opretProdukt(String navn, int antalPaaLager, ProduktGruppe produktGruppe){
+        return produktGruppe.opretProdukt(navn,antalPaaLager);
+
     }
 
     /**
@@ -21,7 +21,7 @@ public class Controller {
 
     public static ProduktGruppe opretProduktGruppe(String navn){
         ProduktGruppe pg = new ProduktGruppe(navn);
-        Storage.tiljoejProduktGruppe(pg);
+        Storage.hentInstans().tiljoejProduktGruppe(pg);
         return pg;
     }
 
@@ -37,6 +37,6 @@ public class Controller {
      * Fjerner produktGruppe fra Storage
      */
     public static void fjernProduktGruppe(ProduktGruppe produktGruppe){
-        Storage.fjernjProduktGruppe(produktGruppe);
+        Storage.hentInstans().fjernjProduktGruppe(produktGruppe);
     }
 }
