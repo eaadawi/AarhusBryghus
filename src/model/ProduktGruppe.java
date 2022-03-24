@@ -12,6 +12,9 @@ public class ProduktGruppe {
         this.navn = navn;
     }
 
+    /**
+     * Pre: Produkt er ikke allerede i denne ProduktGruppe
+     */
     public Produkt opretProdukt(String navn, int antalPaaLager) {
         Produkt produkt = new Produkt(navn, antalPaaLager);
         produkt.produktGruppe = this;
@@ -22,6 +25,9 @@ public class ProduktGruppe {
         return new ArrayList<>(produkter);
     }
 
+    /**
+     * Pre: Produkt er i denne ProduktGruppe
+     */
     public void fjernProdukt(Produkt produkt) {
         produkt.produktGruppe = null;
         produkter.remove(produkt);
