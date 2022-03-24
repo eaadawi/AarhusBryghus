@@ -12,6 +12,10 @@ public class ProduktGruppe {
         this.navn = navn;
     }
 
+    public String hentNavn() {
+        return navn;
+    }
+
     /**
      * Pre: Produkt er ikke allerede i denne ProduktGruppe
      */
