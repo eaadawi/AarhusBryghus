@@ -10,5 +10,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="JavaFX" level="application" />
     <orderEntry type="library" name="sqljdbc4" level="application" />
+    <orderEntry type="library" name="javafx" level="application" />
   </component>
 </module>
