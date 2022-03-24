@@ -1,4 +1,29 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProduktGruppe {
+    private String navn;
+
+    private List<Produkt> produkter = new ArrayList<>();
+
+    public ProduktGruppe(String navn) {
+        this.navn = navn;
+    }
+
+    public Produkt opretProdukt(String navn, int antalPaaLager) {
+        Produkt produkt = new Produkt(navn, antalPaaLager);
+        produkt.produktGruppe = this;
+        produkter.add(produkt);
+        return produkt;
+    }
+    public List<Produkt> hentProdukter() {
+        return new ArrayList<>(produkter);
+    }
+
+    public void fjernProdukt(Produkt produkt) {
+        produkt.produktGruppe = null;
+        produkter.remove(produkt);
+    }
 }
