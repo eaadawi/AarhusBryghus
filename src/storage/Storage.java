@@ -1,6 +1,5 @@
 package storage;
 
-import controller.Controller;
 import model.ProduktGruppe;
 
 import java.util.HashSet;
@@ -10,7 +9,7 @@ public class Storage {
 
     private volatile static Storage uniqueInstans = new Storage();
 
-    private static Set<ProduktGruppe> produktGruppeSet = new HashSet<>();
+    private static final Set<ProduktGruppe> produktGruppeSet = new HashSet<>();
 
     public static Storage hentInstans() {
         if(uniqueInstans == null) {

@@ -22,7 +22,7 @@ class ControllerTest {
         ProduktGruppe pg = Controller.opretProduktGruppe(navn);
 
         // Assert
-        assertTrue(Storage.getTestStorage().hentProduktGrupper().contains(pg));
+        assertTrue(Storage.hentTestStorage().hentProduktGrupper().contains(pg));
 
     }
 
@@ -57,7 +57,7 @@ class ControllerTest {
         Controller.fjernProduktGruppe(pg);
 
         // Assert
-        assertFalse(Storage.getTestStorage().hentProduktGrupper().contains(pg));
+        assertFalse(Storage.hentTestStorage().hentProduktGrupper().contains(pg));
 
     }
 

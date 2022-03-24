@@ -1,6 +1,5 @@
 package storage;
 
-import model.Produkt;
 import model.ProduktGruppe;
 import org.junit.jupiter.api.Test;
 

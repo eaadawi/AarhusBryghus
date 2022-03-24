@@ -10,9 +10,9 @@ public class Controller {
      * ProduktGruppe opretter og returnere produkt med given navn og antalPåLager
      */
 
-    public static Produkt opretProdukt(String navn, int antalPåLager, ProduktGruppe produktGruppe){
-        Produkt p = produktGruppe.opretProdukt(navn,antalPåLager);
-        return p;
+    public static Produkt opretProdukt(String navn, int antalPaaLager, ProduktGruppe produktGruppe){
+        return produktGruppe.opretProdukt(navn,antalPaaLager);
+
     }
 
     /**
