@@ -10,10 +10,10 @@ import javafx.stage.Stage;
 
 public class Gui extends Application {
 
-//    @Override
-//    public void init() {
-//        Controller.initStorage();
-//    }
+    @Override
+    public void init() {
+        Controller.initStorage();
+    }
 
 
 
