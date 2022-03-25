@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class StorageTest {
 
     @Test
-    void tiljoejProduktGruppe() {
+    void tilfoejProduktGruppe() {
         // Arrange
         ProduktGruppe produktGruppe = new ProduktGruppe("Flaskeøl");
 
@@ -20,7 +20,7 @@ class StorageTest {
     }
 
     @Test
-    void fjernjProduktGruppe() {
+    void fjernProduktGruppe() {
         // Arrange
         ProduktGruppe produktGruppe = new ProduktGruppe("Flaskeøl");
         Storage.hentTestStorage().tiljoejProduktGruppe(produktGruppe);
