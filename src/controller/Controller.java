@@ -86,7 +86,7 @@ public class Controller {
         ProduktGruppe produktGruppe10 = Controller.opretProduktGruppe("sampakninger");
         ProduktGruppe produktGruppe11 = Controller.opretProduktGruppe("Rundvisning");
 
-        // Produkter - gruppe1
+        // PRODUKTER - gruppe1
         Produkt p1g1 = produktGruppe1.opretProdukt("Klosterbryg", 100);
         Produkt p2g1 = produktGruppe1.opretProdukt("Sweet Georgia Brown", 100);
         Produkt p3g1 = produktGruppe1.opretProdukt("Extra Pilsner", 100);
@@ -102,7 +102,7 @@ public class Controller {
         Produkt p13g1 = produktGruppe1.opretProdukt("Tribute", 100);
         Produkt p14g1 = produktGruppe1.opretProdukt("Black Monster", 100);
 
-        // Produkter - gruppe2
+        // PRODUKTER - gruppe2
         Produkt p1g2 = produktGruppe2.opretProdukt("Klosterbryg", 100);
         Produkt p2g2 = produktGruppe2.opretProdukt("Jazz Classic", 100);
         Produkt p3g2 = produktGruppe2.opretProdukt("Extra Pilsner", 100);
@@ -122,7 +122,7 @@ public class Controller {
         Produkt p17g2 = produktGruppe2.opretProdukt("vand", 100);
         Produkt p18g2 = produktGruppe2.opretProdukt("Ølpølser", 100);
 
-        // Produkter - gruppe3
+        // PRODUKTER - gruppe3
         Produkt p1g3 = produktGruppe3.opretProdukt("Whisky 45% 50cl rør", 100);
         Produkt p2g3 = produktGruppe3.opretProdukt("Whisky 4cl", 100);
         Produkt p3g3 = produktGruppe3.opretProdukt("Whisky 43% 50cl rør", 100);
@@ -132,7 +132,7 @@ public class Controller {
         Produkt p7g3 = produktGruppe3.opretProdukt("Lyng gin 50 cl", 100);
         Produkt p8g3 = produktGruppe3.opretProdukt("Lyng gin 4 cl", 100);
 
-        // Produkter - gruppe4
+        // PRODUKTER - gruppe4
         Produkt p1g4 = produktGruppe4.opretProdukt("Klosterbryg, 20 liter", 100);
         Produkt p2g4 = produktGruppe4.opretProdukt("Jazz Classic, 25 liter", 100);
         Produkt p3g4 = produktGruppe4.opretProdukt("Extra Pilsner, 25 liter", 100);
@@ -144,31 +144,31 @@ public class Controller {
         Produkt p9g4 = produktGruppe4.opretProdukt("Impreial Stout, 20 liter", 100);
         Produkt p10g4 = produktGruppe4.opretProdukt("Pant", 100);
 
-        // Produkter - gruppe5
+        // PRODUKTER - gruppe5
         Produkt p1g5 = produktGruppe5.opretProdukt("6 kg", 100);
         Produkt p2g5 = produktGruppe5.opretProdukt("Pant", 100);
         Produkt p3g5 = produktGruppe5.opretProdukt("4 kg", 100);
         Produkt p4g5 = produktGruppe5.opretProdukt("10 kg", 100);
 
-        // Produkter - gruppe6
+        // PRODUKTER - gruppe6
         Produkt p1g6 = produktGruppe6.opretProdukt("25kg sæk", 100);
 
-        // Produkter - gruppe7
+        // PRODUKTER - gruppe7
         Produkt p1g7 = produktGruppe7.opretProdukt("t-shirt", 100);
         Produkt p2g7 = produktGruppe7.opretProdukt("polo", 100);
         Produkt p3g7 = produktGruppe7.opretProdukt("cap", 100);
 
-        // Produkter - gruppe8
+        // PRODUKTER - gruppe8
         Produkt p1g8 = produktGruppe8.opretProdukt("1-hane", 100);
         Produkt p2g8 = produktGruppe8.opretProdukt("2-haner", 100);
         Produkt p3g8 = produktGruppe8.opretProdukt("Bar med flere haner", 100);
         Produkt p4g8 = produktGruppe8.opretProdukt("Levering", 100);
         Produkt p5g8 = produktGruppe8.opretProdukt("Krus", 100);
 
-        // Produkter - gruppe9
+        // PRODUKTER - gruppe9
         Produkt p1g9 = produktGruppe9.opretProdukt("uanset størelse", 100);
 
-        // Produkter - gruppe10
+        // PRODUKTER - gruppe10
         Produkt p1g10 = produktGruppe10.opretProdukt("gaveæske 2 øl, 2 glas", 100);
         Produkt p2g10 = produktGruppe10.opretProdukt("gaveæske 4 øl", 100);
         Produkt p3g10 = produktGruppe10.opretProdukt("trækasse 4 øl", 100);
@@ -177,7 +177,7 @@ public class Controller {
         Produkt p6g10 = produktGruppe10.opretProdukt("trækasse 12 øl, 6 glas", 100);
         Produkt p7g10 = produktGruppe10.opretProdukt("papkasse 12 øl, 6 glas", 100);
 
-        // Produkter - gruppe11
+        // PRODUKTER - gruppe11
         Produkt p1g11 = produktGruppe11.opretProdukt("pr person dag", 100);
 
     }
