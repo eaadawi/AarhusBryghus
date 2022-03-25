@@ -1,6 +1,9 @@
 package storage;
 
+import model.Prisliste;
 import model.ProduktGruppe;
+import model.Valuta;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,28 +11,63 @@ import static org.junit.jupiter.api.Assertions.*;
 class StorageTest {
 
     @Test
+    @Order(1)
     void tilfoejProduktGruppe() {
         // Arrange
+        Storage testStorage = Storage.hentTestStorage();
         ProduktGruppe produktGruppe = new ProduktGruppe("Flaskeøl");
 
         // Act
-        Storage.hentTestStorage().tiljoejProduktGruppe(produktGruppe);
+        testStorage.tiljoejProduktGruppe(produktGruppe);
 
         // Assert
-        assertTrue(Storage.hentTestStorage().hentProduktGrupper().contains(produktGruppe));
+        assertTrue(testStorage.hentProduktGrupper().contains(produktGruppe));
     }
 
     @Test
+    @Order(2)
     void fjernProduktGruppe() {
         // Arrange
+        Storage testStorage = Storage.hentTestStorage();
         ProduktGruppe produktGruppe = new ProduktGruppe("Flaskeøl");
-        Storage.hentTestStorage().tiljoejProduktGruppe(produktGruppe);
+        testStorage.tiljoejProduktGruppe(produktGruppe);
 
         // Act
-        Storage.hentTestStorage().fjernjProduktGruppe(produktGruppe);
+        testStorage.fjernjProduktGruppe(produktGruppe);
 
         // Assert
-        assertFalse(Storage.hentTestStorage().hentProduktGrupper().contains(produktGruppe));
+        assertFalse(testStorage.hentProduktGrupper().contains(produktGruppe));
+    }
+
+    @Test
+    @Order(3)
+    void tilfoejPrislisteTest() {
+
+        // Arrange
+        Storage testStorage = Storage.hentTestStorage();
+        Prisliste pl = new Prisliste("Prisliste test", Valuta.DKK);
+
+        // Act
+        testStorage.tilfoejPrisliste(pl);
+
+        // Assert
+        assertTrue(testStorage.hentPrislister().contains(pl));
+    }
+
+    @Test
+    @Order(4)
+    void fjernPrislisteTest() {
+
+        // Arrange
+        Storage testStorage = Storage.hentTestStorage();
+        Prisliste pl = new Prisliste("Prisliste test", Valuta.KLIP);
+        testStorage.tilfoejPrisliste(pl);
+
+        // Act
+        testStorage.fjernPrisliste(pl);
+
+        // Assert
+        assertFalse(testStorage.hentPrislister().contains(pl));
     }
 
 }
