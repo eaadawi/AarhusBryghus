@@ -21,7 +21,7 @@ public class ProduktGruppeTab extends GridPane {
     private final ListView<Produkt> produktListView = new ListView<>();
 
 
-    public ProduktGruppeTab(){
+    public ProduktGruppeTab() {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
@@ -68,7 +68,7 @@ public class ProduktGruppeTab extends GridPane {
         labelProdukt.setText("Produkter");
         //tilfoejes label og produktListView
         this.add(labelProdukt, 2, 0);
-        this.add(produktListView, 2, 1,2,4);
+        this.add(produktListView, 2, 1, 2, 4);
 
         //plw stoerelse
         produktListView.setPrefWidth(200);
@@ -122,23 +122,29 @@ public class ProduktGruppeTab extends GridPane {
         Button produktAntalTilfoejButton = new Button();
         produktAntalTilfoejButton.setText("Tilfoej antal");
 
+        //knappe produktAntalTilfoejButton width ind i VBox
+        produktAntalTilfoejButton.setMaxWidth(Double.MAX_VALUE);
+
         // oprettes knap fjern antal
         Button produktAntalFjernButton = new Button();
         produktAntalFjernButton.setText("Fjern antal");
 
-        //hbox til knapper antal oprettes
+        //botton produktAntalFjernButton max width ind i VBox
+        produktAntalFjernButton.setMaxWidth(Double.MAX_VALUE);
+
+        //VBox til knapper antal oprettes
         VBox vbAntal = new VBox();
-        vbAntal.getChildren().add(produktAntalTilfoejButton);
-        vbAntal.getChildren().add(produktAntalFjernButton);
+
+        //knapperne tilfoejes til vbox
+        vbAntal.getChildren().addAll(produktAntalTilfoejButton,produktAntalFjernButton);
 
         //hbox tolfoejes til pane
         this.add(vbAntal, 4, 3);
 
 
-
     }
 
-    private void opretProduktGruppe(){
+    private void opretProduktGruppe() {
         ProduktGruppeOpret dialog = new ProduktGruppeOpret("Opret Produkt gruppe", null);
         dialog.showAndWait();
 
@@ -146,7 +152,7 @@ public class ProduktGruppeTab extends GridPane {
 
         //--- mangles metoder fra controller
         //produktGruppeListView.getItems().setAll(Controller.hentProduktGrupper());
-        int index =produktGruppeListView.getItems().size()-1;
+        int index = produktGruppeListView.getItems().size() - 1;
         produktListView.getSelectionModel().select(index);
 
     }
