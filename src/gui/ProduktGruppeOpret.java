@@ -84,5 +84,8 @@ public class ProduktGruppeOpret extends Stage {
 
         //textFieldNavnPG fjerne text
         textFieldNavnPG.clear();
+
+        //gemme opretVinduet
+        this.hide();
     }
 }

@@ -44,7 +44,9 @@ public class ProduktGruppeTab extends GridPane {
         this.add(produktGruppeListView, 0, 1, 2, 4);
         produktGruppeListView.setPrefWidth(200);
         produktGruppeListView.setPrefHeight(200);
-        produktGruppeListView.getItems().setAll(Controller.hentProduktGrupper());
+
+        //viser produktGrupper i ListView
+        hentOgVisProduktGrupper(produktGruppeListView);
 
         //tilfoejes listener til produktGruppeListView
         ChangeListener<ProduktGruppe> listener = (ov, o, n) -> this.selectedProduktGruppeChanged();
@@ -177,6 +179,11 @@ public class ProduktGruppeTab extends GridPane {
      */
     private void selectedProduktGruppeChanged() {
 
+        opdatereProdukterListView();
+    }
+
+
+    private void opdatereProdukterListView(){
         //pg er den valgte element fra listView
         ProduktGruppe pg = produktGruppeListView.getSelectionModel().getSelectedItem();
 
@@ -194,7 +201,6 @@ public class ProduktGruppeTab extends GridPane {
             produktListView.getItems().setAll(produktList);
         }
     }
-
 
     /**
      * Metod srpoerger om bekraeftelse at slette produktGruppe
@@ -225,4 +231,14 @@ public class ProduktGruppeTab extends GridPane {
             alert.close();
         }
     }
+
+    /**
+     * Methode der opdatere og viser produktGrupper i produktGruppeListView
+     */
+    private void hentOgVisProduktGrupper(ListView<ProduktGruppe> pg){
+
+        //henter produktGrupper fra Controller
+        pg.getItems().setAll(Controller.hentProduktGrupper());
+    }
+
 }
