@@ -40,7 +40,7 @@ public class ProduktGruppeTab extends GridPane {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
-        this.setGridLinesVisible(true);
+        this.setGridLinesVisible(false);
         //----------------------------------------_PRODUKTGRUPPE LIST VIEW
 
 
@@ -297,7 +297,7 @@ public class ProduktGruppeTab extends GridPane {
      */
 
     private void opretProdukt(ProduktGruppe pg) {
-        ProduktOpretVinduet dialog = new ProduktOpretVinduet("Opret Produkt gruppe", null, pg);
+        ProduktOpretVinduet dialog = new ProduktOpretVinduet("Opret Produkt", null, pg);
         dialog.showAndWait();
         hentOgVisProdukter(produktGruppeListView);
     }
