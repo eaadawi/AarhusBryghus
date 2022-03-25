@@ -9,6 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
 
+import java.util.HashSet;
+import java.util.Set;
+
 class ControllerTest {
 
     @Test
@@ -77,5 +80,21 @@ class ControllerTest {
 
         // Assert
         assertFalse(pg.hentProdukter().contains(p));
+    }
+
+    @Test
+    @Order(5)
+    void hentProduktGrupper() {
+
+        // Arrange
+        String navn = "Produktgruppe Test";
+        ProduktGruppe pg = Controller.opretProduktGruppe(navn);
+
+        // Act
+        Set<ProduktGruppe> pgSet = Controller.hentProduktGrupper();
+
+        // Assert
+        assertTrue(pgSet.contains(pg));
+
     }
 }

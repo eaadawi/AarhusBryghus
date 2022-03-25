@@ -45,10 +45,8 @@ public class Controller {
     /**
      * Henter set af produktGruppe fra storage
      */
-
     public static Set<ProduktGruppe> hentProduktGrupper(){
         return Storage.hentInstans().hentProduktGrupper();
     }
-
 
 }
