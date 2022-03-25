@@ -23,7 +23,7 @@ class ProduktTest {
     void constructor_kasterFejl() {
         // Arrange
         String navn = "Øl";
-        int antal = -3;
+        int antal = -1;
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> new Produkt(navn, antal));
