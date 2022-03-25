@@ -1,7 +1,6 @@
 package controller;
 
-import model.Produkt;
-import model.ProduktGruppe;
+import model.*;
 import storage.Storage;
 
 import java.util.Set;
@@ -28,9 +27,17 @@ public class Controller {
     }
 
     /**
+     * Opretter og retunere en prisliste med givent navn og tilføjer den til Storage
+     */
+    public static Prisliste opretPrisliste(String navn, Valuta valuta) {
+        Prisliste pl = new Prisliste(navn, valuta);
+        Storage.hentInstans().tilfoejPrilsite(pl);
+        return pl;
+    }
+
+    /**
      * Fjerner produkt fra produktGruppe
      */
-
     public static void fjernProdukt(Produkt produkt, ProduktGruppe produktGruppe){
         produktGruppe.fjernProdukt(produkt);
     }
@@ -43,10 +50,24 @@ public class Controller {
     }
 
     /**
+     * Fjerner prisliste fra Storage
+     */
+    public static void fjernPrisliste(Prisliste prisliste) {
+        Storage.hentInstans().fjernPrisliste(prisliste);
+    }
+
+    /**
      * Henter set af produktGruppe fra storage
      */
     public static Set<ProduktGruppe> hentProduktGrupper(){
         return Storage.hentInstans().hentProduktGrupper();
+    }
+
+    /**
+     * Henter set af prisliste fra Storage
+     */
+    public static Set<Prisliste> hentPrislister() {
+        return Storage.hentInstans().hentPrislister();
     }
 
 }
