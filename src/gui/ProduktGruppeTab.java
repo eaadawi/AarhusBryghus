@@ -1,5 +1,6 @@
 package gui;
 
+import com.sun.javafx.binding.StringFormatter;
 import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
 import javafx.application.Application;
@@ -21,9 +22,18 @@ import java.util.Optional;
 
 public class ProduktGruppeTab extends GridPane {
 
-    private final TextArea txaProduktIndhold = new TextArea();
     private final ListView<ProduktGruppe> produktGruppeListView = new ListView<>();
     private final ListView<Produkt> produktListView = new ListView<>();
+    private final TextArea txaProduktIndhold = new TextArea();
+    private final TextField textFieldProduktAntal = new TextField();
+
+
+    //disable knapper
+    private final Button fjernProduktGruppeKnappe= new Button();
+    private final Button tiljoejProduktKnappe = new Button();
+    private final Button fjernProduktKnappe = new Button();
+
+
 
 
     public ProduktGruppeTab() {
@@ -31,7 +41,8 @@ public class ProduktGruppeTab extends GridPane {
         this.setHgap(20);
         this.setVgap(10);
         this.setGridLinesVisible(true);
-        //----------------------------------------PRODUKT GRUPPE LIST VIEW
+        //----------------------------------------_PRODUKTGRUPPE LIST VIEW
+
 
         //label produkt grp oprettes
         Label labelProduktGrupper = new Label();
@@ -54,7 +65,7 @@ public class ProduktGruppeTab extends GridPane {
         hentOgVisProduktGrupper(produktGruppeListView);
 
         //tilfoejes listener til produktGruppeListView
-        ChangeListener<ProduktGruppe> listener = (ov, o, n) -> this.selectedProduktGruppeChanged();
+        ChangeListener<ProduktGruppe> listener = (ov, o, n) -> this.selectedProduktGruppeChanged(fjernProduktGruppeKnappe,tiljoejProduktKnappe);
         produktGruppeListView.getSelectionModel().selectedItemProperty().addListener(listener);
 
         //Knappe tilfoej til produktGrupper oprettes
@@ -62,9 +73,12 @@ public class ProduktGruppeTab extends GridPane {
         tiljoejProduktGrupperKnappe.setText("Tilfoej");
         tiljoejProduktGrupperKnappe.setOnAction(event -> this.opretProduktGruppe());
 
-        //Knappe fjern til produktGrupper oprettes
-        Button fjernProduktGruppeKnappe = new Button();
+        //Knappe fjern text settes
+
         fjernProduktGruppeKnappe.setText("Fjern");
+
+        //knappen er disabled hvis produktGruppe er ikke valgt
+        fjernProduktGruppeKnappe.setDisable(true);
 
         //metode til fjernProduktGruppeKnappe laves
         fjernProduktGruppeKnappe.setOnAction(event -> this.sletPGbekraeftelse());
@@ -83,7 +97,7 @@ public class ProduktGruppeTab extends GridPane {
         this.add(hbPGt, 0, 5);
         this.add(hbPGf, 1, 5);
 
-        //-------------------------------------------- PRODUKT LIST VIEW
+        //--------------------------------------------_PRODUKTLISTVIEW
         //oprettes label produkt
         Label labelProdukt = new Label();
         labelProdukt.setText("Produkter");
@@ -98,20 +112,30 @@ public class ProduktGruppeTab extends GridPane {
         //henter og viser produkter af selected produktGruppe
         hentOgVisProdukter(produktGruppeListView);
 
-        //Knapper til produkt oprettes
-        Button tiljoejProduktKnappe = new Button();
+        //tilfoejes listener til produktListView
+        ChangeListener<Produkt> listenerProdukt = (ov, o, n) -> this.selectedProduktChanged(fjernProduktKnappe);
+        produktListView.getSelectionModel().selectedItemProperty().addListener(listenerProdukt);
+
+
+        //Knapper til produkt tekst settes
         tiljoejProduktKnappe.setText("Tilfoej");
+
+        //tilfoejProduktKnappe disables til der bliver valgt produktGruppe
+        tiljoejProduktKnappe.setDisable(true);
 
         //metoden til tiljoejProduktKnappe oprettes
         //med valgteProduktGruppe
         tiljoejProduktKnappe.setOnAction(event -> this.opretProdukt(produktGruppeListView.getSelectionModel().getSelectedItem()));
 
-        Button fjernProduktKnappe = new Button();
+        //settes tekst til fjernProduktKnappe
         fjernProduktKnappe.setText("Fjern");
+
+        //fjernProduktKnappe disables til der bliver valgt et produkt
+        fjernProduktKnappe.setDisable(true);
 
         //methode til fjernProduktKnappe laves her
         fjernProduktKnappe.setOnAction(event -> this.fjernProdukt(
-                produktGruppeListView.getSelectionModel().getSelectedItem(),produktListView.getSelectionModel().getSelectedItem()));
+                produktGruppeListView.getSelectionModel().getSelectedItem(), produktListView.getSelectionModel().getSelectedItem()));
 
         //HBox til knappeT oprettes
         HBox hbPt = new HBox();
@@ -125,7 +149,9 @@ public class ProduktGruppeTab extends GridPane {
         this.add(hbPt, 2, 5);
         this.add(hbPf, 3, 5);
 
-        //----------------------------------------------- TEXT AREA
+
+        //-----------------------------------------------_TEXT AREA
+
         //oprettes label til txaProduktIndhold
         Label labelTxaProduktIndhold = new Label();
         labelTxaProduktIndhold.setText("Produkt info");
@@ -142,8 +168,6 @@ public class ProduktGruppeTab extends GridPane {
         //txaProduktIndhold size
         txaProduktIndhold.setMaxSize(150, 20);
 
-        //tf oprettes til produkt antal tilfoejelse
-        TextField textFieldProduktAntal = new TextField();
 
         //tf tilf til pane
         this.add(textFieldProduktAntal, 4, 2);
@@ -152,12 +176,19 @@ public class ProduktGruppeTab extends GridPane {
         Button produktAntalTilfoejButton = new Button();
         produktAntalTilfoejButton.setText("Tilfoej antal");
 
+        //metoden til tilfoejAntal knappe
+        produktAntalTilfoejButton.setOnAction(event -> this.tilfoejAntal());
+
         //knappe produktAntalTilfoejButton width ind i VBox
         produktAntalTilfoejButton.setMaxWidth(Double.MAX_VALUE);
 
         // oprettes knap fjern antal
         Button produktAntalFjernButton = new Button();
         produktAntalFjernButton.setText("Fjern antal");
+
+        //metoden til fjernAntal knappe
+        produktAntalFjernButton.setOnAction(event -> this.fjernAntal());
+
 
         //botton produktAntalFjernButton max width ind i VBox
         produktAntalFjernButton.setMaxWidth(Double.MAX_VALUE);
@@ -191,13 +222,17 @@ public class ProduktGruppeTab extends GridPane {
     /**
      * Metode viser de produkter som er tilhoerer til valgte produktGrupper
      */
-    private void selectedProduktGruppeChanged() {
-
-        opdatereProdukterListView();
+    private void selectedProduktGruppeChanged(Button b1,Button b2) {
+        opdatereProdukterListView(b1,b2);
     }
 
 
-    private void opdatereProdukterListView() {
+    private void opdatereProdukterListView(Button b1,Button b2) {
+
+        //disable knapper bliver brugelige
+        b1.setDisable(false);
+        b2.setDisable(false);
+
         //pg er den valgte element fra listView
         ProduktGruppe pg = produktGruppeListView.getSelectionModel().getSelectedItem();
 
@@ -279,6 +314,7 @@ public class ProduktGruppeTab extends GridPane {
             produktListView.getItems().setAll(
                     pg.hentProdukter());
         }
+
     }
 
     /**
@@ -286,11 +322,131 @@ public class ProduktGruppeTab extends GridPane {
      * til den valgte produktGruppeListView element
      */
 
-    private void fjernProdukt(ProduktGruppe pg, Produkt p){
-        // fjerner produkt p fra produktGruppe pg
-        pg.fjernProdukt(p);
+    private void fjernProdukt(ProduktGruppe pg, Produkt p) {
 
-        //opdaterer produktListView
-        hentOgVisProdukter(produktGruppeListView);
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        //navn på alert vinduet
+        alert.setTitle("Baekreftelse vinduet");
+
+        //anden linje text med produkt navn
+        alert.setHeaderText("Oensker at slette produkt " + p.hentNavn() + " ?");
+        //tredje linje text
+        alert.setContentText("Er du sikkert på at produkt skal slettes?");
+
+        //oprettes reaktion på knappe truk
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+
+            //den valgte produkt fra listView produktGruppe fjernes
+            pg.fjernProdukt(p);
+
+            //opdatere produktGruppeListViewe efter produktGtuppe var slettet
+            hentOgVisProdukter(produktGruppeListView);
+            opdatereTextArea();
+
+        } else {
+            //vinduet lukkes
+            alert.close();
+        }
+
+        // nulstiller produktListView hvis der er ingen produkter
+        //som tilhoerer til valgte produktGruppe
+        if(pg.hentProdukter().isEmpty()){
+            produktListView.getItems().clear();
+        }
+
     }
+
+    /**
+     * Metoden der reagere på truk på produktListView elementer
+     */
+    private void selectedProduktChanged(Button b) {
+        b.setDisable(false);
+        this.opdatereTextArea();
+    }
+
+    /**
+     * Metoden der opdaterer txaProduktIndhold
+     */
+    private void opdatereTextArea() {
+        //henter info af valgte produkt
+        if(produktListView.getSelectionModel().getSelectedItem()!=null) {
+            String navn = produktListView.getSelectionModel().getSelectedItem().hentNavn();
+            int antalPaaLager = produktListView.getSelectionModel().getSelectedItem().hentAntalPaaLager();
+
+            //printer info ind i tekst area
+            txaProduktIndhold.setText(navn + " / " + antalPaaLager + " stk.");
+        }else{
+            txaProduktIndhold.clear();
+        }
+    }
+
+    /**
+     * Metoden der tolfoeje antal til produkt antal paa lageren
+     */
+    private void tilfoejAntal() {
+        int fjernAntal=0;
+        if(textFieldProduktAntal.getText().length()>0) {
+            fjernAntal = Integer.parseInt(textFieldProduktAntal.getText());
+        }
+
+        Produkt p = produktListView.getSelectionModel().getSelectedItem();
+        if(fjernAntal>0) {
+            //antal tilfoejes
+            p.tilfoejAntalPaaLager(Integer.parseInt(textFieldProduktAntal.getText()));
+
+            //txaProduktIndhold opdateres efter tilfoejelse
+            opdatereTextArea();
+            textFieldProduktAntal.clear();
+        }else{
+            this.fejlAntalTilfoejes();
+        }
+    }
+
+    private void fjernAntal() {
+        int fjernAntal=0;
+        if(textFieldProduktAntal.getText().length()>0) {
+            fjernAntal = Integer.parseInt(textFieldProduktAntal.getText());
+        }
+        Produkt p = produktListView.getSelectionModel().getSelectedItem();
+        if (fjernAntal>0 &&p.hentAntalPaaLager() >= fjernAntal) {
+            p.fjernAntalPaaLager(fjernAntal);
+            opdatereTextArea();
+            textFieldProduktAntal.clear();
+        }else{
+            //viser besked om antal passer ikke med ønskede antal der skal fjernes
+            this.visBeskedOmUpassendeAntal();
+        }
+    }
+
+    /**
+     * Metoden viser information om at der er ikke nok stk på lageren
+     */
+    private void visBeskedOmUpassendeAntal(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText("Der er ikke nok produkter paa lageren!");
+        alert.showAndWait();
+
+    }
+
+    /**
+     * Metode der vise fejl besked hvis tilfoejes upassende antal
+     */
+    private void fejlAntalTilfoejes(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.setContentText("Der er upassende antal tilfoejes paa lageren!");
+        alert.showAndWait();
+
+    }
+
 }
+
+
+//at lave knapperne disable vhis der er inget er valgt for at slette
+//elle oprette
