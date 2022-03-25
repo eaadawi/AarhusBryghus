@@ -146,6 +146,8 @@ class ControllerTest {
         Set<Prisliste> plSet = Controller.hentPrislister();
 
         // Assert
+        assertEquals(pl.hentNavn(), navn);
+        assertEquals(pl.hentValuta(), valuta);
         assertTrue(plSet.contains(pl));
     }
 }

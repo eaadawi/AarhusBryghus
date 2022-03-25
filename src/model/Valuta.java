@@ -4,3 +4,4 @@ public enum Valuta {
     DKK,
     KLIP
 }
+
