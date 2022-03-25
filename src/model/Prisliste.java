@@ -15,10 +15,16 @@ public class Prisliste {
         this.valuta = valuta;
     }
 
+    /**
+     * Pre: Produktet er ikke allerede i denne prisliste
+     */
     public void tilfoejProdukt(Produkt produkt, double pris) {
         produkter.put(produkt, pris);
     }
 
+    /**
+     * Pre: Produktet er i denne prisliste
+     */
     public void fjernProdukt(Produkt produkt) {
         produkter.remove(produkt);
     }
@@ -27,6 +33,9 @@ public class Prisliste {
         return produkter.keySet();
     }
 
+    /**
+     * Pre: Produktet er i denne prisliste
+     */
     public double hentPris(Produkt produkt) {
         return produkter.get(produkt);
     }
