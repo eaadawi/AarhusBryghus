@@ -73,7 +73,7 @@ public class Controller {
 
     public static void initStorage() {
 
-        // Produktgrupper
+        // PRODUKTGRUPPER
         ProduktGruppe produktGruppe1 = Controller.opretProduktGruppe("flaske");
         ProduktGruppe produktGruppe2 = Controller.opretProduktGruppe("fadøl, 40cl");
         ProduktGruppe produktGruppe3 = Controller.opretProduktGruppe("spiritus");
@@ -179,6 +179,7 @@ public class Controller {
 
         // Produkter - gruppe11
         Produkt p1g11 = produktGruppe11.opretProdukt("pr person dag", 100);
+
     }
 
 }
