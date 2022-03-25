@@ -70,4 +70,41 @@ public class Controller {
         return Storage.hentInstans().hentPrislister();
     }
 
+
+    public static void initStorage() {
+
+        // Produktgrupper
+        ProduktGruppe produktGruppe1 = Controller.opretProduktGruppe("flaske");
+        ProduktGruppe produktGruppe2 = Controller.opretProduktGruppe("fadøl, 40cl");
+        ProduktGruppe produktGruppe3 = Controller.opretProduktGruppe("spiritus");
+        ProduktGruppe produktGruppe4 = Controller.opretProduktGruppe("fustage");
+        ProduktGruppe produktGruppe5 = Controller.opretProduktGruppe("Kulsyre");
+        ProduktGruppe produktGruppe6 = Controller.opretProduktGruppe("Malt");
+        ProduktGruppe produktGruppe7 = Controller.opretProduktGruppe("Beklædning");
+        ProduktGruppe produktGruppe8 = Controller.opretProduktGruppe("Anlæg");
+        ProduktGruppe produktGruppe9 = Controller.opretProduktGruppe("Glas");
+        ProduktGruppe produktGruppe10 = Controller.opretProduktGruppe("sampakninger");
+
+        // Produkter - gruppe1
+        produktGruppe1.opretProdukt("Klosterbryg", 100);
+
+        // Produkter - gruppe2
+
+        // Produkter - gruppe3
+
+        // Produkter - gruppe4
+
+        // Produkter - gruppe5
+
+        // Produkter - gruppe6
+
+        // Produkter - gruppe7
+
+        // Produkter - gruppe8
+
+        // Produkter - gruppe9
+
+        // Produkter - gruppe10
+    }
+
 }
