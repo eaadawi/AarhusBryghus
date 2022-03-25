@@ -45,6 +45,11 @@ public class ProduktGruppeTab extends GridPane {
         produktGruppeListView.setPrefWidth(200);
         produktGruppeListView.setPrefHeight(200);
 
+        //valger den oeverste element hvis listen er ikke tom
+        if (!produktGruppeListView.getItems().isEmpty()) {
+            produktGruppeListView.getSelectionModel().select(0);
+        }
+
         //viser produktGrupper i ListView
         hentOgVisProduktGrupper(produktGruppeListView);
 
@@ -89,15 +94,24 @@ public class ProduktGruppeTab extends GridPane {
         //plw stoerelse
         produktListView.setPrefWidth(200);
         produktListView.setPrefHeight(200);
-        // mangles produktlistwiew indhold
-        //produktListView.getItems().setAll(Storage.hentProduktGrupper());
+
+        //henter og viser produkter af selected produktGruppe
+        hentOgVisProdukter(produktGruppeListView);
 
         //Knapper til produkt oprettes
         Button tiljoejProduktKnappe = new Button();
         tiljoejProduktKnappe.setText("Tilfoej");
 
+        //metoden til tiljoejProduktKnappe oprettes
+        //med valgteProduktGruppe
+        tiljoejProduktKnappe.setOnAction(event -> this.opretProdukt(produktGruppeListView.getSelectionModel().getSelectedItem()));
+
         Button fjernProduktKnappe = new Button();
         fjernProduktKnappe.setText("Fjern");
+
+        //methode til fjernProduktKnappe laves her
+        fjernProduktKnappe.setOnAction(event -> this.fjernProdukt(
+                produktGruppeListView.getSelectionModel().getSelectedItem(),produktListView.getSelectionModel().getSelectedItem()));
 
         //HBox til knappeT oprettes
         HBox hbPt = new HBox();
@@ -183,7 +197,7 @@ public class ProduktGruppeTab extends GridPane {
     }
 
 
-    private void opdatereProdukterListView(){
+    private void opdatereProdukterListView() {
         //pg er den valgte element fra listView
         ProduktGruppe pg = produktGruppeListView.getSelectionModel().getSelectedItem();
 
@@ -206,7 +220,7 @@ public class ProduktGruppeTab extends GridPane {
      * Metod srpoerger om bekraeftelse at slette produktGruppe
      */
 
-    private void sletPGbekraeftelse(){
+    private void sletPGbekraeftelse() {
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
@@ -220,13 +234,15 @@ public class ProduktGruppeTab extends GridPane {
 
         //oprettes reaktion på knappe truk
         Optional<ButtonType> result = alert.showAndWait();
-        if(result.get()==ButtonType.OK){
+        if (result.get() == ButtonType.OK) {
 
             //den valgte produkt fra listView produktGruppe fjernes
             Controller.fjernProduktGruppe(produktGruppeListView.getSelectionModel().getSelectedItem());
 
+            //opdatere produktGruppeListViewe efter produktGtuppe var slettet
+            hentOgVisProduktGrupper(produktGruppeListView);
 
-        }else{
+        } else {
             //vinduet lukkes
             alert.close();
         }
@@ -235,10 +251,46 @@ public class ProduktGruppeTab extends GridPane {
     /**
      * Methode der opdatere og viser produktGrupper i produktGruppeListView
      */
-    private void hentOgVisProduktGrupper(ListView<ProduktGruppe> pg){
+    private void hentOgVisProduktGrupper(ListView<ProduktGruppe> pg) {
 
         //henter produktGrupper fra Controller
         pg.getItems().setAll(Controller.hentProduktGrupper());
     }
 
+    /**
+     * Method til at oprette vinduet opretProdukt
+     */
+
+    private void opretProdukt(ProduktGruppe pg) {
+        ProduktOpretVinduet dialog = new ProduktOpretVinduet("Opret Produkt gruppe", null, pg);
+        dialog.showAndWait();
+        hentOgVisProdukter(produktGruppeListView);
+    }
+
+    /**
+     * Metoden henter og viser produkter
+     */
+
+    private void hentOgVisProdukter(ListView<ProduktGruppe> p) {
+
+        ProduktGruppe pg = p.getSelectionModel().getSelectedItem();
+        //henter produkter af produktGruppe der er valgt hvis listen er ikke tom
+        if (pg != null && !pg.hentProdukter().isEmpty()) {
+            produktListView.getItems().setAll(
+                    pg.hentProdukter());
+        }
+    }
+
+    /**
+     * Metode der fjerner den selekte produkt fra produktListView der tihoerer
+     * til den valgte produktGruppeListView element
+     */
+
+    private void fjernProdukt(ProduktGruppe pg, Produkt p){
+        // fjerner produkt p fra produktGruppe pg
+        pg.fjernProdukt(p);
+
+        //opdaterer produktListView
+        hentOgVisProdukter(produktGruppeListView);
+    }
 }
