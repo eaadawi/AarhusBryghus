@@ -41,6 +41,7 @@ public class ProduktGruppeTab extends GridPane {
         this.setHgap(20);
         this.setVgap(10);
         this.setGridLinesVisible(false);
+
         //----------------------------------------_PRODUKTGRUPPE LIST VIEW
 
 
