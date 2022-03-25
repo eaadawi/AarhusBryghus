@@ -38,7 +38,7 @@ public class Storage {
     /**
      *
      */
-    public void tilfoejPrilsite(Prisliste prisliste) {
+    public void tilfoejPrisliste(Prisliste prisliste) {
         prislisteSet.add(prisliste);
     }
 

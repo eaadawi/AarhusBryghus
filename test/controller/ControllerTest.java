@@ -3,8 +3,10 @@ package controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import model.Prisliste;
 import model.Produkt;
 import model.ProduktGruppe;
+import model.Valuta;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
@@ -25,7 +27,7 @@ class ControllerTest {
         ProduktGruppe pg = Controller.opretProduktGruppe(navn);
 
         // Assert
-        assertTrue(Storage.hentTestStorage().hentProduktGrupper().contains(pg));
+        assertTrue(Storage.hentInstans().hentProduktGrupper().contains(pg));
 
     }
 
@@ -60,7 +62,7 @@ class ControllerTest {
         Controller.fjernProduktGruppe(pg);
 
         // Assert
-        assertFalse(Storage.hentTestStorage().hentProduktGrupper().contains(pg));
+        assertFalse(Storage.hentInstans().hentProduktGrupper().contains(pg));
 
     }
 
@@ -84,7 +86,7 @@ class ControllerTest {
 
     @Test
     @Order(5)
-    void hentProduktGrupper() {
+    void hentProduktGrupperTest() {
 
         // Arrange
         String navn = "Produktgruppe Test";
@@ -96,5 +98,54 @@ class ControllerTest {
         // Assert
         assertTrue(pgSet.contains(pg));
 
+    }
+
+    @Test
+    @Order(6)
+    void opretPrislisteTest() {
+
+        // Arrange
+        String navn = "Test prisliste";
+        Valuta valuta = Valuta.DKK;
+
+        // Act
+        Prisliste pl = Controller.opretPrisliste(navn, valuta);
+
+        // Assert
+        assertEquals(pl.hentNavn(), navn);
+        assertEquals(pl.hentValuta(), valuta);
+        assertTrue(Storage.hentInstans().hentPrislister().contains(pl));
+    }
+
+    @Test
+    @Order(7)
+    void fjernPrislisteTest() {
+
+        // Arrange
+        String navn = "Prisliste Test";
+        Valuta valuta = Valuta.DKK;
+        Prisliste pl = Controller.opretPrisliste(navn, valuta);
+
+        // Act
+        Controller.fjernPrisliste(pl);
+
+        // Assert
+        assertFalse(Storage.hentInstans().hentPrislister().contains(pl));
+    }
+
+    @Test
+    @Order(8)
+    void hentPrislisterTest() {
+
+        // Arrange
+        String navn = "Prisliste test";
+        Valuta valuta = Valuta.KLIP;
+        Prisliste pl = Controller.opretPrisliste(navn, valuta);
+
+        // Act
+        Set<Prisliste> plSet = Controller.hentPrislister();
+
+        // Assert
+        assertTrue(plSet.contains(pl));
     }
 }

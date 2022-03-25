@@ -31,7 +31,7 @@ public class Controller {
      */
     public static Prisliste opretPrisliste(String navn, Valuta valuta) {
         Prisliste pl = new Prisliste(navn, valuta);
-        Storage.hentInstans().tilfoejPrilsite(pl);
+        Storage.hentInstans().tilfoejPrisliste(pl);
         return pl;
     }
 
