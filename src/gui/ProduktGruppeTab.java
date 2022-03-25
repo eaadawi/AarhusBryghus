@@ -3,6 +3,7 @@ package gui;
 import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,6 +14,10 @@ import javafx.stage.Stage;
 import model.Produkt;
 import model.ProduktGruppe;
 import storage.Storage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class ProduktGruppeTab extends GridPane {
 
@@ -34,10 +39,16 @@ public class ProduktGruppeTab extends GridPane {
 
         this.add(labelProduktGrupper, 0, 0);
 
+
+        //tilfoejes produktGruppeListView til pane
         this.add(produktGruppeListView, 0, 1, 2, 4);
         produktGruppeListView.setPrefWidth(200);
         produktGruppeListView.setPrefHeight(200);
-        produktGruppeListView.getItems().setAll(Storage.hentInstans().hentProduktGrupper());
+        produktGruppeListView.getItems().setAll(Controller.hentProduktGrupper());
+
+        //tilfoejes listener til produktGruppeListView
+        ChangeListener<ProduktGruppe> listener = (ov, o, n) -> this.selectedProduktGruppeChanged();
+        produktGruppeListView.getSelectionModel().selectedItemProperty().addListener(listener);
 
         //Knappe tilfoej til produktGrupper oprettes
         Button tiljoejProduktGrupperKnappe = new Button();
@@ -47,6 +58,9 @@ public class ProduktGruppeTab extends GridPane {
         //Knappe fjern til produktGrupper oprettes
         Button fjernProduktGruppeKnappe = new Button();
         fjernProduktGruppeKnappe.setText("Fjern");
+
+        //metode til fjernProduktGruppeKnappe laves
+        fjernProduktGruppeKnappe.setOnAction(event -> this.sletPGbekraeftelse());
 
         //HBox til knapper oprettes
         HBox hbPGt = new HBox();
@@ -62,7 +76,7 @@ public class ProduktGruppeTab extends GridPane {
         this.add(hbPGt, 0, 5);
         this.add(hbPGf, 1, 5);
 
-        //--------------------------------------------PRODUKT LIST VIEW
+        //-------------------------------------------- PRODUKT LIST VIEW
         //oprettes label produkt
         Label labelProdukt = new Label();
         labelProdukt.setText("Produkter");
@@ -95,7 +109,7 @@ public class ProduktGruppeTab extends GridPane {
         this.add(hbPt, 2, 5);
         this.add(hbPf, 3, 5);
 
-        //--------------------------------------------TEXT AREA
+        //----------------------------------------------- TEXT AREA
         //oprettes label til txaProduktIndhold
         Label labelTxaProduktIndhold = new Label();
         labelTxaProduktIndhold.setText("Produkt info");
@@ -136,7 +150,7 @@ public class ProduktGruppeTab extends GridPane {
         VBox vbAntal = new VBox();
 
         //knapperne tilfoejes til vbox
-        vbAntal.getChildren().addAll(produktAntalTilfoejButton,produktAntalFjernButton);
+        vbAntal.getChildren().addAll(produktAntalTilfoejButton, produktAntalFjernButton);
 
         //hbox tolfoejes til pane
         this.add(vbAntal, 4, 3);
@@ -144,17 +158,71 @@ public class ProduktGruppeTab extends GridPane {
 
     }
 
+
     private void opretProduktGruppe() {
         ProduktGruppeOpret dialog = new ProduktGruppeOpret("Opret Produkt gruppe", null);
         dialog.showAndWait();
 
         // Wait for the modal dialog to close
 
-        //--- mangles metoder fra controller
-        //produktGruppeListView.getItems().setAll(Controller.hentProduktGrupper());
+        //hentes produkgGrupper fra Controller
+        produktGruppeListView.getItems().setAll(Controller.hentProduktGrupper());
         int index = produktGruppeListView.getItems().size() - 1;
         produktListView.getSelectionModel().select(index);
 
     }
 
+    /**
+     * Metode viser de produkter som er tilhoerer til valgte produktGrupper
+     */
+    private void selectedProduktGruppeChanged() {
+
+        //pg er den valgte element fra listView
+        ProduktGruppe pg = produktGruppeListView.getSelectionModel().getSelectedItem();
+
+        //opdateres produkt listView
+        if (pg != null) {
+
+            //oprettes list for at samle produkter
+            List<Produkt> produktList = new ArrayList<>();
+
+            for (Produkt p : pg.hentProdukter()) {
+                produktList.add(p);
+            }
+
+            // produktListView opdateres med de produkter som passer til den valgte produktGruppe
+            produktListView.getItems().setAll(produktList);
+        }
+    }
+
+
+    /**
+     * Metod srpoerger om bekraeftelse at slette produktGruppe
+     */
+
+    private void sletPGbekraeftelse(){
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        //navn på alert vinduet
+        alert.setTitle("Baekreftelse vinduet");
+
+        //anden linje text
+        alert.setHeaderText("Oensker at slette produkt gruppe?");
+        //tredje linje text
+        alert.setContentText("Er du sikkert på at produkt gruppe skal slettes?");
+
+        //oprettes reaktion på knappe truk
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==ButtonType.OK){
+
+            //den valgte produkt fra listView produktGruppe fjernes
+            Controller.fjernProduktGruppe(produktGruppeListView.getSelectionModel().getSelectedItem());
+
+
+        }else{
+            //vinduet lukkes
+            alert.close();
+        }
+    }
 }

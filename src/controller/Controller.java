@@ -4,6 +4,8 @@ import model.Produkt;
 import model.ProduktGruppe;
 import storage.Storage;
 
+import java.util.Set;
+
 public class Controller {
 
     /**
@@ -39,4 +41,14 @@ public class Controller {
     public static void fjernProduktGruppe(ProduktGruppe produktGruppe){
         Storage.hentInstans().fjernjProduktGruppe(produktGruppe);
     }
+
+    /**
+     * Henter set af produktGruppe fra storage
+     */
+
+    public static Set<ProduktGruppe> hentProduktGrupper(){
+        return Storage.hentInstans().hentProduktGrupper();
+    }
+
+
 }

@@ -36,4 +36,12 @@ public class ProduktGruppe {
         produkt.produktGruppe = null;
         produkter.remove(produkt);
     }
+
+    /**
+     * Metoden tilfoejes for at vise navnet i listView
+     */
+    @Override
+    public String toString() {
+        return hentNavn();
+    }
 }

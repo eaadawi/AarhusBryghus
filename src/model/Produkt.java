@@ -48,4 +48,12 @@ public class Produkt {
         Produkt produkt = (Produkt) o;
         return antalPaaLager == produkt.antalPaaLager && navn.equals(produkt.navn);
     }
+
+    /**
+     * Metoden tilfoejes for at vise navnet i listView
+     */
+    @Override
+    public String toString() {
+        return hentNavn();
+    }
 }
