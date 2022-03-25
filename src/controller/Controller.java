@@ -151,34 +151,34 @@ public class Controller {
         produktGruppe5.opretProdukt("10 kg", 100);
 
         // Produkter - gruppe6
-        produktGruppe6.opretProdukt("25kg sæk", 100);
+        Produkt p1g6 = produktGruppe6.opretProdukt("25kg sæk", 100);
 
         // Produkter - gruppe7
-        produktGruppe7.opretProdukt("t-shirt", 100);
-        produktGruppe7.opretProdukt("polo", 100);
-        produktGruppe7.opretProdukt("cap", 100);
+        Produkt p1g7 = produktGruppe7.opretProdukt("t-shirt", 100);
+        Produkt p2g7 = produktGruppe7.opretProdukt("polo", 100);
+        Produkt p3g7 = produktGruppe7.opretProdukt("cap", 100);
 
         // Produkter - gruppe8
-        produktGruppe8.opretProdukt("1-hane", 100);
-        produktGruppe8.opretProdukt("2-haner", 100);
-        produktGruppe8.opretProdukt("Bar med flere haner", 100);
-        produktGruppe8.opretProdukt("Levering", 100);
-        produktGruppe8.opretProdukt("Krus", 100);
+        Produkt p1g8 = produktGruppe8.opretProdukt("1-hane", 100);
+        Produkt p2g8 = produktGruppe8.opretProdukt("2-haner", 100);
+        Produkt p3g8 = produktGruppe8.opretProdukt("Bar med flere haner", 100);
+        Produkt p4g8 = produktGruppe8.opretProdukt("Levering", 100);
+        Produkt p5g8 = produktGruppe8.opretProdukt("Krus", 100);
 
         // Produkter - gruppe9
-        produktGruppe9.opretProdukt("uanset størelse", 100);
+        Produkt p1g9 = produktGruppe9.opretProdukt("uanset størelse", 100);
 
         // Produkter - gruppe10
-        produktGruppe10.opretProdukt("gaveæske 2 øl, 2 glas", 100);
-        produktGruppe10.opretProdukt("gaveæske 4 øl", 100);
-        produktGruppe10.opretProdukt("trækasse 4 øl", 100);
-        produktGruppe10.opretProdukt("gavekurv 6 øl, 2 glas", 100);
-        produktGruppe10.opretProdukt("trækasse 6 øl, 6 glas", 100);
-        produktGruppe10.opretProdukt("trækasse 12 øl, 6 glas", 100);
-        produktGruppe10.opretProdukt("papkasse 12 øl, 6 glas", 100);
+        Produkt p1g10 = produktGruppe10.opretProdukt("gaveæske 2 øl, 2 glas", 100);
+        Produkt p2g10 = produktGruppe10.opretProdukt("gaveæske 4 øl", 100);
+        Produkt p3g10 = produktGruppe10.opretProdukt("trækasse 4 øl", 100);
+        Produkt p4g10 = produktGruppe10.opretProdukt("gavekurv 6 øl, 2 glas", 100);
+        Produkt p5g10 = produktGruppe10.opretProdukt("trækasse 6 øl, 6 glas", 100);
+        Produkt p6g10 = produktGruppe10.opretProdukt("trækasse 12 øl, 6 glas", 100);
+        Produkt p7g10 = produktGruppe10.opretProdukt("papkasse 12 øl, 6 glas", 100);
 
-        // Produkter - gruppe10
-        produktGruppe11.opretProdukt("pr person dag", 100);
+        // Produkter - gruppe11
+        Produkt p1g11 = produktGruppe11.opretProdukt("pr person dag", 100);
     }
 
 }
