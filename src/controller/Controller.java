@@ -84,6 +84,7 @@ public class Controller {
         ProduktGruppe produktGruppe8 = Controller.opretProduktGruppe("Anlæg");
         ProduktGruppe produktGruppe9 = Controller.opretProduktGruppe("Glas");
         ProduktGruppe produktGruppe10 = Controller.opretProduktGruppe("sampakninger");
+        ProduktGruppe produktGruppe11 = Controller.opretProduktGruppe("Rundvisning");
 
         // Produkter - gruppe1
         produktGruppe1.opretProdukt("Klosterbryg", 100);
@@ -97,14 +98,34 @@ public class Controller {
         // Produkter - gruppe5
 
         // Produkter - gruppe6
+        produktGruppe6.opretProdukt("25kg sæk", 100);
 
         // Produkter - gruppe7
+        produktGruppe7.opretProdukt("t-shirt", 100);
+        produktGruppe7.opretProdukt("polo", 100);
+        produktGruppe7.opretProdukt("cap", 100);
 
         // Produkter - gruppe8
+        produktGruppe8.opretProdukt("1-hane", 100);
+        produktGruppe8.opretProdukt("2-haner", 100);
+        produktGruppe8.opretProdukt("Bar med flere haner", 100);
+        produktGruppe8.opretProdukt("Levering", 100);
+        produktGruppe8.opretProdukt("Krus", 100);
 
         // Produkter - gruppe9
+        produktGruppe9.opretProdukt("uanset størelse", 100);
 
         // Produkter - gruppe10
+        produktGruppe10.opretProdukt("gaveæske 2 øl, 2 glas", 100);
+        produktGruppe10.opretProdukt("gaveæske 4 øl", 100);
+        produktGruppe10.opretProdukt("trækasse 4 øl", 100);
+        produktGruppe10.opretProdukt("gavekurv 6 øl, 2 glas", 100);
+        produktGruppe10.opretProdukt("trækasse 6 øl, 6 glas", 100);
+        produktGruppe10.opretProdukt("trækasse 12 øl, 6 glas", 100);
+        produktGruppe10.opretProdukt("papkasse 12 øl, 6 glas", 100);
+
+        // Produkter - gruppe10
+        produktGruppe11.opretProdukt("pr person dag", 100);
     }
 
 }
