@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ordre {
-    private LocalDate dato;
+    private final LocalDate dato;
     private Betalinsgmetode betalinsgmetode;
-    private int id;
+    private final int id;
 
-    private List<Ordrelinje> ordrelinjer = new ArrayList<>();
+    private final List<Ordrelinje> ordrelinjer = new ArrayList<>();
 
     public Ordre(LocalDate dato, int id) {
         this.dato = dato;
