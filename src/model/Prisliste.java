@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class Prisliste {
-    private String navn;
-    private Valuta valuta;
+    private final String navn;
+    private final Valuta valuta;
 
-    private Map<Produkt, Double> produkter = new HashMap<>();
+    private final Map<Produkt, Double> produkter = new HashMap<>();
 
     public Prisliste(String navn, Valuta valuta) {
         this.navn = navn;

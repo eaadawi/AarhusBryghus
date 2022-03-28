@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import storage.Storage;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 public class Controller {
@@ -36,6 +37,17 @@ public class Controller {
     }
 
     /**
+     * Opretter og retunere en ordre med dato og id, tilføjer ordren til Storage
+     */
+    public static Ordre opretOrdre() {
+        LocalDate dato = LocalDate.now();
+        int id = Storage.hentInstans().hentOrdrer().size() + 1;
+        Ordre ordre = new Ordre(dato, id);
+        Storage.hentInstans().tilfoejOrdre(ordre);
+        return ordre;
+    }
+
+    /**
      * Fjerner produkt fra produktGruppe
      */
     public static void fjernProdukt(Produkt produkt, ProduktGruppe produktGruppe){
@@ -57,6 +69,13 @@ public class Controller {
     }
 
     /**
+     * Fjerner ordre fra storage
+     */
+    public static void fjernOrdre(Ordre ordre) {
+        Storage.hentInstans().fjernOrdre(ordre);
+    }
+
+    /**
      * Henter set af produktGruppe fra storage
      */
     public static Set<ProduktGruppe> hentProduktGrupper(){
@@ -68,6 +87,13 @@ public class Controller {
      */
     public static Set<Prisliste> hentPrislister() {
         return Storage.hentInstans().hentPrislister();
+    }
+
+    /**
+     * Henter set af ordre fra Storage
+     */
+    public static Set<Ordre> hentOrdre() {
+        return Storage.hentInstans().hentOrdrer();
     }
 
 
@@ -128,9 +154,10 @@ public class Controller {
         Produkt p3g3 = produktGruppe3.opretProdukt("Whisky 43% 50cl rør", 100);
         Produkt p4g3 = produktGruppe3.opretProdukt("u/ egesplint", 100);
         Produkt p5g3 = produktGruppe3.opretProdukt("m/ egesplint", 100);
-        Produkt p6g3 = produktGruppe3.opretProdukt("Liquor of Aarhus", 100);
-        Produkt p7g3 = produktGruppe3.opretProdukt("Lyng gin 50 cl", 100);
-        Produkt p8g3 = produktGruppe3.opretProdukt("Lyng gin 4 cl", 100);
+        Produkt p6g3 = produktGruppe3.opretProdukt("2*whisky glas + brikker", 100);
+        Produkt p7g3 = produktGruppe3.opretProdukt("Liquor of Aarhus", 100);
+        Produkt p8g3 = produktGruppe3.opretProdukt("Lyng gin 50 cl", 100);
+        Produkt p9g3 = produktGruppe3.opretProdukt("Lyng gin 4 cl", 100);
 
         // PRODUKTER - gruppe4
         Produkt p1g4 = produktGruppe4.opretProdukt("Klosterbryg, 20 liter", 100);
@@ -180,6 +207,174 @@ public class Controller {
         // PRODUKTER - gruppe11
         Produkt p1g11 = produktGruppe11.opretProdukt("pr person dag", 100);
 
+
+        // PRISLISTE - Fredagsbar
+        Prisliste fredagsbar = Controller.opretPrisliste("Fredagsbar", Valuta.DKK);
+
+        // GRUPPE 1
+        fredagsbar.tilfoejProdukt(p1g1, 70);
+        fredagsbar.tilfoejProdukt(p2g1, 70);
+        fredagsbar.tilfoejProdukt(p3g1, 70);
+        fredagsbar.tilfoejProdukt(p4g1, 70);
+        fredagsbar.tilfoejProdukt(p5g1, 70);
+        fredagsbar.tilfoejProdukt(p6g1, 70);
+        fredagsbar.tilfoejProdukt(p7g1, 70);
+        fredagsbar.tilfoejProdukt(p8g1, 70);
+        fredagsbar.tilfoejProdukt(p9g1, 70);
+        fredagsbar.tilfoejProdukt(p10g1, 70);
+        fredagsbar.tilfoejProdukt(p11g1, 70);
+        fredagsbar.tilfoejProdukt(p12g1, 70);
+        fredagsbar.tilfoejProdukt(p13g1, 70);
+        fredagsbar.tilfoejProdukt(p14g1, 100);
+
+        // GRUPPE 2
+        fredagsbar.tilfoejProdukt(p1g2, 38);
+        fredagsbar.tilfoejProdukt(p2g2, 38);
+        fredagsbar.tilfoejProdukt(p3g2, 38);
+        fredagsbar.tilfoejProdukt(p4g2, 38);
+        fredagsbar.tilfoejProdukt(p5g2, 38);
+        fredagsbar.tilfoejProdukt(p6g2, 38);
+        fredagsbar.tilfoejProdukt(p7g2, 38);
+        fredagsbar.tilfoejProdukt(p8g2, 38);
+        fredagsbar.tilfoejProdukt(p9g2, 38);
+        fredagsbar.tilfoejProdukt(p10g2, 38);
+        fredagsbar.tilfoejProdukt(p11g2, 15);
+        fredagsbar.tilfoejProdukt(p12g2, 10);
+        fredagsbar.tilfoejProdukt(p13g2, 15);
+        fredagsbar.tilfoejProdukt(p14g2, 15);
+        fredagsbar.tilfoejProdukt(p15g2, 15);
+        fredagsbar.tilfoejProdukt(p16g2,15);
+        fredagsbar.tilfoejProdukt(p17g2, 10);
+        fredagsbar.tilfoejProdukt(p18g2, 30);
+
+        // GRUPPE 3
+        fredagsbar.tilfoejProdukt(p1g3, 599);
+        fredagsbar.tilfoejProdukt(p2g3, 50);
+        fredagsbar.tilfoejProdukt(p3g3,499);
+        fredagsbar.tilfoejProdukt(p4g3, 300);
+        fredagsbar.tilfoejProdukt(p5g3, 350);
+        fredagsbar.tilfoejProdukt(p6g3, 80);
+        fredagsbar.tilfoejProdukt(p7g3, 175);
+        fredagsbar.tilfoejProdukt(p8g3, 350);
+        fredagsbar.tilfoejProdukt(p9g3, 40);
+
+        // GRUPPE 5
+        fredagsbar.tilfoejProdukt(p1g5, 400);
+        fredagsbar.tilfoejProdukt(p2g5, 1000);
+//        fredagsbar.tilfoejProdukt(p3g5, 0);
+//        fredagsbar.tilfoejProdukt(p4g5, 0);
+
+        // GRUPPE 7
+        fredagsbar.tilfoejProdukt(p1g7, 70);
+        fredagsbar.tilfoejProdukt(p2g7, 100);
+        fredagsbar.tilfoejProdukt(p3g7, 30);
+
+        // GRUPPE 10
+        fredagsbar.tilfoejProdukt(p1g10, 110);
+        fredagsbar.tilfoejProdukt(p2g10, 140);
+        fredagsbar.tilfoejProdukt(p3g10, 260);
+        fredagsbar.tilfoejProdukt(p4g10, 260);
+        fredagsbar.tilfoejProdukt(p5g10, 350);
+        fredagsbar.tilfoejProdukt(p6g10, 410);
+        fredagsbar.tilfoejProdukt(p7g10, 370);
+
+
+        // PRISLISTE - Butik
+        Prisliste butik = opretPrisliste("Butik", Valuta.DKK);
+
+        butik.tilfoejProdukt(p1g1, 36);
+        butik.tilfoejProdukt(p2g1, 36);
+        butik.tilfoejProdukt(p3g1, 36);
+        butik.tilfoejProdukt(p4g1, 36);
+        butik.tilfoejProdukt(p5g1, 36);
+        butik.tilfoejProdukt(p6g1, 36);
+        butik.tilfoejProdukt(p7g1, 36);
+        butik.tilfoejProdukt(p8g1, 36);
+        butik.tilfoejProdukt(p9g1, 36);
+        butik.tilfoejProdukt(p10g1, 36);
+        butik.tilfoejProdukt(p11g1, 36);
+        butik.tilfoejProdukt(p12g1, 36);
+        butik.tilfoejProdukt(p13g1, 36);
+        butik.tilfoejProdukt(p14g1, 60);
+
+        butik.tilfoejProdukt(p1g3, 599);
+        butik.tilfoejProdukt(p3g3, 499);
+        butik.tilfoejProdukt(p4g3, 300);
+        butik.tilfoejProdukt(p5g3, 350);
+        butik.tilfoejProdukt(p6g3, 80);
+        butik.tilfoejProdukt(p7g3, 175);
+        butik.tilfoejProdukt(p8g3, 350);
+
+        butik.tilfoejProdukt(p1g4, 775);
+        butik.tilfoejProdukt(p2g4, 625);
+        butik.tilfoejProdukt(p3g4, 575);
+        butik.tilfoejProdukt(p4g4, 775);
+        butik.tilfoejProdukt(p5g4, 700);
+        butik.tilfoejProdukt(p6g4, 775);
+        butik.tilfoejProdukt(p7g4, 775);
+        butik.tilfoejProdukt(p8g4, 775);
+        butik.tilfoejProdukt(p9g4, 775);
+        butik.tilfoejProdukt(p10g4, 200);
+
+        butik.tilfoejProdukt(p1g5, 400);
+        butik.tilfoejProdukt(p2g5, 1000);
+
+        butik.tilfoejProdukt(p1g6, 300);
+
+        butik.tilfoejProdukt(p1g7, 70);
+        butik.tilfoejProdukt(p2g7, 100);
+        butik.tilfoejProdukt(p3g7, 30);
+
+        butik.tilfoejProdukt(p1g8, 250);
+        butik.tilfoejProdukt(p2g8, 400);
+        butik.tilfoejProdukt(p3g8, 500);
+        butik.tilfoejProdukt(p4g8, 500);
+        butik.tilfoejProdukt(p5g8, 60);
+
+        butik.tilfoejProdukt(p1g9, 15);
+
+        butik.tilfoejProdukt(p1g10, 110);
+        butik.tilfoejProdukt(p2g10, 140);
+        butik.tilfoejProdukt(p3g10, 260);
+        butik.tilfoejProdukt(p4g10, 260);
+        butik.tilfoejProdukt(p5g10, 350);
+        butik.tilfoejProdukt(p6g10, 410);
+        butik.tilfoejProdukt(p7g10, 370);
+
+        butik.tilfoejProdukt(p1g11, 10);
+
+        // PRISLISTE - FredagsbarKlip
+        Prisliste fredagsbarKlip = Controller.opretPrisliste("Fredagsbar klip", Valuta.KLIP);
+
+        // GRUPPE 1
+        fredagsbarKlip.tilfoejProdukt(p1g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p2g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p3g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p4g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p5g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p6g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p7g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p8g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p9g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p10g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p11g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p12g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p13g1, 2);
+        fredagsbarKlip.tilfoejProdukt(p14g1, 3);
+
+
+        // GRUPPE 2
+        fredagsbarKlip.tilfoejProdukt(p1g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p2g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p3g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p4g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p5g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p6g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p7g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p8g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p9g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p10g2, 1);
+        fredagsbarKlip.tilfoejProdukt(p18g2, 1);
     }
 
 }

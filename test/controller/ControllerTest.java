@@ -3,14 +3,12 @@ package controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import model.Prisliste;
-import model.Produkt;
-import model.ProduktGruppe;
-import model.Valuta;
+import model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -149,5 +147,48 @@ class ControllerTest {
         assertEquals(pl.hentNavn(), navn);
         assertEquals(pl.hentValuta(), valuta);
         assertTrue(plSet.contains(pl));
+    }
+
+    @Test
+    @Order(9)
+    void opretOrdreTest() {
+
+        // Act
+        Ordre ordre = Controller.opretOrdre();
+
+        // Assert
+        assertEquals(ordre.hentDato(), LocalDate.now());
+        assertEquals(ordre.hentId(), Storage.hentTestStorage().hentOrdrer().size() + 1);
+        assertTrue(Storage.hentInstans().hentOrdrer().contains(ordre));
+    }
+
+    @Test
+    @Order(10)
+    void fjernOrdreTest() {
+
+        // Arrange
+        Ordre ordre = Controller.opretOrdre();
+
+        // Act
+        Controller.fjernOrdre(ordre);
+
+        // Assert
+        assertFalse(Storage.hentInstans().hentOrdrer().contains(ordre));
+    }
+
+    @Test
+    @Order(11)
+    void hentOrdrerTest() {
+
+        // Arrange
+        Ordre ordre = Controller.opretOrdre();
+
+        // Act
+        Set<Ordre> ordreSet = Controller.hentOrdre();
+
+        // Assert
+        assertEquals(ordre.hentDato(), LocalDate.now());
+        assertEquals(ordre.hentId(), Storage.hentInstans().hentOrdrer().size());
+        assertTrue(ordreSet.contains(ordre));
     }
 }
