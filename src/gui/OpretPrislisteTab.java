@@ -468,6 +468,7 @@ class PrislistProduktTilfoejVinduet extends Stage {
         //comboboxProduktGrupper henter produktGrupper
         produktGruppeComboBox.getItems().setAll(Controller.hentProduktGrupper());
 
+        //reaktion paa combobox produktGruppe ind i comboboxProdukt
         ChangeListener<ProduktGruppe> listener = (ov,o,n) -> this.valgteProduktGruppeAendrerProdukter();
         produktGruppeComboBox.getSelectionModel().selectedItemProperty().addListener(listener);
         //produktGruppeComboBox valger den foerste element automatisk
