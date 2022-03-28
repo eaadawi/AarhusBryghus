@@ -154,9 +154,10 @@ public class Controller {
         Produkt p3g3 = produktGruppe3.opretProdukt("Whisky 43% 50cl rør", 100);
         Produkt p4g3 = produktGruppe3.opretProdukt("u/ egesplint", 100);
         Produkt p5g3 = produktGruppe3.opretProdukt("m/ egesplint", 100);
-        Produkt p6g3 = produktGruppe3.opretProdukt("Liquor of Aarhus", 100);
-        Produkt p7g3 = produktGruppe3.opretProdukt("Lyng gin 50 cl", 100);
-        Produkt p8g3 = produktGruppe3.opretProdukt("Lyng gin 4 cl", 100);
+        Produkt p6g3 = produktGruppe3.opretProdukt("2*whisky glas + brikker", 100);
+        Produkt p7g3 = produktGruppe3.opretProdukt("Liquor of Aarhus", 100);
+        Produkt p8g3 = produktGruppe3.opretProdukt("Lyng gin 50 cl", 100);
+        Produkt p9g3 = produktGruppe3.opretProdukt("Lyng gin 4 cl", 100);
 
         // PRODUKTER - gruppe4
         Produkt p1g4 = produktGruppe4.opretProdukt("Klosterbryg, 20 liter", 100);
@@ -208,6 +209,50 @@ public class Controller {
 
 
         // PRISLISTE - Fredagsbar
+        Prisliste fredagsbar = new Prisliste("Fredagsbar", Valuta.DKK);
+        fredagsbar.tilfoejProdukt(p1g1, 70);
+        fredagsbar.tilfoejProdukt(p2g1, 70);
+        fredagsbar.tilfoejProdukt(p3g1, 70);
+        fredagsbar.tilfoejProdukt(p4g1, 70);
+        fredagsbar.tilfoejProdukt(p5g1, 70);
+        fredagsbar.tilfoejProdukt(p6g1, 70);
+        fredagsbar.tilfoejProdukt(p7g1, 70);
+        fredagsbar.tilfoejProdukt(p8g1, 70);
+        fredagsbar.tilfoejProdukt(p9g1, 70);
+        fredagsbar.tilfoejProdukt(p10g1, 70);
+        fredagsbar.tilfoejProdukt(p11g1, 70);
+        fredagsbar.tilfoejProdukt(p12g1, 70);
+        fredagsbar.tilfoejProdukt(p13g1, 70);
+        fredagsbar.tilfoejProdukt(p14g1, 100);
+
+        fredagsbar.tilfoejProdukt(p1g2, 38);
+        fredagsbar.tilfoejProdukt(p2g2, 38);
+        fredagsbar.tilfoejProdukt(p3g2, 38);
+        fredagsbar.tilfoejProdukt(p4g2, 38);
+        fredagsbar.tilfoejProdukt(p5g2, 38);
+        fredagsbar.tilfoejProdukt(p6g2, 38);
+        fredagsbar.tilfoejProdukt(p7g2, 38);
+        fredagsbar.tilfoejProdukt(p8g2, 38);
+        fredagsbar.tilfoejProdukt(p9g2, 38);
+        fredagsbar.tilfoejProdukt(p10g2, 38);
+        fredagsbar.tilfoejProdukt(p11g2, 15);
+        fredagsbar.tilfoejProdukt(p12g2, 10);
+        fredagsbar.tilfoejProdukt(p13g2, 15);
+        fredagsbar.tilfoejProdukt(p14g2, 15);
+        fredagsbar.tilfoejProdukt(p15g2, 15);
+        fredagsbar.tilfoejProdukt(p16g2,15);
+        fredagsbar.tilfoejProdukt(p17g2, 10);
+        fredagsbar.tilfoejProdukt(p18g2, 30);
+
+        fredagsbar.tilfoejProdukt(p1g3, 599);
+        fredagsbar.tilfoejProdukt(p2g3, 50);
+        fredagsbar.tilfoejProdukt(p3g3,499);
+        fredagsbar.tilfoejProdukt(p4g3, 300);
+        fredagsbar.tilfoejProdukt(p5g3, 350);
+        fredagsbar.tilfoejProdukt(p6g3, 80);
+        fredagsbar.tilfoejProdukt(p7g3, 175);
+        fredagsbar.tilfoejProdukt(p8g3, 350);
+        fredagsbar.tilfoejProdukt(p9g3, 40);
 
 
         // PRISLISTE - Butik
