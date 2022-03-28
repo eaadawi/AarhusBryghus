@@ -1,10 +1,10 @@
 package model;
 
 public class Ordrelinje {
-    private int antal;
+    private final int antal;
 
-    private Produkt produkt;
-    private Prisliste prisliste;
+    private final Produkt produkt;
+    private final Prisliste prisliste;
 
     /**
      * Kaster en IllegalArgumentException hvis antal er under 0
