@@ -1,5 +1,6 @@
 package storage;
 
+import model.Ordre;
 import model.Prisliste;
 import model.ProduktGruppe;
 
@@ -12,6 +13,7 @@ public class Storage {
 
     private final Set<ProduktGruppe> produktGruppeSet = new HashSet<>();
     private final Set<Prisliste> prislisteSet = new HashSet<>();
+    private final Set<Ordre> ordreSet = new HashSet<>();
 
     public static Storage hentInstans() {
         if(uniqueInstans == null) {
@@ -43,6 +45,13 @@ public class Storage {
     }
 
     /**
+     *
+     */
+    public void tilfoejOrdre(Ordre ordre) {
+        ordreSet.add(ordre);
+    }
+
+    /**
      * Pre: produktGruppe er ind i settet
      */
     public void fjernjProduktGruppe (ProduktGruppe produktGruppe){
@@ -57,6 +66,13 @@ public class Storage {
     }
 
     /**
+     * Pre: Ordre er i settet ordreSet
+     */
+    public void fjernOrdre(Ordre ordre) {
+        ordreSet.remove(ordre);
+    }
+
+    /**
      * Henter en kopi af produktGruppeSet
      */
     public Set<ProduktGruppe> hentProduktGrupper(){
@@ -68,6 +84,13 @@ public class Storage {
      */
     public Set<Prisliste> hentPrislister() {
         return new HashSet<>(prislisteSet);
+    }
+
+    /**
+     * Henter en kopi af ordreSet
+     */
+    public Set<Ordre> hentOrdrer() {
+        return new HashSet<>(ordreSet);
     }
 
 }
