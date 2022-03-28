@@ -209,7 +209,7 @@ public class Controller {
 
 
         // PRISLISTE - Fredagsbar
-        Prisliste fredagsbar = new Prisliste("Fredagsbar", Valuta.DKK);
+        Prisliste fredagsbar = Controller.opretPrisliste("Fredagsbar", Valuta.DKK);
 
         // GRUPPE 1
         fredagsbar.tilfoejProdukt(p1g1, 70);
@@ -344,7 +344,7 @@ public class Controller {
         butik.tilfoejProdukt(p1g11, 10);
 
         // PRISLISTE - FredagsbarKlip
-        Prisliste fredagsbarKlip = new Prisliste("Fredagsbar klip", Valuta.KLIP);
+        Prisliste fredagsbarKlip = Controller.opretPrisliste("Fredagsbar klip", Valuta.KLIP);
 
         // GRUPPE 1
         fredagsbarKlip.tilfoejProdukt(p1g1, 2);
