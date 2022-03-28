@@ -25,6 +25,8 @@ public class Ordre {
             if(ol.hentPrisliste().hentValuta() != Valuta.KLIP)
                 pris += ol.samletPris();
         }
+        String str = String.format("%.2f", pris);
+        pris = Double.parseDouble(str.replace(',', '.'));
         return pris;
     }
 
@@ -47,7 +49,9 @@ public class Ordre {
     public Ordrelinje opretOrdrelinje(int antal, Produkt produkt, Prisliste prisliste) {
         Ordrelinje ol = new Ordrelinje(antal, produkt, prisliste);
         ordrelinjer.add(ol);
+        produkt.fjernAntalPaaLager(antal);
         return ol;
+
     }
 
     /**
@@ -55,6 +59,9 @@ public class Ordre {
      */
     public void fjernOrdrelinje(Ordrelinje ordrelinje) {
         ordrelinjer.remove(ordrelinje);
+        int antal = ordrelinje.hentAntal();
+        Produkt produkt = ordrelinje.hentProdukt();
+        produkt.tilfoejAntalPaaLager(antal);
     }
 
     public LocalDate hentDato() {
