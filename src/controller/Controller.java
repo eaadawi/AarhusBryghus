@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import storage.Storage;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 public class Controller {
@@ -36,6 +37,15 @@ public class Controller {
     }
 
     /**
+     * Opretter og retunere en ordre med dato og id, tilføjer ordren til Storage
+     */
+    public static Ordre opretOrdre(LocalDate dato, int id) {
+        Ordre ordre = new Ordre(dato, id);
+        Storage.hentInstans().tilfoejOrdre(ordre);
+        return ordre;
+    }
+
+    /**
      * Fjerner produkt fra produktGruppe
      */
     public static void fjernProdukt(Produkt produkt, ProduktGruppe produktGruppe){
@@ -57,6 +67,13 @@ public class Controller {
     }
 
     /**
+     * Fjerner ordre fra storage
+     */
+    public static void fjernOrdre(Ordre ordre) {
+        Storage.hentInstans().fjernOrdre(ordre);
+    }
+
+    /**
      * Henter set af produktGruppe fra storage
      */
     public static Set<ProduktGruppe> hentProduktGrupper(){
@@ -68,6 +85,13 @@ public class Controller {
      */
     public static Set<Prisliste> hentPrislister() {
         return Storage.hentInstans().hentPrislister();
+    }
+
+    /**
+     * Henter set af ordre fra Storage
+     */
+    public static Set<Ordre> hentOrdre() {
+        return Storage.hentInstans().hentOrdrer();
     }
 
 
