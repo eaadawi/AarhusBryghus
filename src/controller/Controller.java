@@ -256,6 +256,30 @@ public class Controller {
 
 
         // PRISLISTE - Butik
+        Prisliste butik = opretPrisliste("Butik", Valuta.DKK);
+
+        butik.tilfoejProdukt(p1g1, 36);
+        butik.tilfoejProdukt(p2g1, 36);
+        butik.tilfoejProdukt(p3g1, 36);
+        butik.tilfoejProdukt(p4g1, 36);
+        butik.tilfoejProdukt(p5g1, 36);
+        butik.tilfoejProdukt(p6g1, 36);
+        butik.tilfoejProdukt(p7g1, 36);
+        butik.tilfoejProdukt(p8g1, 36);
+        butik.tilfoejProdukt(p9g1, 36);
+        butik.tilfoejProdukt(p10g1, 36);
+        butik.tilfoejProdukt(p11g1, 36);
+        butik.tilfoejProdukt(p12g1, 36);
+        butik.tilfoejProdukt(p13g1, 36);
+        butik.tilfoejProdukt(p14g1, 60);
+
+        butik.tilfoejProdukt(p1g3, 599);
+        butik.tilfoejProdukt(p3g3, 499);
+        butik.tilfoejProdukt(p4g3, 300);
+        butik.tilfoejProdukt(p5g3, 350);
+        butik.tilfoejProdukt(p6g3, 80);
+        butik.tilfoejProdukt(p7g3, 175);
+        butik.tilfoejProdukt(p8g3, 350);
 
 
         // PRISLISTE - FredagsbarKlip
