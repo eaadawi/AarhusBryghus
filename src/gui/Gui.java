@@ -55,7 +55,12 @@ public class Gui extends Application {
         OpretPrislisteTab opTab = new OpretPrislisteTab();
         opretPrisliste.setContent(opTab);
         //------------------------------------------------------------------------------------
+        Tab ordre = new Tab();
+        ordre.setText("Ordre");
+        tabPane.getTabs().add(ordre);
 
+        OrdreTab ordreTab = new OrdreTab();
+        ordre.setContent(ordreTab);
 
 
 

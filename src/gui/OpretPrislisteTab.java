@@ -106,7 +106,7 @@ public class OpretPrislisteTab extends GridPane {
         this.add(produktListView, 2, 1, 2, 4);
 
         //plw stoerelse
-        produktListView.setPrefWidth(160);
+        produktListView.setPrefWidth(250);
         produktListView.setPrefHeight(200);
 
         //henter og viser produkter af selected Prisliste
@@ -152,7 +152,8 @@ public class OpretPrislisteTab extends GridPane {
         //----------------------produktListViewPris-----------------------
 
         //produktListViewPris size
-        produktListViewPris.setPrefSize(40, 200);
+        produktListViewPris.setPrefSize(80, 200);
+        hentOgVisProdukter(prislisteListView.getSelectionModel().getSelectedItem());
 
         //HBox til 2 ListView navn og pris
         HBox hBoxLV = new HBox();
