@@ -206,6 +206,15 @@ public class Controller {
         // PRODUKTER - gruppe11
         Produkt p1g11 = produktGruppe11.opretProdukt("pr person dag", 100);
 
+
+        // PRISLISTE - Fredagsbar
+
+
+        // PRISLISTE - Butik
+
+
+        // PRISLISTE - FredagsbarKlip
+
     }
 
 }
