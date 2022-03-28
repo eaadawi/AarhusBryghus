@@ -47,4 +47,13 @@ public class Prisliste {
     public Valuta hentValuta() {
         return valuta;
     }
+
+    /**
+     * udskriver navn og valuta af prisliste ind i listView
+     */
+
+    @Override
+    public String toString() {
+        return navn+" / "+valuta.toString();
+    }
 }

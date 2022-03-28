@@ -40,37 +40,29 @@ public class Gui extends Application {
     private void initTabPane(TabPane tabPane) {
         //
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-   // ------------------------------------------------------------------------------------
+
+        // ------------------------------------------------------------------------------------
         Tab produktGruppeTab = new Tab("ProduktGruppe");
         tabPane.getTabs().add(produktGruppeTab);
 
         ProduktGruppeTab pgTab = new ProduktGruppeTab();
         produktGruppeTab.setContent(pgTab);
-        // ------------------------------------------------------------------------------------
-        Tab tabTilmeldingsblanket = new Tab("Tilmeldingsblanket");
-        tabPane.getTabs().add(tabTilmeldingsblanket);
 
-//        Tilmeldingsblanket tilmeldingsblanketPane = new Tilmeldingsblanket();
-//        tabTilmeldingsblanket.setContent(tilmeldingsblanketPane);
-//        // ------------------------------------------------------------------------------------
-//        Tab tabDeltageroversigt = new Tab("Deltageroversigt");
-//        tabPane.getTabs().add(tabDeltageroversigt);
-//
-//        Deltageroversigt deltageroversigtPane = new Deltageroversigt();
-//        tabDeltageroversigt.setContent(deltageroversigtPane);
-////        tabDeltageroversigt.setOnSelectionChanged(event -> deltageroversigtPane.updateControls());
-//        // ------------------------------------------------------------------------------------
-//        Tab tabUdflugtsoversigt = new Tab("Udflugtsoversigt");
-//        tabPane.getTabs().add(tabUdflugtsoversigt);
-//
-//        Udflugtsoversigt udflugtsoversigtPane = new Udflugtsoversigt();
-//        tabUdflugtsoversigt.setContent(udflugtsoversigtPane);
-//        // ------------------------------------------------------------------------------------
-//        Tab tabHoteloversigt = new Tab("Hoteloversigt");
-//        tabPane.getTabs().add(tabHoteloversigt);
-//
-//        Hoteloversigt hoteloversigtPane = new Hoteloversigt();
-//        tabHoteloversigt.setContent(hoteloversigtPane);
-//        // ------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------
+        Tab opretPrisliste = new Tab("Opret prisliste");
+        tabPane.getTabs().add(opretPrisliste);
+
+        OpretPrislisteTab opTab = new OpretPrislisteTab();
+        opretPrisliste.setContent(opTab);
+        //------------------------------------------------------------------------------------
+
+
+
+
+        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------
+
     }
 }

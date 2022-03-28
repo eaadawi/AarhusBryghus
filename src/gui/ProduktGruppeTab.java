@@ -69,10 +69,10 @@ public class ProduktGruppeTab extends GridPane {
         ChangeListener<ProduktGruppe> listener = (ov, o, n) -> this.selectedProduktGruppeChanged(fjernProduktGruppeKnappe,tiljoejProduktKnappe);
         produktGruppeListView.getSelectionModel().selectedItemProperty().addListener(listener);
 
-        //Knappe tilfoej til produktGrupper oprettes
-        Button tiljoejProduktGrupperKnappe = new Button();
-        tiljoejProduktGrupperKnappe.setText("Tilfoej");
-        tiljoejProduktGrupperKnappe.setOnAction(event -> this.opretProduktGruppe());
+        //Knappe tilfoej til ProduktGruppe oprettes
+        Button tilfoejProduktGrupperKnappe = new Button();
+        tilfoejProduktGrupperKnappe.setText("Tilfoej");
+        tilfoejProduktGrupperKnappe.setOnAction(event -> this.opretProduktGruppe());
 
         //Knappe fjern text settes
 
@@ -86,7 +86,7 @@ public class ProduktGruppeTab extends GridPane {
 
         //HBox til knapper oprettes
         HBox hbPGt = new HBox();
-        hbPGt.getChildren().add(tiljoejProduktGrupperKnappe);
+        hbPGt.getChildren().add(tilfoejProduktGrupperKnappe);
         //hbPG.getChildren().add(fjernProduktGruppeKnappe);
 
         //HBox til knapper oprettes
