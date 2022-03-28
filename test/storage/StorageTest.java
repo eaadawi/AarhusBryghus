@@ -1,10 +1,13 @@
 package storage;
 
+import model.Ordre;
 import model.Prisliste;
 import model.ProduktGruppe;
 import model.Valuta;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,6 +71,38 @@ class StorageTest {
 
         // Assert
         assertFalse(testStorage.hentPrislister().contains(pl));
+    }
+
+    @Test
+    @Order(5)
+    void tilfoejOrdreTest() {
+
+        // Arrange
+        Storage testStorage = Storage.hentTestStorage();
+        Ordre ordre = new Ordre(LocalDate.of(2022,3,28), 1);
+
+        // Act
+        testStorage.tilfoejOrdre(ordre);
+
+
+        // Assert
+        assertTrue(testStorage.hentOrdrer().contains(ordre));
+    }
+
+    @Test
+    @Order(6)
+    void fjernOrdreTest() {
+
+        // Arrange
+        Storage testStorage = Storage.hentTestStorage();
+        Ordre ordre = new Ordre(LocalDate.of(2022, 3, 28), 1);
+        testStorage.tilfoejOrdre(ordre);
+
+        // Act
+        testStorage.fjernOrdre(ordre);
+
+        // Assert
+        assertFalse(testStorage.hentOrdrer().contains(ordre));
     }
 
 }

@@ -3,14 +3,12 @@ package controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import model.Prisliste;
-import model.Produkt;
-import model.ProduktGruppe;
-import model.Valuta;
+import model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -149,5 +147,56 @@ class ControllerTest {
         assertEquals(pl.hentNavn(), navn);
         assertEquals(pl.hentValuta(), valuta);
         assertTrue(plSet.contains(pl));
+    }
+
+    @Test
+    @Order(9)
+    void opretOrdreTest() {
+
+        // Arrange
+        LocalDate dato = LocalDate.of(2022, 3, 28);
+        int id = 1;
+
+        // Act
+        Ordre ordre = Controller.opretOrdre(dato, id);
+
+        // Assert
+        assertEquals(ordre.hentDato(), dato);
+        assertEquals(ordre.hentId(), id);
+        assertTrue(Storage.hentInstans().hentOrdrer().contains(ordre));
+    }
+
+    @Test
+    @Order(10)
+    void fjernOrdreTest() {
+
+        // Arrange
+        LocalDate dato = LocalDate.of(2022, 3, 28);
+        int id = 1;
+        Ordre ordre = Controller.opretOrdre(dato, id);
+
+        // Act
+        Controller.fjernOrdre(ordre);
+
+        // Assert
+        assertFalse(Storage.hentInstans().hentOrdrer().contains(ordre));
+    }
+
+    @Test
+    @Order(11)
+    void hentOrdrerTest() {
+
+        // Arrange
+        LocalDate dato = LocalDate.of(2022, 3, 28);
+        int id = 1;
+        Ordre ordre = Controller.opretOrdre(dato, id);
+
+        // Act
+        Set<Ordre> ordreSet = Controller.hentOrdre();
+
+        // Assert
+        assertEquals(ordre.hentDato(), dato);
+        assertEquals(ordre.hentId(), id);
+        assertTrue(ordreSet.contains(ordre));
     }
 }
