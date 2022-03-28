@@ -1,7 +1,9 @@
 package gui;
 
+import com.sun.javafx.property.adapter.PropertyDescriptor;
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -25,6 +27,7 @@ public class OpretPrislisteTab extends GridPane {
 
     private final ListView<Prisliste> prislisteListView = new ListView<>();
     private final ListView<Produkt> produktListView = new ListView<>();
+    private final ListView<Double> produktListViewPris = new ListView<>();
 
     //disable knapper
     private final Button fjernPrislisteKnappe = new Button();
@@ -36,7 +39,7 @@ public class OpretPrislisteTab extends GridPane {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
-        this.setGridLinesVisible(false);
+        this.setGridLinesVisible(true);
 
         //----------------------------------------_Prisliste LIST VIEW
 
@@ -103,7 +106,7 @@ public class OpretPrislisteTab extends GridPane {
         this.add(produktListView, 2, 1, 2, 4);
 
         //plw stoerelse
-        produktListView.setPrefWidth(200);
+        produktListView.setPrefWidth(160);
         produktListView.setPrefHeight(200);
 
         //henter og viser produkter af selected Prisliste
@@ -146,6 +149,15 @@ public class OpretPrislisteTab extends GridPane {
         this.add(hbPt, 2, 5);
         this.add(hbPf, 3, 5);
 
+        //----------------------produktListViewPris-----------------------
+
+        //produktListViewPris size
+        produktListViewPris.setPrefSize(40, 200);
+
+        //HBox til 2 ListView navn og pris
+        HBox hBoxLV = new HBox();
+        hBoxLV.getChildren().addAll(produktListView,produktListViewPris);
+        this.add(hBoxLV, 2, 1,2,4);
 
     }
 
@@ -257,11 +269,21 @@ public class OpretPrislisteTab extends GridPane {
 
         //henter produkter af Prisliste der er valgt hvis listen er ikke tom
         if (pl != null && !pl.hentProdukter().isEmpty()) {
-            produktListView.getItems().setAll(
-                    pl.hentProdukter());
+            produktListView.getItems().setAll(pl.hentProdukter());
+
+
+//            ////////////////////////////////////////////
+            ArrayList<Double> priser = new ArrayList<>();
+            for(Produkt p: pl.hentProdukter()){
+                priser.add(pl.hentPris(p));
+            }
+            produktListViewPris.getItems().setAll(priser);
+
         } else {
             produktListView.getItems().clear();
+//            produktListViewPris.getItems().clear();
         }
+
 
 
     }
@@ -446,14 +468,17 @@ class PrislistProduktTilfoejVinduet extends Stage {
         //comboboxProduktGrupper henter produktGrupper
         produktGruppeComboBox.getItems().setAll(Controller.hentProduktGrupper());
 
+        //reaktion paa combobox produktGruppe ind i comboboxProdukt
+        ChangeListener<ProduktGruppe> listener = (ov,o,n) -> this.valgteProduktGruppeAendrerProdukter();
+        produktGruppeComboBox.getSelectionModel().selectedItemProperty().addListener(listener);
         //produktGruppeComboBox valger den foerste element automatisk
         produktGruppeComboBox.getSelectionModel().select(0);
 
 
+
         //comboboxProdukt henter produkter ud af den valgte prisListe
 
-        produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getSelectedItem().hentProdukter());
-
+produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getSelectedItem().hentProdukter());
 
         //knap tilfoej produkt til prislisten oprettes
         Button tilfoejProduktKnap2 = new Button();
@@ -499,4 +524,11 @@ class PrislistProduktTilfoejVinduet extends Stage {
     }
 
 
+    private void valgteProduktGruppeAendrerProdukter(){
+        this.opdatereProduktGrupperComboBox();
+    }
+
+    private void opdatereProduktGrupperComboBox(){
+        produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getSelectedItem().hentProdukter());
+    }
 }
