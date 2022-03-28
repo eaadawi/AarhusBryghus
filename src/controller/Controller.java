@@ -305,6 +305,43 @@ public class Controller {
         butik.tilfoejProdukt(p7g3, 175);
         butik.tilfoejProdukt(p8g3, 350);
 
+        butik.tilfoejProdukt(p1g4, 775);
+        butik.tilfoejProdukt(p2g4, 625);
+        butik.tilfoejProdukt(p3g4, 575);
+        butik.tilfoejProdukt(p4g4, 775);
+        butik.tilfoejProdukt(p5g4, 700);
+        butik.tilfoejProdukt(p6g4, 775);
+        butik.tilfoejProdukt(p7g4, 775);
+        butik.tilfoejProdukt(p8g4, 775);
+        butik.tilfoejProdukt(p9g4, 775);
+        butik.tilfoejProdukt(p10g4, 200);
+
+        butik.tilfoejProdukt(p1g5, 400);
+        butik.tilfoejProdukt(p2g5, 1000);
+
+        butik.tilfoejProdukt(p1g6, 300);
+
+        butik.tilfoejProdukt(p1g7, 70);
+        butik.tilfoejProdukt(p2g7, 100);
+        butik.tilfoejProdukt(p3g7, 30);
+
+        butik.tilfoejProdukt(p1g8, 250);
+        butik.tilfoejProdukt(p2g8, 400);
+        butik.tilfoejProdukt(p3g8, 500);
+        butik.tilfoejProdukt(p4g8, 500);
+        butik.tilfoejProdukt(p5g8, 60);
+
+        butik.tilfoejProdukt(p1g9, 15);
+
+        butik.tilfoejProdukt(p1g10, 110);
+        butik.tilfoejProdukt(p2g10, 140);
+        butik.tilfoejProdukt(p3g10, 260);
+        butik.tilfoejProdukt(p4g10, 260);
+        butik.tilfoejProdukt(p5g10, 350);
+        butik.tilfoejProdukt(p6g10, 410);
+        butik.tilfoejProdukt(p7g10, 370);
+
+        butik.tilfoejProdukt(p1g11, 10);
 
         // PRISLISTE - FredagsbarKlip
         Prisliste fredagsbarKlip = new Prisliste("Fredagsbar klip", Valuta.KLIP);
