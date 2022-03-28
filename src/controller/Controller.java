@@ -39,7 +39,9 @@ public class Controller {
     /**
      * Opretter og retunere en ordre med dato og id, tilføjer ordren til Storage
      */
-    public static Ordre opretOrdre(LocalDate dato, int id) {
+    public static Ordre opretOrdre() {
+        LocalDate dato = LocalDate.now();
+        int id = Storage.hentInstans().hentOrdrer().size() + 1;
         Ordre ordre = new Ordre(dato, id);
         Storage.hentInstans().tilfoejOrdre(ordre);
         return ordre;

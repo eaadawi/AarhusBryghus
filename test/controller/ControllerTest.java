@@ -153,16 +153,12 @@ class ControllerTest {
     @Order(9)
     void opretOrdreTest() {
 
-        // Arrange
-        LocalDate dato = LocalDate.of(2022, 3, 28);
-        int id = 1;
-
         // Act
-        Ordre ordre = Controller.opretOrdre(dato, id);
+        Ordre ordre = Controller.opretOrdre();
 
         // Assert
-        assertEquals(ordre.hentDato(), dato);
-        assertEquals(ordre.hentId(), id);
+        assertEquals(ordre.hentDato(), LocalDate.now());
+        assertEquals(ordre.hentId(), Storage.hentTestStorage().hentOrdrer().size() + 1);
         assertTrue(Storage.hentInstans().hentOrdrer().contains(ordre));
     }
 
@@ -171,9 +167,7 @@ class ControllerTest {
     void fjernOrdreTest() {
 
         // Arrange
-        LocalDate dato = LocalDate.of(2022, 3, 28);
-        int id = 1;
-        Ordre ordre = Controller.opretOrdre(dato, id);
+        Ordre ordre = Controller.opretOrdre();
 
         // Act
         Controller.fjernOrdre(ordre);
@@ -187,16 +181,14 @@ class ControllerTest {
     void hentOrdrerTest() {
 
         // Arrange
-        LocalDate dato = LocalDate.of(2022, 3, 28);
-        int id = 1;
-        Ordre ordre = Controller.opretOrdre(dato, id);
+        Ordre ordre = Controller.opretOrdre();
 
         // Act
         Set<Ordre> ordreSet = Controller.hentOrdre();
 
         // Assert
-        assertEquals(ordre.hentDato(), dato);
-        assertEquals(ordre.hentId(), id);
+        assertEquals(ordre.hentDato(), LocalDate.now());
+        assertEquals(ordre.hentId(), Storage.hentInstans().hentOrdrer().size());
         assertTrue(ordreSet.contains(ordre));
     }
 }
