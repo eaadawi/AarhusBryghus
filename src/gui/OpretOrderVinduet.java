@@ -1,12 +1,10 @@
 package gui;
 
+import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -27,7 +25,7 @@ public class OpretOrderVinduet extends Stage {
     public OpretOrderVinduet(String title, Ordre o){
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
-        this.setResizable(false);
+        this.setResizable(true);
 
         //
         this.setTitle(title);
@@ -61,6 +59,8 @@ public class OpretOrderVinduet extends Stage {
 
         //Knappe tilfoej
         Button buttonTilfoejOrder = new Button("Tilfoej");
+        buttonTilfoejOrder.setOnAction(event -> this.tilfoejOrdreLinjeKnapMetode());
+
 
         //Knappe fjern
         Button buttonFjernOrder = new Button("Fjern");
@@ -80,11 +80,53 @@ public class OpretOrderVinduet extends Stage {
         pane.add(labelComboBox, 1, 0);
 
         //ComboBox<Ordre> ordreComboBox
-        ComboBox<Ordre> ordreComboBox = new ComboBox<>();
-        ordreComboBox.getItems().setAll(Betalinsgmetode.MOBILPAY,)
+        ComboBox<Betalinsgmetode> betalinsgmetodeComboBox = new ComboBox<>();
+        betalinsgmetodeComboBox.getItems().setAll(Betalinsgmetode.MOBILPAY,Betalinsgmetode.KORT,Betalinsgmetode.KONTANT,Betalinsgmetode.REGNING);
+        pane.add(betalinsgmetodeComboBox, 1, 1);
+
+        //Label labelPrisDKK
+        Label labelPrisDKK = new Label();
+        labelPrisDKK.setText("Pris i DKK");
+        pane.add(labelPrisDKK, 1, 2);
+
+
+        //Label labelPrisKlip
+        Label labelPrisKlip = new Label();
+        labelPrisKlip.setText("Pris i klip");
+        pane.add(labelPrisKlip, 1, 3);
+
+        //TextField textFieldDkk
+        TextField textFieldDKK = new TextField();
+        textFieldDKK.setEditable(false);
+        pane.add(textFieldDKK, 2, 2);
+
+        //TextField textFieldKlip
+        TextField textFieldKlip = new TextField();
+        textFieldKlip.setEditable(false);
+        pane.add(textFieldKlip, 2, 3);
+
+
+        //--------------------------BELOEB----------------------------
+
+        //Button buttonBeloeb
+        Button knapBeloeb = new Button();
+        knapBeloeb.setText("Beloeb");
+        knapBeloeb.setOnAction(event -> this.beloebKnapMetode());
+        pane.add(knapBeloeb, 3, 3);
 
     }
 
+    private void beloebKnapMetode(){
+
+
+    }
+
+    /**
+     * Metoden aabner et vindue for at tilfoeje en ny order linje
+     */
+    private void tilfoejOrdreLinjeKnapMetode() {
+
+    }
 }
 
 
