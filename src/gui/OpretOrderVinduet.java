@@ -125,7 +125,11 @@ public class OpretOrderVinduet extends Stage {
      * Metoden aabner et vindue for at tilfoeje en ny order linje
      */
     private void tilfoejOrdreLinjeKnapMetode() {
-
+        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilfoej order linje",null);
+        dialog.showAndWait();
+        //
+        //
+        ordreListView.getItems().setAll(Controller.hentOrdre());
     }
 }
 

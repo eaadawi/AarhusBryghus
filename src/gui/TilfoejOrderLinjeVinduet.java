@@ -78,11 +78,16 @@ public class TilfoejOrderLinjeVinduet extends Stage {
         pane.add(comboBoxPrisliste, 1, 0);
 
         //ComboBox comboBoxProduktGruppe
-        comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGrupper());
+        if(comboBoxPrisliste.getSelectionModel().getSelectedItem()!=null) {
+            comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGrupper());
+        }
         pane.add(comboBoxProduktGruppe, 1, 1);
 
+
         //ComboBox comboBoxProdukte
-        comboBoxProdukte.getItems().setAll(Controller.hentFaellesProdukter(comboBoxProduktGruppe.getSelectionModel().getSelectedItem(), comboBoxPrisliste.getSelectionModel().getSelectedItem()));
+        if(comboBoxPrisliste.getSelectionModel().getSelectedItem()!=null&&comboBoxProduktGruppe.getSelectionModel().getSelectedItem()!=null) {
+            comboBoxProdukte.getItems().setAll(Controller.hentFaellesProdukter(comboBoxProduktGruppe.getSelectionModel().getSelectedItem(), comboBoxPrisliste.getSelectionModel().getSelectedItem()));
+        }
         pane.add(comboBoxProdukte, 1, 2);
 
         //-------------------------TEXT_FIELD----------------
@@ -98,7 +103,9 @@ public class TilfoejOrderLinjeVinduet extends Stage {
     }
 
     private void oprtOrderLinje(){
-
+        //
+        //
+        //
         this.hide();
     }
 }
