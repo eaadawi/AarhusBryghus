@@ -12,14 +12,13 @@ import javafx.scene.layout.VBox;
 import model.Ordre;
 
 public class OrdreTab extends GridPane {
-   private ListView<Ordre> ordreListView = new ListView<>();;
-
+    private ListView<Ordre> ordreListView = new ListView<>();
+    private Ordre ordre;
     public OrdreTab() {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
         this.setGridLinesVisible(true);
-
         //-----------------------------------------
 
         //Label ordre
@@ -30,7 +29,7 @@ public class OrdreTab extends GridPane {
 
         //listView
         ordreListView.setPrefSize(200, 300);
-        this.add(ordreListView, 0, 1,2,2);
+        this.add(ordreListView, 0, 1, 2, 2);
 
         //Button opretOrder knap
         Button opretOrder = new Button();
@@ -40,17 +39,17 @@ public class OrdreTab extends GridPane {
         opretOrder.setOnAction(event -> this.opretOrder());
 
 
-
         //VBox
-        VBox vBox= new VBox();
+        VBox vBox = new VBox();
         vBox.getChildren().add(opretOrder);
         vBox.setAlignment(Pos.BOTTOM_CENTER);//pos bottom i vbox
         this.add(vBox, 3, 2);
 
     }
 
-    private void opretOrder(){
-        OpretOrderVinduet dialog = new OpretOrderVinduet("Opret ordre vinduet",null);
+    private void opretOrder() {
+        ordre = Controller.opretOrdre();
+        OpretOrderVinduet dialog = new OpretOrderVinduet("Opret ordre vinduet", ordre);
         dialog.showAndWait();
         //
         //

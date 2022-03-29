@@ -1,12 +1,10 @@
 package gui;
 
+import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -14,20 +12,20 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Betalinsgmetode;
 import model.Ordre;
-
+import model.Ordrelinje;
 
 
 public class OpretOrderVinduet extends Stage {
 
     private final Ordre order;
-    private ListView<Ordre> ordreListView = new ListView<>();
+    private ListView<Ordrelinje> ordreLinjeListView = new ListView<>();
     /**
      *
      */
     public OpretOrderVinduet(String title, Ordre o){
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
-        this.setResizable(false);
+        this.setResizable(true);
 
         //
         this.setTitle(title);
@@ -49,18 +47,20 @@ public class OpretOrderVinduet extends Stage {
 
         //Label valyteProdukter
         Label valyteProdukter = new Label();
-        valyteProdukter.setText("Valyte produkter");
+        valyteProdukter.setText("Valgte produkter");
         pane.add(valyteProdukter, 0, 0);
 
 
-        //ListView<Ordre> ordreListView
+        //ListView<Ordre> ordreLinjeListView
         int size = 200;
-        ordreListView.setPrefSize(size,size);
-        ordreListView.getItems().setAll(Controller.hentOrdre());
-        pane.add(ordreListView, 0, 1);
+        ordreLinjeListView.setPrefSize(size,size);
+        ordreLinjeListView.getItems().setAll(order.hentOrdrelinjer());
+        pane.add(ordreLinjeListView, 0, 1);
 
         //Knappe tilfoej
         Button buttonTilfoejOrder = new Button("Tilfoej");
+        buttonTilfoejOrder.setOnAction(event -> this.tilfoejOrdreLinjeKnapMetode());
+
 
         //Knappe fjern
         Button buttonFjernOrder = new Button("Fjern");
@@ -80,11 +80,58 @@ public class OpretOrderVinduet extends Stage {
         pane.add(labelComboBox, 1, 0);
 
         //ComboBox<Ordre> ordreComboBox
-        ComboBox<Ordre> ordreComboBox = new ComboBox<>();
-        ordreComboBox.getItems().setAll(Betalinsgmetode.MOBILPAY,)
+        ComboBox<Betalinsgmetode> betalinsgmetodeComboBox = new ComboBox<>();
+        betalinsgmetodeComboBox.getItems().setAll(Betalinsgmetode.MOBILPAY,Betalinsgmetode.KORT,Betalinsgmetode.KONTANT,Betalinsgmetode.REGNING);
+        betalinsgmetodeComboBox.getSelectionModel().select(0);
+        pane.add(betalinsgmetodeComboBox, 1, 1);
+
+        //Label labelPrisDKK
+        Label labelPrisDKK = new Label();
+        labelPrisDKK.setText("Pris i DKK");
+        pane.add(labelPrisDKK, 1, 2);
+
+
+        //Label labelPrisKlip
+        Label labelPrisKlip = new Label();
+        labelPrisKlip.setText("Pris i klip");
+        pane.add(labelPrisKlip, 1, 3);
+
+        //TextField textFieldDkk
+        TextField textFieldDKK = new TextField();
+        textFieldDKK.setEditable(false);
+        pane.add(textFieldDKK, 2, 2);
+
+        //TextField textFieldKlip
+        TextField textFieldKlip = new TextField();
+        textFieldKlip.setEditable(false);
+        pane.add(textFieldKlip, 2, 3);
+
+
+        //--------------------------BELOEB----------------------------
+
+        //Button buttonBeloeb
+        Button knapBeloeb = new Button();
+        knapBeloeb.setText("Beloeb");
+        knapBeloeb.setOnAction(event -> this.beloebKnapMetode());
+        pane.add(knapBeloeb, 3, 3);
 
     }
 
+    private void beloebKnapMetode(){
+
+
+    }
+
+    /**
+     * Metoden aabner et vindue for at tilfoeje en ny order linje
+     */
+    private void tilfoejOrdreLinjeKnapMetode() {
+        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilfoej order linje",null,order);
+        dialog.showAndWait();
+        //
+        //
+        ordreLinjeListView.getItems().setAll(order.hentOrdrelinjer());
+    }
 }
 
 
