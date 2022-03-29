@@ -17,7 +17,7 @@ class UdlejningTest {
         LocalDate slutDato = LocalDate.of(2022,3,29);
         String kundeNavn = "Kurt";
         String kundeTlfNr = "88888888";
-        LocalDate kundeFoedselsdag = LocalDate.of(2022,3,29);
+        LocalDate kundeFoedselsdag = LocalDate.of(2004,3,29);
         String adresse = "vej 3 8210";
 
         // Act
@@ -33,6 +33,11 @@ class UdlejningTest {
         assertEquals(dato, u.hentDato());
         assertEquals(id, u.hentId());
         assertEquals(startDato, u.hentStartDato());
+        assertEquals(slutDato, u.hentSlutDato());
+        assertEquals(kundeNavn, u.hentKundeNavn());
+        assertEquals(kundeTlfNr, u.hentKundeTlfNr());
+        assertEquals(kundeFoedselsdag, u.hentKundeFoedselsdag());
+        assertEquals(adresse, u.hentAdresse());
     }
 
     @Test
