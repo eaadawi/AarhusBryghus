@@ -91,13 +91,13 @@ public class Udlejning extends Ordre{
     public void tilfoejStartDato(LocalDate startDato) {
         if(startDato.isBefore(super.hentDato()))
             throw new IllegalArgumentException("StatDato kan ikke være før i dag");
-        if(slutDato.isBefore(startDato))
+        if(slutDato != null && slutDato.isBefore(startDato))
             throw new IllegalArgumentException("StartDato kan ikke være efter slutDato");
         this.startDato = startDato;
     }
 
     public void tilfoejSlutDato(LocalDate slutDato) {
-        if(slutDato.isBefore(startDato))
+        if(startDato != null && slutDato.isBefore(startDato))
             throw new IllegalArgumentException("StartDato kan ikke være efter slutDato");
         this.slutDato = slutDato;
     }
@@ -111,7 +111,7 @@ public class Udlejning extends Ordre{
     }
 
     public void tilfoejKundeFoedselsdag(LocalDate kundeFoedselsdag) {
-        if(ChronoUnit.YEARS.between(super.hentDato(), kundeFoedselsdag) >= 18 && kundeFoedselsdag.isBefore(super.hentDato())) {
+        if(ChronoUnit.YEARS.between(kundeFoedselsdag, super.hentDato()) >= 18 && kundeFoedselsdag.isBefore(super.hentDato())) {
             this.kundeFoedselsdag = kundeFoedselsdag;
         }else throw new IllegalArgumentException("Kunden skal være fyldt 18 år");
     }
