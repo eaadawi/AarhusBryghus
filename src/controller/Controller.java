@@ -4,6 +4,7 @@ import model.*;
 import storage.Storage;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Controller {
@@ -94,6 +95,19 @@ public class Controller {
      */
     public static Set<Ordre> hentOrdre() {
         return Storage.hentInstans().hentOrdrer();
+    }
+
+    /**
+     * Henter produkter en produktgruppe og en prisliste har til fælles
+     */
+    public static Set<Produkt> hentFaellesProdukter(ProduktGruppe produktGruppe, Prisliste prisliste) {
+        Set<Produkt> produkter = new HashSet<>();
+        Set<Produkt> plProdukter = prisliste.hentProdukter();
+        for(Produkt p : produktGruppe.hentProdukter()) {
+            if(plProdukter.contains(p))
+                produkter.add(p);
+        }
+        return produkter;
     }
 
 
