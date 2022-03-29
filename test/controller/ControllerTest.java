@@ -191,4 +191,30 @@ class ControllerTest {
         assertEquals(ordre.hentId(), Storage.hentInstans().hentOrdrer().size());
         assertTrue(ordreSet.contains(ordre));
     }
+
+    @Test
+    @Order(12)
+    void hentFaellesProdukter() {
+
+        // Arrange
+        ProduktGruppe pg1 = Controller.opretProduktGruppe("Flaskeøl");
+        ProduktGruppe pg2 = Controller.opretProduktGruppe("Fadøl");
+        Produkt p1 = Controller.opretProdukt("Klosterbryg", 10, pg1);
+        Produkt p2 = Controller.opretProdukt("Forårsbryg", 10, pg1);
+        Produkt p3 = Controller.opretProdukt("Julebryg", 10, pg1);
+        Produkt p4 = Controller.opretProdukt("Påskebryg", 10, pg2);
+        Prisliste pl = Controller.opretPrisliste("Bar", Valuta.DKK);
+        pl.tilfoejProdukt(p1, 30);
+        pl.tilfoejProdukt(p3, 30);
+        pl.tilfoejProdukt(p4, 30);
+
+        // Act
+        Set<Produkt> set= Controller.hentFaellesProdukter(pg1, pl);
+
+        // Assert
+        assertTrue(set.contains(p1));
+        assertFalse(set.contains(p2));
+        assertTrue(set.contains(p3));
+        assertFalse(set.contains(p4));
+    }
 }
