@@ -1,7 +1,8 @@
 package model;
 
 import java.time.LocalDate;
-import java.util.Objects;
+import java.time.temporal.ChronoUnit;
+
 
 public class Udlejning extends Ordre{
     private LocalDate startDato;
@@ -48,66 +49,74 @@ public class Udlejning extends Ordre{
     /**
      * Pre: Der er sat en startDato
      */
-    public LocalDate getStartDato() {
+    public LocalDate hentStartDato() {
         return startDato;
     }
 
     /**
      * Pre: Der er sat en slutDato
      */
-    public LocalDate getSlutDato() {
+    public LocalDate hentSlutDato() {
         return slutDato;
     }
 
     /**
      * Pre: Der er sat et kundeNavn
      */
-    public String getKundeNavn() {
+    public String hentKundeNavn() {
         return kundeNavn;
     }
 
     /**
      * Pre: Der er sat et tlf.Nr.
      */
-    public String getKundeTlfNr() {
+    public String hentKundeTlfNr() {
         return kundeTlfNr;
     }
 
     /**
      * Pre: Der er sat en fødselsdagsdato
      */
-    public LocalDate getKundeFoedselsdag() {
+    public LocalDate hentKundeFoedselsdag() {
         return kundeFoedselsdag;
     }
 
     /**
      * Pre: Der er sat en adresse
      */
-    public String getAdresse() {
+    public String hentAdresse() {
         return adresse;
     }
 
-    public void setStartDato(LocalDate startDato) {
+    public void tilfoejStartDato(LocalDate startDato) {
+        if(startDato.isBefore(super.hentDato()))
+            throw new IllegalArgumentException("StatDato kan ikke være før i dag");
+        if(slutDato.isBefore(startDato))
+            throw new IllegalArgumentException("StartDato kan ikke være efter slutDato");
         this.startDato = startDato;
     }
 
-    public void setSlutDato(LocalDate slutDato) {
+    public void tilfoejSlutDato(LocalDate slutDato) {
+        if(slutDato.isBefore(startDato))
+            throw new IllegalArgumentException("StartDato kan ikke være efter slutDato");
         this.slutDato = slutDato;
     }
 
-    public void setKundeNavn(String kundeNavn) {
+    public void tilfoejKundeNavn(String kundeNavn) {
         this.kundeNavn = kundeNavn;
     }
 
-    public void setKundeTlfNr(String kundeTlfNr) {
+    public void tilfoejKundeTlfNr(String kundeTlfNr) {
         this.kundeTlfNr = kundeTlfNr;
     }
 
-    public void setKundeFoedselsdag(LocalDate kundeFoedselsdag) {
-        this.kundeFoedselsdag = kundeFoedselsdag;
+    public void tilfoejKundeFoedselsdag(LocalDate kundeFoedselsdag) {
+        if(ChronoUnit.YEARS.between(super.hentDato(), kundeFoedselsdag) >= 18 && kundeFoedselsdag.isBefore(super.hentDato())) {
+            this.kundeFoedselsdag = kundeFoedselsdag;
+        }else throw new IllegalArgumentException("Kunden skal være fyldt 18 år");
     }
 
-    public void setAdresse(String adresse) {
+    public void tilfoejAdresse(String adresse) {
         this.adresse = adresse;
     }
 }
