@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,6 +16,8 @@ import model.Ordrelinje;
 import model.Prisliste;
 import model.Produkt;
 import model.ProduktGruppe;
+import storage.Storage;
+
 
 public class TilfoejOrderLinjeVinduet extends Stage {
 
@@ -77,11 +80,18 @@ public class TilfoejOrderLinjeVinduet extends Stage {
         comboBoxPrisliste.getItems().setAll(Controller.hentPrislister());
         pane.add(comboBoxPrisliste, 1, 0);
 
+        ChangeListener<Prisliste> listener = (ov, o, n) -> this.valgPrisliste(comboBoxPrisliste.getSelectionModel().getSelectedItem());
+        comboBoxPrisliste.getSelectionModel().selectedItemProperty().addListener(listener);
+
+
         //ComboBox comboBoxProduktGruppe
         if(comboBoxPrisliste.getSelectionModel().getSelectedItem()!=null) {
             comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGrupper());
         }
         pane.add(comboBoxProduktGruppe, 1, 1);
+
+        ChangeListener<ProduktGruppe> listenerPG = (ov, o, n) -> this.valgProduktGruppe(comboBoxProduktGruppe.getSelectionModel().getSelectedItem());
+        comboBoxProduktGruppe.getSelectionModel().selectedItemProperty().addListener(listenerPG);
 
 
         //ComboBox comboBoxProdukte
@@ -108,4 +118,17 @@ public class TilfoejOrderLinjeVinduet extends Stage {
         //
         this.hide();
     }
+//
+
+
+    private void valgPrisliste(Prisliste pl){
+        comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGrupper());
+    }
+
+    private void valgProduktGruppe(ProduktGruppe pg){
+        comboBoxProdukte.getItems().setAll(pg.hentProdukter());
+    }
+
+
 }
+

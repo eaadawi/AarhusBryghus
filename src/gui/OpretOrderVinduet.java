@@ -82,6 +82,7 @@ public class OpretOrderVinduet extends Stage {
         //ComboBox<Ordre> ordreComboBox
         ComboBox<Betalinsgmetode> betalinsgmetodeComboBox = new ComboBox<>();
         betalinsgmetodeComboBox.getItems().setAll(Betalinsgmetode.MOBILPAY,Betalinsgmetode.KORT,Betalinsgmetode.KONTANT,Betalinsgmetode.REGNING);
+        betalinsgmetodeComboBox.getSelectionModel().select(0);
         pane.add(betalinsgmetodeComboBox, 1, 1);
 
         //Label labelPrisDKK
