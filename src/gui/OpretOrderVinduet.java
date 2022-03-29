@@ -12,13 +12,13 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Betalinsgmetode;
 import model.Ordre;
-
+import model.Ordrelinje;
 
 
 public class OpretOrderVinduet extends Stage {
 
     private final Ordre order;
-    private ListView<Ordre> ordreListView = new ListView<>();
+    private ListView<Ordrelinje> ordreLinjeListView = new ListView<>();
     /**
      *
      */
@@ -47,15 +47,15 @@ public class OpretOrderVinduet extends Stage {
 
         //Label valyteProdukter
         Label valyteProdukter = new Label();
-        valyteProdukter.setText("Valyte produkter");
+        valyteProdukter.setText("Valgte produkter");
         pane.add(valyteProdukter, 0, 0);
 
 
-        //ListView<Ordre> ordreListView
+        //ListView<Ordre> ordreLinjeListView
         int size = 200;
-        ordreListView.setPrefSize(size,size);
-        ordreListView.getItems().setAll(Controller.hentOrdre());
-        pane.add(ordreListView, 0, 1);
+        ordreLinjeListView.setPrefSize(size,size);
+        ordreLinjeListView.getItems().setAll(order.hentOrdrelinjer());
+        pane.add(ordreLinjeListView, 0, 1);
 
         //Knappe tilfoej
         Button buttonTilfoejOrder = new Button("Tilfoej");
@@ -126,11 +126,11 @@ public class OpretOrderVinduet extends Stage {
      * Metoden aabner et vindue for at tilfoeje en ny order linje
      */
     private void tilfoejOrdreLinjeKnapMetode() {
-        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilfoej order linje",null);
+        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilfoej order linje",null,order);
         dialog.showAndWait();
         //
         //
-        ordreListView.getItems().setAll(Controller.hentOrdre());
+        ordreLinjeListView.getItems().setAll(order.hentOrdrelinjer());
     }
 }
 

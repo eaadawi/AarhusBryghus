@@ -37,4 +37,9 @@ public class Ordrelinje {
     public Prisliste hentPrisliste() {
         return prisliste;
     }
+
+    @Override
+    public String toString() {
+        return produkt +" (" +antal+")" ;
+    }
 }

@@ -12,24 +12,23 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.Ordrelinje;
-import model.Prisliste;
-import model.Produkt;
-import model.ProduktGruppe;
+import model.*;
 import storage.Storage;
 
 
 public class TilfoejOrderLinjeVinduet extends Stage {
 
+    private final Ordre ordre;
     private final Ordrelinje ordrelinje;
 
     private ComboBox<Prisliste> comboBoxPrisliste = new ComboBox();
     private ComboBox<ProduktGruppe> comboBoxProduktGruppe = new ComboBox();
     private ComboBox<Produkt> comboBoxProdukte = new ComboBox();
 
+    private TextField textFieldAntal = new TextField();
 
 
-    public TilfoejOrderLinjeVinduet(String title, Ordrelinje ordrelinje) {
+    public TilfoejOrderLinjeVinduet(String title, Ordrelinje ordrelinje,Ordre ordre) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -37,6 +36,7 @@ public class TilfoejOrderLinjeVinduet extends Stage {
         //
         this.ordrelinje = ordrelinje;
         this.setTitle(title);
+        this.ordre = ordre;
 
         GridPane pane = new GridPane();
         this.initContentPane(pane);
@@ -101,7 +101,7 @@ public class TilfoejOrderLinjeVinduet extends Stage {
         pane.add(comboBoxProdukte, 1, 2);
 
         //-------------------------TEXT_FIELD----------------
-        TextField textFieldAntal = new TextField();
+
         pane.add(textFieldAntal, 1, 3);
 
         //--------------BUTTON-OPRET--------------------------
@@ -113,7 +113,9 @@ public class TilfoejOrderLinjeVinduet extends Stage {
     }
 
     private void oprtOrderLinje(){
-        //
+        //int antal = Integer.parseInt(textFieldAntal.getText());
+        ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()), comboBoxProdukte.getSelectionModel().getSelectedItem(),
+                comboBoxPrisliste.getSelectionModel().getSelectedItem());
         //
         //
         this.hide();
