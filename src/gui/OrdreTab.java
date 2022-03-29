@@ -13,6 +13,7 @@ import model.Ordre;
 
 public class OrdreTab extends GridPane {
     private ListView<Ordre> ordreListView = new ListView<>();
+    private ListView<Ordre> udlejningListView = new ListView<>()
     private Ordre ordre;
     public OrdreTab() {
         this.setPadding(new Insets(20));
