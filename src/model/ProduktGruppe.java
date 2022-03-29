@@ -25,9 +25,19 @@ public class ProduktGruppe {
         produkter.add(produkt);
         return produkt;
     }
+
+    public PantProdukt opretPantProdukt(String navn, int antalPaaLager, int stoerrelse) {
+        PantProdukt pantProdukt = new PantProdukt(navn, antalPaaLager, stoerrelse);
+        pantProdukt.produktGruppe = this;
+        produkter.add(pantProdukt);
+        return pantProdukt;
+    }
+
+
     public List<Produkt> hentProdukter() {
         return new ArrayList<>(produkter);
     }
+
 
     /**
      * Pre: Produkt er i denne ProduktGruppe
