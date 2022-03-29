@@ -79,4 +79,10 @@ public class Ordre {
     public List<Ordrelinje> hentOrdrelinjer() {
         return new ArrayList<>(ordrelinjer);
     }
+
+    @Override
+    public String toString() {
+        return "Ordre nr " + id +' '+
+                "(" + dato +')';
+    }
 }
