@@ -15,4 +15,14 @@ public class PantProdukt extends Produkt {
     public int hentStoerrelse() {
         return stoerrelse;
     }
+
+    @Override
+    public ProduktGruppe hentProduktGruppe() {
+        return produktGruppe;
+    }
+
+    @Override
+    public String toString() {
+        return super.hentNavn();
+    }
 }
