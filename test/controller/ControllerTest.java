@@ -10,6 +10,8 @@ import storage.Storage;
 
 import java.time.LocalDate;
 // import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 class ControllerTest {
@@ -204,12 +206,22 @@ class ControllerTest {
     void hentProdukterFraGruppenavn() {
 
         // Arrange
-
+        String pgNavn = "Test";
+        ProduktGruppe produktGruppe = Controller.opretProduktGruppe(pgNavn);
+        produktGruppe.opretProdukt("Produkt 1", 1);
+        produktGruppe.opretProdukt("Produkt 2", 1);
+        produktGruppe.opretProdukt("Produkt 3", 1);
+        produktGruppe.opretProdukt("Produkt 4", 1);
+        produktGruppe.opretProdukt("Produkt 5", 1);
+        List<Produkt> forventet = new ArrayList<>();
+        forventet = produktGruppe.hentProdukter();
 
         // Act
+        List<Produkt> aktuel = Controller.hentProdukterFraGruppenavn("Test");
 
 
         // Assert
+        assertEquals(forventet, aktuel);
 
     }
 
@@ -218,26 +230,63 @@ class ControllerTest {
     void hentPrislisteFraNavn() {
 
         // Arrange
-
+        String plNavn = "Test";
+        Prisliste prisliste = Controller.opretPrisliste(plNavn, Valuta.DKK);
+        Prisliste aktuelPrisliste;
 
         // Act
-
+        aktuelPrisliste = Controller.hentPrislisteFraNavn("Test");
 
         // Assert
+        assertEquals(prisliste, aktuelPrisliste);
 
     }
 
     @Test
     @Order(14)
+    void hentPrislisteFraNavn_kasterFejl() {
+
+        // Arrange
+        Controller.initStorage();
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentPrislisteFraNavn("Ikke eksisterende"));
+        assertTrue(exception.getMessage().contains("Der findes ingen prisliste med dette navn"));
+    }
+
+    @Test
+    @Order(15)
     void hentProduktFraNavn() {
 
         // Arrange
-
+        String pgNavn = "Test";
+        ProduktGruppe produktGruppe = Controller.opretProduktGruppe(pgNavn);
+        produktGruppe.opretProdukt("Produkt 1" ,1);
+        produktGruppe.opretProdukt("Produkt 2" ,1);
+        produktGruppe.opretProdukt("Produkt 3" ,1);
+        produktGruppe.opretProdukt("Produkt 4" ,1);
+        produktGruppe.opretProdukt("Produkt 5" ,1);
+        List<Produkt> produkter = produktGruppe.hentProdukter();
+        String forventetProdukt = "Produkt 3";
 
         // Act
+        Produkt aktuel = Controller.hentProduktFraNavn("Test", forventetProdukt);
 
 
         // Assert
+        assertEquals(forventetProdukt, aktuel.hentNavn());
+    }
 
+    @Test
+    @Order(16)
+    void hentProduktFraNavn_kasterFejl() {
+
+        // Arrange
+        ProduktGruppe produktGruppe = Controller.opretProduktGruppe("Test");
+        Controller.initStorage();
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentProduktFraNavn("Test", "Ikke Eksisterende"));
+        assertTrue(exception.getMessage().contains("Der findes ingen produkter med dette navn"));
     }
 }

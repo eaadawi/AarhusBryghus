@@ -192,8 +192,8 @@ public class OpretNyUdlejningVinduet extends Stage {
 
 
     private void buttonEkstreKulsyreMetodeKnap() {
-        TilfoejEkstreKulsyreVinduet dialog = new TilfoejEkstreKulsyreVinduet("Tilfoej ekstra kulsyre vinduet",udlejning);
-        dialog.showAndWait();
+//        TilfoejEkstreKulsyreVinduet dialog = new TilfoejEkstreKulsyreVinduet("Tilfoej ekstra kulsyre vinduet",udlejning);
+//        dialog.showAndWait();
 
         this.hentEkstraKulsyreListView();
     }
