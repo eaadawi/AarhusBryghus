@@ -59,6 +59,24 @@ class PantProduktTest {
 
     @Test
     @Order(4)
+    void hentStoerrelse() {
+
+        // Arrange
+        String navn = "PantProdukt test";
+        int antalPaaLager = 100;
+        int forventetStoerrelse = 25;
+        PantProdukt pantProdukt = new PantProdukt(navn, antalPaaLager, forventetStoerrelse);
+
+        // Act
+        int storrelse = pantProdukt.hentStoerrelse();
+
+        // Assert
+        assertEquals(storrelse, forventetStoerrelse);
+    }
+
+
+    @Test
+    @Order(5)
     void tilfoejAntalPaaLager() {
 
         // Arrange
@@ -76,7 +94,7 @@ class PantProduktTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     void fjernAntalPaaLager() {
 
         // Arrange
@@ -94,7 +112,7 @@ class PantProduktTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     void fjernAntalPaaLager_kasterFejl() {
 
         // Arrange
@@ -105,6 +123,6 @@ class PantProduktTest {
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> pantProdukt.fjernAntalPaaLager(101));
-
+        assertTrue(exception.getMessage().contains("Der er kun " + antalPaaLager + " tilbage på lager"));
     }
 }
