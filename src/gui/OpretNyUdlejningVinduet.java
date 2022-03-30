@@ -1,6 +1,7 @@
 package gui;
 
 import com.sun.javafx.scene.control.FakeFocusTextField;
+import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -192,7 +193,7 @@ public class OpretNyUdlejningVinduet extends Stage {
 
 
     private void buttonEkstreKulsyreMetodeKnap() {
-        TilfoejEkstreKulsyreVinduet dialog = new TilfoejEkstreKulsyreVinduet("Tilfoej ekstra kulsyre vinduet",udlejning);
+        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilfoej ekstra kulsyre vinduet",udlejning);
         dialog.showAndWait();
 
         this.hentEkstraKulsyreListView();
