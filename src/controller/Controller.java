@@ -112,6 +112,9 @@ public class Controller {
         return produkter;
     }
 
+    /**
+     * Henter en liste af produkter fra en produktgruppe ved at give navnet på produktgruppen
+     */
     public static List<Produkt> hentProdukterFraGruppenavn(String pgNavn) {
         List<Produkt> produkter = new ArrayList<>();
         for(ProduktGruppe pg : hentProduktGrupper()) {
@@ -121,6 +124,9 @@ public class Controller {
         return produkter;
     }
 
+    /**
+     * Henter en prisliste ved at give navnet på prislisten
+     */
     public static Prisliste hentPrislisteFraNavn(String plNavn) {
         Prisliste prisliste = null;
         for(Prisliste pl : hentPrislister()) {
@@ -129,6 +135,20 @@ public class Controller {
         }
         if(prisliste == null) throw new IllegalArgumentException("Der findes ingen prisliste med dette navn");
         return prisliste;
+    }
+
+    /**
+     * Henter et produkt udfra et navn på produktgruppen der indeholder den og navnet på produktet
+     */
+    public static Produkt hentPrislisteFraNavn(String pgNavn, String pNavn) {
+        List<Produkt> produkter = hentProdukterFraGruppenavn(pgNavn);
+        Produkt produkt = null;
+        for(Produkt p : produkter) {
+            if(p.hentNavn().equals(pNavn))
+                produkt = p;
+        }
+        if(produkt == null) throw new IllegalArgumentException("Der findes ingen produkter med dette navn");
+        return produkt;
     }
 
     public static void initStorage() {
