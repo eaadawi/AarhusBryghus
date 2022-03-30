@@ -86,5 +86,6 @@ public class TilfoejEkstreKulsyreVinduet extends Stage {
         Produkt p= Controller.hentProduktFraNavn("Kulsyre", "6 kg");
         ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),p, Controller.hentPrislisteFraNavn("Butik"));
 
+
     }
 }
