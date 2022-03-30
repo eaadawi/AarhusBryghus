@@ -46,12 +46,23 @@ class UdlejningTest {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
         Controller.initStorage();
+        Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
+        Produkt p1 = Controller.hentProduktFraNavn("Fustage", "Klosterbryg, 20 liter");
+        Produkt p2 = Controller.hentProduktFraNavn("Fustage", "Jazz Classic, 25 liter");
+        Produkt p3 = Controller.hentProduktFraNavn("Kulsyre", "6 kg");
+        Produkt p4 = Controller.hentProduktFraNavn("Anlæg", "2-haner");
+        u1.tilfoejLevering();
+        u1.opretOrdrelinje(2, p1, pl);
+        u1.opretOrdrelinje(1, p2, pl);
+        u1.opretOrdrelinje(2, p3, pl);
+        u1.opretOrdrelinje(1, p4, pl);
+        double forventet = 5975;
 
         // Act
-        u1.tilfoejLevering();
+        double pris = u1.totalPrisMedPant();
 
         // Assert
-        assertTrue(u1.harLevering());
+        assertEquals(forventet, pris);
     }
 
     @Test
