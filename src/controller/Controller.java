@@ -121,6 +121,16 @@ public class Controller {
         return produkter;
     }
 
+    public static Prisliste hentPrislisteFraNavn(String plNavn) {
+        Prisliste prisliste = null;
+        for(Prisliste pl : hentPrislister()) {
+            if(pl.hentNavn().equals(plNavn))
+                prisliste = pl;
+        }
+        if(prisliste == null) throw new IllegalArgumentException("Der findes ingen prisliste med dette navn");
+        return prisliste;
+    }
+
     public static void initStorage() {
 
         // PRODUKTGRUPPER

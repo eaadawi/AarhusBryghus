@@ -123,7 +123,19 @@ class UdlejningTest {
 
     @Test
     void tilfoejLevering_KasterFejlProduktGruppe() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Controller.initStorage();
+        Prisliste prisliste = null;
+        for(Prisliste pl : Controller.hentPrislister()) {
+            if(pl.hentNavn().equals("Butik"))
+                prisliste = pl;
+        }
+        Controller.fjernPrisliste(prisliste);
 
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
+        assertTrue(exception.getMessage().contains("Der er ikke oprettet prislisten \"Butik\""));
     }
 
     @Test
