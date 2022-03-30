@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Order;
 import storage.Storage;
 
 import java.time.LocalDate;
-import java.util.HashSet;
+// import java.util.HashSet;
 import java.util.Set;
 
 class ControllerTest {
@@ -31,25 +31,6 @@ class ControllerTest {
 
     @Test
     @Order(2)
-    void opretProduktTest() {
-
-        // Arrange
-        String produktNavn = "Test øl";
-        String produktgruppeNavn = "Test gruppe";
-        int antal = 100;
-        ProduktGruppe pg = Controller.opretProduktGruppe(produktgruppeNavn);
-
-        // Act
-        Produkt p = Controller.opretProdukt(produktNavn, antal, pg);
-
-        // Assert
-        assertEquals(p.hentNavn(), produktNavn);
-        assertEquals(p.hentAntalPaaLager(), antal);
-        assertTrue(pg.hentProdukter().contains(p));
-    }
-
-    @Test
-    @Order(3)
     void fjernProduktgruppeTest() {
 
         // Arrange
@@ -65,7 +46,7 @@ class ControllerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     void fjernProduktTest() {
 
         // Arrange
@@ -73,7 +54,7 @@ class ControllerTest {
         String produktgruppeNavn = "Test gruppe";
         int antal = 100;
         ProduktGruppe pg = Controller.opretProduktGruppe(produktgruppeNavn);
-        Produkt p = Controller.opretProdukt(produktNavn, antal, pg);
+        Produkt p = pg.opretProdukt(produktNavn, antal);
 
         // Act
         Controller.fjernProdukt(p, pg);
@@ -83,7 +64,7 @@ class ControllerTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void hentProduktGrupperTest() {
 
         // Arrange
@@ -99,7 +80,7 @@ class ControllerTest {
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     void opretPrislisteTest() {
 
         // Arrange
@@ -116,7 +97,7 @@ class ControllerTest {
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     void fjernPrislisteTest() {
 
         // Arrange
@@ -132,7 +113,7 @@ class ControllerTest {
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     void hentPrislisterTest() {
 
         // Arrange
@@ -150,7 +131,7 @@ class ControllerTest {
     }
 
     @Test
-    @Order(9)
+    @Order(8)
     void opretOrdreTest() {
 
         // Act
@@ -163,7 +144,7 @@ class ControllerTest {
     }
 
     @Test
-    @Order(10)
+    @Order(9)
     void fjernOrdreTest() {
 
         // Arrange
@@ -177,7 +158,7 @@ class ControllerTest {
     }
 
     @Test
-    @Order(11)
+    @Order(10)
     void hentOrdrerTest() {
 
         // Arrange
@@ -193,16 +174,16 @@ class ControllerTest {
     }
 
     @Test
-    @Order(12)
+    @Order(11)
     void hentFaellesProdukter() {
 
         // Arrange
         ProduktGruppe pg1 = Controller.opretProduktGruppe("Flaskeøl");
         ProduktGruppe pg2 = Controller.opretProduktGruppe("Fadøl");
-        Produkt p1 = Controller.opretProdukt("Klosterbryg", 10, pg1);
-        Produkt p2 = Controller.opretProdukt("Forårsbryg", 10, pg1);
-        Produkt p3 = Controller.opretProdukt("Julebryg", 10, pg1);
-        Produkt p4 = Controller.opretProdukt("Påskebryg", 10, pg2);
+        Produkt p1 = pg1.opretProdukt("Klosterbryg", 10);
+        Produkt p2 = pg1.opretProdukt("Forårsbryg", 10);
+        Produkt p3 = pg1.opretProdukt("Julebryg", 10);
+        Produkt p4 = pg2.opretProdukt("Påskebryg", 10);
         Prisliste pl = Controller.opretPrisliste("Bar", Valuta.DKK);
         pl.tilfoejProdukt(p1, 30);
         pl.tilfoejProdukt(p3, 30);
@@ -216,5 +197,47 @@ class ControllerTest {
         assertFalse(set.contains(p2));
         assertTrue(set.contains(p3));
         assertFalse(set.contains(p4));
+    }
+
+    @Test
+    @Order(12)
+    void hentProdukterFraGruppenavn() {
+
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    @Test
+    @Order(13)
+    void hentPrislisteFraNavn() {
+
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
+    }
+
+    @Test
+    @Order(14)
+    void hentProduktFraNavn() {
+
+        // Arrange
+
+
+        // Act
+
+
+        // Assert
+
     }
 }
