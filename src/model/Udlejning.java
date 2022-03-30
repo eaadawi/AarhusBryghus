@@ -107,6 +107,8 @@ public class Udlejning extends Ordre{
      * Kaster IllegalArgumentException givet dato er før startDato
      */
     public void tilfoejSlutDato(LocalDate slutDato) {
+        if(slutDato.isBefore(super.hentDato()))
+            throw new IllegalArgumentException("SlutDato kan ikke være før i dag");
         if(startDato != null && slutDato.isBefore(startDato))
             throw new IllegalArgumentException("StartDato kan ikke være efter slutDato");
         this.slutDato = slutDato;
