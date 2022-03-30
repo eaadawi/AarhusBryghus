@@ -148,7 +148,7 @@ class UdlejningTest {
             if(p.hentNavn().equals("Levering"))
                 produkt = p;
         }
-        Controller.fjernPrisliste(prisliste);
+        //Controller.fjernPrisliste(prisliste);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
