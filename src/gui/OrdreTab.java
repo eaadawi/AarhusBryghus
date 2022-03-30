@@ -13,31 +13,49 @@ import model.Ordre;
 
 public class OrdreTab extends GridPane {
     private ListView<Ordre> ordreListView = new ListView<>();
-    private ListView<Ordre> udlejningListView = new ListView<>()
+    private ListView<Ordre> udlejningListView = new ListView<>();
     private Ordre ordre;
     public OrdreTab() {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
         this.setGridLinesVisible(true);
-        //-----------------------------------------
 
+        //-------------------------LABEL----------------------------------
         //Label ordre
         Label ordreLabel = new Label();
         ordreLabel.setText("Ordre");
-
         this.add(ordreLabel, 0, 0);
 
-        //listView
-        ordreListView.setPrefSize(200, 300);
+        //Label ordre
+        Label udlejningLabel = new Label();
+        udlejningLabel.setText("Udlejninger");
+        this.add(udlejningLabel, 4, 0);
+
+
+        //-------------------------LIST_VIEW-------------------------------
+        //listView ordre
+        int x = 200;
+        ordreListView.setPrefSize(x, x*1.5);
         this.add(ordreListView, 0, 1, 2, 2);
 
+        //listView udlejningListView
+        udlejningListView.setPrefSize(x, x*1.5);
+        this.add(udlejningListView, 4, 1, 2, 2);
+
+        //-------------------------BUTTON-------------------------------
         //Button opretOrder knap
         Button opretOrder = new Button();
         opretOrder.setText("Opret order");
         int size = 90;
         opretOrder.setPrefSize(size, size);
         opretOrder.setOnAction(event -> this.opretOrder());
+
+        //Button opretUdlejning knap
+        Button opretUdlejning = new Button();
+        opretUdlejning.setText("Ny Udlejning");
+        this.add(opretUdlejning, 6, 2);
+        opretUdlejning.setOnAction(event -> this.nyUdlejning());
 
 
         //VBox
@@ -55,6 +73,14 @@ public class OrdreTab extends GridPane {
         //
         //
         ordreListView.getItems().setAll(Controller.hentOrdre());
+    }
+
+    private void nyUdlejning(){
+        OpretNyUdlejningVinduet dialog = new OpretNyUdlejningVinduet("Nyyyy Udlejning", null);
+        dialog.showAndWait();
+        //
+        //
+        //
     }
 
 }
