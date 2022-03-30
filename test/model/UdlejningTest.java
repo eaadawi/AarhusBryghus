@@ -42,13 +42,65 @@ class UdlejningTest {
     }
 
     @Test
-    void totalPrisMedPant() {
+    void totalPrisMedPant_fustage() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
         Controller.initStorage();
         Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
-        Produkt p1 = Controller.hentProduktFraNavn("Fustage", "Klosterbryg, 20 liter");
-        Produkt p2 = Controller.hentProduktFraNavn("Fustage", "Jazz Classic, 25 liter");
+        Produkt p1 = Controller.hentProduktFraNavn("fustage", "Klosterbryg, 20 liter");
+        u1.opretOrdrelinje(1, p1, pl);
+
+        double forventet = 975;
+
+        // Act
+        double pris = u1.totalPrisMedPant();
+
+        // Assert
+        assertEquals(forventet, pris);
+    }
+
+    @Test
+    void totalPrisMedPant_kulsyre() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Controller.initStorage();
+        Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
+        Produkt p1 = Controller.hentProduktFraNavn("Kulsyre", "6 kg");
+        u1.opretOrdrelinje(2, p1, pl);
+        double forventet = 2800;
+
+        // Act
+        double pris = u1.totalPrisMedPant();
+
+        // Assert
+        assertEquals(forventet, pris);
+    }
+
+    @Test
+    void totalPrisMedPant_hane() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Controller.initStorage();
+        Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
+        Produkt p1 = Controller.hentProduktFraNavn("Anlæg", "2-haner");
+        u1.opretOrdrelinje(1, p1, pl);
+        double forventet = 400;
+
+        // Act
+        double pris = u1.totalPrisMedPant();
+
+        // Assert
+        assertEquals(forventet, pris);
+    }
+
+    @Test
+    void totalPrisMedPant_samlet() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Controller.initStorage();
+        Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
+        Produkt p1 = Controller.hentProduktFraNavn("fustage", "Klosterbryg, 20 liter");
+        Produkt p2 = Controller.hentProduktFraNavn("fustage", "Jazz Classic, 25 liter");
         Produkt p3 = Controller.hentProduktFraNavn("Kulsyre", "6 kg");
         Produkt p4 = Controller.hentProduktFraNavn("Anlæg", "2-haner");
         u1.tilfoejLevering();
@@ -56,7 +108,7 @@ class UdlejningTest {
         u1.opretOrdrelinje(1, p2, pl);
         u1.opretOrdrelinje(2, p3, pl);
         u1.opretOrdrelinje(1, p4, pl);
-        double forventet = 5975;
+        double forventet = 6475;
 
         // Act
         double pris = u1.totalPrisMedPant();
