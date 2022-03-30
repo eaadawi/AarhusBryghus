@@ -13,6 +13,7 @@ import javafx.stage.StageStyle;
 import model.Ordre;
 import model.PantProdukt;
 import model.Prisliste;
+import model.Produkt;
 import storage.Storage;
 
 public class TilfoejEkstreKulsyreVinduet extends Stage {
@@ -82,8 +83,8 @@ public class TilfoejEkstreKulsyreVinduet extends Stage {
     }
 
     private void tilfoejEkstraKulsyreKnap(){
-        PantProdukt pp = new PantProdukt("Kulsyre", textFieldAntal.getText(),textFieldStoerelse.getText());
-        ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),pp, 1);
+        Produkt p = Controller.hentProdukterFraGruppenavn("Kulsyre");
+        ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),, Controller.hentPrislisteFraNavn("Bar"));
 
     }
 }
