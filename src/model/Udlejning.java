@@ -1,5 +1,7 @@
 package model;
 
+import storage.Storage;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -11,9 +13,11 @@ public class Udlejning extends Ordre{
     private String kundeTlfNr;
     private LocalDate kundeFoedselsdag;
     private String adresse;
+    private boolean levering;
 
     public Udlejning(LocalDate dato, int id) {
         super(dato, id);
+        levering = false;
     }
 
     /**
@@ -88,6 +92,9 @@ public class Udlejning extends Ordre{
         return adresse;
     }
 
+    /**
+     * Kaster IllegalArgumentException givet dato er før dagens dato eller efter slutDato
+     */
     public void tilfoejStartDato(LocalDate startDato) {
         if(startDato.isBefore(super.hentDato()))
             throw new IllegalArgumentException("StatDato kan ikke være før i dag");
@@ -96,6 +103,9 @@ public class Udlejning extends Ordre{
         this.startDato = startDato;
     }
 
+    /**
+     * Kaster IllegalArgumentException givet dato er før startDato
+     */
     public void tilfoejSlutDato(LocalDate slutDato) {
         if(startDato != null && slutDato.isBefore(startDato))
             throw new IllegalArgumentException("StartDato kan ikke være efter slutDato");
@@ -110,6 +120,9 @@ public class Udlejning extends Ordre{
         this.kundeTlfNr = kundeTlfNr;
     }
 
+    /**
+     * Kaster IllegalArgumentException hvis kunden er under 18 år
+     */
     public void tilfoejKundeFoedselsdag(LocalDate kundeFoedselsdag) {
         if(ChronoUnit.YEARS.between(kundeFoedselsdag, super.hentDato()) >= 18 && kundeFoedselsdag.isBefore(super.hentDato())) {
             this.kundeFoedselsdag = kundeFoedselsdag;
@@ -118,5 +131,49 @@ public class Udlejning extends Ordre{
 
     public void tilfoejAdresse(String adresse) {
         this.adresse = adresse;
+    }
+
+    /**
+     * Tilføjer en ordrelinje med produktet levering fra produktgruppen anlæg og med prislisten butik og sætter levering til true
+     */
+    public void tilfoejLevering() {
+        if(!levering) {
+            levering = true;
+
+            Prisliste prisliste = null;
+            for (Prisliste pl : Storage.hentInstans().hentPrislister()) {
+                if (pl.hentNavn().equals("Butik"))
+                    prisliste = pl;
+            }
+            if (prisliste == null) throw new IllegalArgumentException("Der er ikke oprettet prislisten \"Butik\"");
+
+            ProduktGruppe produktGruppe = null;
+            for (ProduktGruppe pg : Storage.hentInstans().hentProduktGrupper()) {
+                if (pg.hentNavn().equals("Anlæg"))
+                    produktGruppe = pg;
+            }
+            if (prisliste == null) throw new IllegalArgumentException("Der er ikke oprettet produktgruppe \"Anlæg\"");
+
+            Produkt levering = null;
+            for (Produkt p : produktGruppe.hentProdukter()) {
+                if (p.hentNavn().equals("Levering"))
+                    levering = p;
+            }
+            if (prisliste == null) throw new IllegalArgumentException("Der er ikke oprettet produktet \"Levering\"");
+
+            super.opretOrdrelinje(1, levering, prisliste);
+        }
+    }
+
+    /**
+     * Sætter levering til false og rydder adresse
+     */
+    public void fjernLevering() {
+        levering = false;
+        adresse = "";
+    }
+
+    public boolean harLevering() {
+        return levering;
     }
 }
