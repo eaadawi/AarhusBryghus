@@ -83,8 +83,9 @@ public class TilfoejEkstreKulsyreVinduet extends Stage {
     }
 
     private void tilfoejEkstraKulsyreKnap(){
-//        Produkt p = Controller.hentProdukterFraGruppenavn("Kulsyre");
-//        ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),, Controller.hentPrislisteFraNavn("Bar"));
+        Produkt p= Controller.hentProduktFraNavn("Kulsyre", "6 kg");
+        ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),p, Controller.hentPrislisteFraNavn("Butik"));
+
 
     }
 }
