@@ -10,22 +10,21 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.Ordre;
-import model.Prisliste;
-import model.Produkt;
-import model.ProduktGruppe;
+import model.*;
 
 public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
     private Ordre ordre;
-    private Prisliste prisliste;
 
     private ComboBox<Prisliste> comboBoxPrisliste = new ComboBox<>();
     private ComboBox<ProduktGruppe> comboBoxProduktGruppe = new ComboBox<>();
     private ComboBox<Produkt> comboBoxProdukt = new ComboBox<>();
+
+    private TextField textFieldAntal = new TextField();
 
     public TilfoejEkstreKulsyreVinduet2(String title,Ordre ordre) {
         this.initStyle(StageStyle.UTILITY);
@@ -36,7 +35,6 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
         this.setTitle(title);
         this.ordre=ordre;
-        this.prisliste = prisliste;
         //
 
         GridPane pane = new GridPane();
@@ -68,6 +66,8 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         pane.add(labelProdukt,0 ,2 );
         //
         Label labelAntal = new Label();
+        labelAntal.setText("Antal");
+        pane.add(labelAntal, 0, 3);
         //---------------------TEXTFIELDS---------------------------------
 
         //comboBoxPrisliste
@@ -89,10 +89,30 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         buttonTilfoej.setText("Tilfoej");
         buttonTilfoej.setOnAction(event -> this.tilfoejEkstraKulsyreKnap());
         pane.add(buttonTilfoej,1 ,3 );
+
+        //
+        textFieldAntal.setText("0");
+        textFieldAntal.setEditable(false);
+
+        //
+        Button buttonPlus = new Button("+");
+        buttonPlus.setOnAction(event -> this.plusKulsyre());
+
+        Button buttonMinus = new Button("-");
+        buttonMinus.setOnAction(event -> this.minusKulsyre());
+
+
+        //
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(textFieldAntal,buttonPlus,buttonMinus);
+        pane.add(hBox, 0, 3);
     }
 
     private void tilfoejEkstraKulsyreKnap(){
-        //ordre.opretOrdrelinje();
+        int tal = Integer.parseInt(textFieldAntal.getText());
+        PantProdukt pp = new PantProdukt(comboBoxProdukt.getSelectionModel().getSelectedItem().hentNavn(),tal,1);
+        ordre.opretOrdrelinje(tal,comboBoxProdukt.getSelectionModel().getSelectedItem(),comboBoxPrisliste.getSelectionModel().getSelectedItem());
+        this.hide();
     }
 
     private void comboBoxPrislisteListener() {
@@ -109,5 +129,17 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
     private void opdaterProduktListView(){
         comboBoxProdukt.getItems().setAll(comboBoxProduktGruppe.getSelectionModel().getSelectedItem().hentProdukter());
+    }
+
+    private void plusKulsyre(){
+        int tal = Integer.parseInt(textFieldAntal.getText());
+        tal++;
+        textFieldAntal.setText(""+tal);
+    }
+
+    private void minusKulsyre(){
+        int tal = Integer.parseInt(textFieldAntal.getText());
+        tal--;
+        textFieldAntal.setText(""+tal);
     }
 }

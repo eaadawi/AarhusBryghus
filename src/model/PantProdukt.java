@@ -7,7 +7,7 @@ public class PantProdukt extends Produkt {
     // OBS: Package visible
     ProduktGruppe produktGruppe;
 
-    PantProdukt(String navn, int antalPaaLager, int stoerrelse) {
+    public PantProdukt(String navn, int antalPaaLager, int stoerrelse) {
         super(navn, antalPaaLager);
         this.stoerrelse = stoerrelse;
     }
