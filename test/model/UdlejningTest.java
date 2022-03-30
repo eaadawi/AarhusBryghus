@@ -43,6 +43,15 @@ class UdlejningTest {
 
     @Test
     void totalPrisMedPant() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Controller.initStorage();
+
+        // Act
+        u1.tilfoejLevering();
+
+        // Assert
+        assertTrue(u1.harLevering());
     }
 
     @Test
@@ -109,11 +118,7 @@ class UdlejningTest {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
         Controller.initStorage();
-        Prisliste prisliste = null;
-        for(Prisliste pl : Controller.hentPrislister()) {
-            if(pl.hentNavn().equals("Butik"))
-                prisliste = pl;
-        }
+        Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
         Controller.fjernPrisliste(prisliste);
 
         // Act & Assert
@@ -143,21 +148,32 @@ class UdlejningTest {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
         Controller.initStorage();
-        Produkt produkt = null;
-        for(Produkt p : Controller.hentProdukterFraGruppenavn("Anlæg")) {
-            if(p.hentNavn().equals("Levering"))
-                produkt = p;
+        ProduktGruppe produktGruppe = null;
+        for(ProduktGruppe pg : Controller.hentProduktGrupper()) {
+            if(pg.hentNavn().equals("Anlæg"))
+                produktGruppe = pg;
         }
-        //Controller.fjernPrisliste(prisliste);
+        produktGruppe.fjernProdukt(Controller.hentProduktFraNavn("Anlæg", "Levering"));
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
-        assertTrue(exception.getMessage().contains("Der er ikke oprettet prislisten \"Butik\""));
+        assertTrue(exception.getMessage().contains("Der er ikke oprettet produktet \"Levering\""));
     }
 
     @Test
     void fjernLevering() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Controller.initStorage();
+        u1.tilfoejLevering();
+        u1.tilfoejAdresse("Vej 3");
 
+        // Act
+        u1.fjernLevering();
+
+        // Assert
+        assertFalse(u1.harLevering());
+        assertEquals("", u1.hentAdresse());
     }
 
 }
