@@ -140,7 +140,7 @@ public class Controller {
     /**
      * Henter et produkt udfra et navn på produktgruppen der indeholder den og navnet på produktet
      */
-    public static Produkt hentPrislisteFraNavn(String pgNavn, String pNavn) {
+    public static Produkt hentProduktFraNavn(String pgNavn, String pNavn) {
         List<Produkt> produkter = hentProdukterFraGruppenavn(pgNavn);
         Produkt produkt = null;
         for(Produkt p : produkter) {
