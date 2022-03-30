@@ -47,10 +47,19 @@ class UdlejningTest {
     @Test
     void tilfoejStartDato_kasterFejl() {
         // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        LocalDate slutDato = LocalDate.of(2022,4,30);
+        LocalDate startDato1 = LocalDate.of(2022,3,29);
+        LocalDate startDato2 = LocalDate.of(2022,5,1);
+        u1.tilfoejSlutDato(slutDato);
 
         // Act
+        Exception exception1 = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejStartDato(startDato1));
+        Exception exception2 = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejStartDato(startDato2));
 
         // Assert
+        assertTrue(exception1.getMessage().contains("StatDato kan ikke være før i dag"));
+        assertTrue(exception2.getMessage().contains("StartDato kan ikke være efter slutDato"));
 
     }
 
@@ -60,6 +69,16 @@ class UdlejningTest {
 
     @Test
     void tilfoejKundeFoedselsdag_kasterFejl() {
+    }
+
+    @Test
+    void tilfoejLevering() {
+
+    }
+
+    @Test
+    void fjernLevering() {
+
     }
 
 }
