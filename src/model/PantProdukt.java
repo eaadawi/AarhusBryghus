@@ -4,6 +4,7 @@ public class PantProdukt extends Produkt {
 
     private final int stoerrelse;
 
+    // OBS: Package visible
     ProduktGruppe produktGruppe;
 
     PantProdukt(String navn, int antalPaaLager, int stoerrelse) {
