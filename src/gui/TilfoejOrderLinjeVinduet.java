@@ -114,7 +114,8 @@ public class TilfoejOrderLinjeVinduet extends Stage {
 
     private void oprtOrderLinje(){
         //int antal = Integer.parseInt(textFieldAntal.getText());
-        ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()), comboBoxProdukte.getSelectionModel().getSelectedItem(),
+        ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),
+                comboBoxProdukte.getSelectionModel().getSelectedItem(),
                 comboBoxPrisliste.getSelectionModel().getSelectedItem());
         //
         //
