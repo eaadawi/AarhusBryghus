@@ -4,7 +4,9 @@ import model.*;
 import storage.Storage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Controller {
@@ -110,6 +112,14 @@ public class Controller {
         return produkter;
     }
 
+    public static List<Produkt> hentProdukterFraGruppenavn(String pgNavn) {
+        List<Produkt> produkter = new ArrayList<>();
+        for(ProduktGruppe pg : hentProduktGrupper()) {
+            if(pg.hentNavn().equals(pgNavn))
+                produkter = pg.hentProdukter();
+        }
+        return produkter;
+    }
 
     public static void initStorage() {
 
