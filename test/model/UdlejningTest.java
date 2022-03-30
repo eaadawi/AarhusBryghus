@@ -126,21 +126,33 @@ class UdlejningTest {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
         Controller.initStorage();
-        Prisliste prisliste = null;
-        for(Prisliste pl : Controller.hentPrislister()) {
-            if(pl.hentNavn().equals("Butik"))
-                prisliste = pl;
+        ProduktGruppe produktGruppe = null;
+        for(ProduktGruppe pg : Controller.hentProduktGrupper()) {
+            if(pg.hentNavn().equals("Anlæg"))
+                produktGruppe = pg;
+        }
+        Controller.fjernProduktGruppe(produktGruppe);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
+        assertTrue(exception.getMessage().contains("Der er ikke oprettet produktgruppe \"Anlæg\""));
+    }
+
+    @Test
+    void tilfoejLevering_KasterFejlProdukt() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Controller.initStorage();
+        Produkt produkt = null;
+        for(Produkt p : Controller.hentProdukterFraGruppenavn("Anlæg")) {
+            if(p.hentNavn().equals("Levering"))
+                produkt = p;
         }
         Controller.fjernPrisliste(prisliste);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
         assertTrue(exception.getMessage().contains("Der er ikke oprettet prislisten \"Butik\""));
-    }
-
-    @Test
-    void tilfoejLevering_KasterFejlProdukt() {
-
     }
 
     @Test
