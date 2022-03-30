@@ -152,14 +152,14 @@ public class Udlejning extends Ordre{
                 if (pg.hentNavn().equals("Anlæg"))
                     produktGruppe = pg;
             }
-            if (prisliste == null) throw new IllegalArgumentException("Der er ikke oprettet produktgruppe \"Anlæg\"");
+            if (produktGruppe == null) throw new IllegalArgumentException("Der er ikke oprettet produktgruppe \"Anlæg\"");
 
             Produkt levering = null;
             for (Produkt p : produktGruppe.hentProdukter()) {
                 if (p.hentNavn().equals("Levering"))
                     levering = p;
             }
-            if (prisliste == null) throw new IllegalArgumentException("Der er ikke oprettet produktet \"Levering\"");
+            if (levering == null) throw new IllegalArgumentException("Der er ikke oprettet produktet \"Levering\"");
 
             super.opretOrdrelinje(1, levering, prisliste);
         }
