@@ -54,7 +54,7 @@ public class OrdreTab extends GridPane {
         //Button opretUdlejning knap
         Button opretUdlejning = new Button();
         opretUdlejning.setText("Ny Udlejning");
-        this.add(opretUdlejning, 6, 2);
+        this.add(opretUdlejning, 6, 1);
         opretUdlejning.setOnAction(event -> this.nyUdlejning());
 
 
