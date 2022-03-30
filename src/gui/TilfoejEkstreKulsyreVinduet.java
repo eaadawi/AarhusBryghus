@@ -82,9 +82,8 @@ public class TilfoejEkstreKulsyreVinduet extends Stage {
     }
 
     private void tilfoejEkstraKulsyreKnap(){
-        Prisliste prisliste = Controller.hentPrislister().
         PantProdukt pp = new PantProdukt("Kulsyre", textFieldAntal.getText(),textFieldStoerelse.getText());
-        ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),pp, C);
+        ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),pp, 1);
 
     }
 }
