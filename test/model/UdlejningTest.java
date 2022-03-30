@@ -1,5 +1,6 @@
 package model;
 
+import controller.Controller;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -53,26 +54,80 @@ class UdlejningTest {
         LocalDate startDato2 = LocalDate.of(2022,5,1);
         u1.tilfoejSlutDato(slutDato);
 
-        // Act
+        // Act & Assert
         Exception exception1 = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejStartDato(startDato1));
         Exception exception2 = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejStartDato(startDato2));
 
-        // Assert
         assertTrue(exception1.getMessage().contains("StatDato kan ikke være før i dag"));
         assertTrue(exception2.getMessage().contains("StartDato kan ikke være efter slutDato"));
-
     }
 
     @Test
     void tilfoejSlutDato_kasterFejl() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        LocalDate startDato = LocalDate.of(2022,4,30);
+        LocalDate slutDato1 = LocalDate.of(2022,4,29);
+        LocalDate slutDato2 = LocalDate.of(2022,3,29);
+        u1.tilfoejStartDato(startDato);
+
+        // Act & Assert
+        Exception exception1 = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejSlutDato(slutDato1));
+        Exception exception2 = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejSlutDato(slutDato2));
+
+        assertTrue(exception1.getMessage().contains("StartDato kan ikke være efter slutDato"));
+        assertTrue(exception2.getMessage().contains("SlutDato kan ikke være før i dag"));
     }
 
     @Test
     void tilfoejKundeFoedselsdag_kasterFejl() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        LocalDate foedselsdag = LocalDate.of(2004,5,1);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejKundeFoedselsdag(foedselsdag));
+        assertTrue(exception.getMessage().contains("Kunden skal være fyldt 18 år"));
+
     }
 
     @Test
     void tilfoejLevering() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Controller.initStorage();
+
+        // Act
+        u1.tilfoejLevering();
+
+        // Assert
+        assertTrue(u1.harLevering());
+    }
+
+    @Test
+    void tilfoejLevering_KasterFejlPrisliste() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Controller.initStorage();
+        Prisliste prisliste = null;
+        for(Prisliste pl : Controller.hentPrislister()) {
+            if(pl.hentNavn().equals("Butik"))
+                prisliste = pl;
+        }
+        Controller.fjernPrisliste(prisliste);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
+        assertTrue(exception.getMessage().contains("Der er ikke oprettet prislisten \"Butik\""));
+    }
+
+    @Test
+    void tilfoejLevering_KasterFejlProduktGruppe() {
+
+    }
+
+    @Test
+    void tilfoejLevering_KasterFejlProdukt() {
 
     }
 
