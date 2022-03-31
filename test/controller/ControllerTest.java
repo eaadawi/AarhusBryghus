@@ -7,10 +7,7 @@ import model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
-
 import java.time.LocalDate;
-// import java.util.HashSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -213,7 +210,7 @@ class ControllerTest {
         produktGruppe.opretProdukt("Produkt 3", 1);
         produktGruppe.opretProdukt("Produkt 4", 1);
         produktGruppe.opretProdukt("Produkt 5", 1);
-        List<Produkt> forventet = new ArrayList<>();
+        List<Produkt> forventet;
         forventet = produktGruppe.hentProdukter();
 
         // Act
@@ -266,7 +263,7 @@ class ControllerTest {
         produktGruppe.opretProdukt("Produkt 3" ,1);
         produktGruppe.opretProdukt("Produkt 4" ,1);
         produktGruppe.opretProdukt("Produkt 5" ,1);
-        List<Produkt> produkter = produktGruppe.hentProdukter();
+        produktGruppe.hentProdukter();
         String forventetProdukt = "Produkt 3";
 
         // Act
@@ -282,7 +279,7 @@ class ControllerTest {
     void hentProduktFraNavn_kasterFejl() {
 
         // Arrange
-        ProduktGruppe produktGruppe = Controller.opretProduktGruppe("Test");
+        Controller.opretProduktGruppe("Test");
         Controller.initStorage();
 
         // Act & Assert
