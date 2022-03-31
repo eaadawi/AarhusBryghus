@@ -48,6 +48,7 @@ public class Prisliste {
         return valuta;
     }
 
+    // TODO ?
     /**
      * udskriver navn og valuta af prisliste ind i listView
      */

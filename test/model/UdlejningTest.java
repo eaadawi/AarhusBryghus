@@ -1,7 +1,9 @@
 package model;
 
 import controller.Controller;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import storage.Storage;
 
 import java.time.LocalDate;
 
@@ -10,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UdlejningTest {
 
     @Test
+    @Order(1)
     void constructor_med_tilfoej() {
         // Arrange
         LocalDate dato = LocalDate.of(2022,3,29);
@@ -42,10 +45,91 @@ class UdlejningTest {
     }
 
     @Test
-    void totalPrisMedPant() {
+    @Order(2)
+    void totalPrisMedPant_fustage() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+        Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
+        Produkt p1 = Controller.hentProduktFraNavn("fustage", "Klosterbryg, 20 liter");
+        u1.opretOrdrelinje(1, p1, pl);
+
+        double forventet = 975;
+
+        // Act
+        double pris = u1.totalPrisMedPant();
+
+        // Assert
+        assertEquals(forventet, pris);
     }
 
     @Test
+    @Order(3)
+    void totalPrisMedPant_kulsyre() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+        Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
+        Produkt p1 = Controller.hentProduktFraNavn("Kulsyre", "6 kg");
+        u1.opretOrdrelinje(2, p1, pl);
+        double forventet = 2800;
+
+        // Act
+        double pris = u1.totalPrisMedPant();
+
+        // Assert
+        assertEquals(forventet, pris);
+    }
+
+    @Test
+    @Order(4)
+    void totalPrisMedPant_hane() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+        Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
+        Produkt p1 = Controller.hentProduktFraNavn("Anlæg", "2-haner");
+        u1.opretOrdrelinje(1, p1, pl);
+        double forventet = 400;
+
+        // Act
+        double pris = u1.totalPrisMedPant();
+
+        // Assert
+        assertEquals(forventet, pris);
+    }
+
+    @Test
+    @Order(5)
+    void totalPrisMedPant_samlet() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+        Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
+        Produkt p1 = Controller.hentProduktFraNavn("fustage", "Klosterbryg, 20 liter");
+        Produkt p2 = Controller.hentProduktFraNavn("fustage", "Jazz Classic, 25 liter");
+        Produkt p3 = Controller.hentProduktFraNavn("Kulsyre", "6 kg");
+        Produkt p4 = Controller.hentProduktFraNavn("Anlæg", "2-haner");
+        u1.tilfoejLevering();
+        u1.opretOrdrelinje(2, p1, pl);
+        u1.opretOrdrelinje(1, p2, pl);
+        u1.opretOrdrelinje(2, p3, pl);
+        u1.opretOrdrelinje(1, p4, pl);
+        double forventet = 6475;
+
+        // Act
+        double pris = u1.totalPrisMedPant();
+
+        // Assert
+        assertEquals(forventet, pris);
+    }
+
+    @Test
+    @Order(6)
     void tilfoejStartDato_kasterFejl() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -63,6 +147,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(7)
     void tilfoejSlutDato_kasterFejl() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -80,6 +165,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(8)
     void tilfoejKundeFoedselsdag_kasterFejl() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -92,6 +178,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(9)
     void tilfoejLevering() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -105,26 +192,26 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(10)
     void tilfoejLevering_KasterFejlPrisliste() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
-        Prisliste prisliste = null;
-        for(Prisliste pl : Controller.hentPrislister()) {
-            if(pl.hentNavn().equals("Butik"))
-                prisliste = pl;
-        }
+        Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
         Controller.fjernPrisliste(prisliste);
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
+        Exception exception = assertThrows(IllegalArgumentException.class, u1::tilfoejLevering);
         assertTrue(exception.getMessage().contains("Der er ikke oprettet prislisten \"Butik\""));
     }
 
     @Test
+    @Order(11)
     void tilfoejLevering_KasterFejlProduktGruppe() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         ProduktGruppe produktGruppe = null;
         for(ProduktGruppe pg : Controller.hentProduktGrupper()) {
@@ -134,30 +221,47 @@ class UdlejningTest {
         Controller.fjernProduktGruppe(produktGruppe);
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
+        Exception exception = assertThrows(IllegalArgumentException.class, u1::tilfoejLevering);
         assertTrue(exception.getMessage().contains("Der er ikke oprettet produktgruppe \"Anlæg\""));
     }
 
     @Test
+    @Order(12)
     void tilfoejLevering_KasterFejlProdukt() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
-        Produkt produkt = null;
-        for(Produkt p : Controller.hentProdukterFraGruppenavn("Anlæg")) {
-            if(p.hentNavn().equals("Levering"))
-                produkt = p;
+        ProduktGruppe produktGruppe = null;
+        for(ProduktGruppe pg : Controller.hentProduktGrupper()) {
+            if(pg.hentNavn().equals("Anlæg"))
+                produktGruppe = pg;
         }
-        //Controller.fjernPrisliste(prisliste);
+        if (produktGruppe != null)
+            produktGruppe.fjernProdukt(Controller.hentProduktFraNavn("Anlæg", "Levering"));
+
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
-        assertTrue(exception.getMessage().contains("Der er ikke oprettet prislisten \"Butik\""));
+        Exception exception = assertThrows(IllegalArgumentException.class, u1::tilfoejLevering);
+        assertTrue(exception.getMessage().contains("Der er ikke oprettet produktet \"Levering\""));
     }
 
     @Test
+    @Order(13)
     void fjernLevering() {
+        // Arrange
+        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+        u1.tilfoejLevering();
+        u1.tilfoejAdresse("Vej 3");
 
+        // Act
+        u1.fjernLevering();
+
+        // Assert
+        assertFalse(u1.harLevering());
+        assertEquals("", u1.hentAdresse());
     }
 
 }

@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 
 
 public class Udlejning extends Ordre{
+
     private LocalDate startDato;
     private LocalDate slutDato;
     private String kundeNavn;
@@ -21,7 +22,7 @@ public class Udlejning extends Ordre{
     }
 
     /**
-     * Udregner den samlet pris på hele udlejningen inclusiv pant på fustager og kulsyre
+     * Udregner den samlet pris på hele udlejningen inklusiv pant på fustager og kulsyre
      */
     public double totalPrisMedPant() {
         double pris = 0;
@@ -44,7 +45,7 @@ public class Udlejning extends Ordre{
                 }
         }
 
-        // Runder af til 2 decimaler efter punktumet
+        // Runder af til 2 decimaler efter punktummet
         String str = String.format("%.2f", pris);
         pris = Double.parseDouble(str.replace(',', '.'));
         return pris;

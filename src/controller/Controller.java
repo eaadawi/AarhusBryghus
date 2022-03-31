@@ -12,15 +12,6 @@ import java.util.Set;
 public class Controller {
 
     /**
-     * ProduktGruppe opretter og returnere produkt med given navn og antalPåLager
-     */
-
-    public static Produkt opretProdukt(String navn, int antalPaaLager, ProduktGruppe produktGruppe){
-        return produktGruppe.opretProdukt(navn,antalPaaLager);
-
-    }
-
-    /**
      * Opretter og returnere produktGruppe med given navn og tiljoeje den ind i storrage
      */
 
@@ -62,6 +53,15 @@ public class Controller {
     }
 
     /**
+     *
+     */
+    public static Klippekort opretKlippekort(String kundeNavn) {
+        Klippekort klippekort = new Klippekort(kundeNavn);
+        Storage.hentInstans().tilfoejKlippekort(klippekort);
+        return klippekort;
+    }
+
+    /**
      * Fjerner produkt fra produktGruppe
      */
     public static void fjernProdukt(Produkt produkt, ProduktGruppe produktGruppe){
@@ -90,6 +90,13 @@ public class Controller {
     }
 
     /**
+     *
+     */
+    public static void fjernKlippekort(Klippekort klippekort) {
+        Storage.hentInstans().fjernKlippekort(klippekort);
+    }
+
+    /**
      * Henter set af produktGruppe fra storage
      */
     public static Set<ProduktGruppe> hentProduktGrupper(){
@@ -106,10 +113,17 @@ public class Controller {
     /**
      * Henter set af ordre fra Storage
      */
-    public static Set<Ordre> hentOrdre() {
+    public static Set<Ordre> hentOrdrer() {
         return Storage.hentInstans().hentOrdrer();
     }
 
+
+    /**
+     *
+     */
+    public static Set<Klippekort> hentKlippekort() {
+        return Storage.hentInstans().hentKlippekort();
+    }
 
     /**
      * Henter produkter en produktgruppe og en prisliste har til fælles
@@ -164,16 +178,23 @@ public class Controller {
     }
 
     /**
-     * Henter et produktGruppe udfra et navn på produktgruppen
+     * Henter aller ordre af en bestemt type
+     * "o" for kun normale ordre og "u" for udlejninger
      */
-    public static ProduktGruppe hentProduktGruppeFraNavn(String pgNavn) {
-        List<ProduktGruppe> produktGruppeList = new ArrayList<>(hentProduktGrupper());
-        ProduktGruppe gruppe = null;
-        for(ProduktGruppe pg : produktGruppeList) {
-            if(pg.hentNavn().equals(pgNavn))
-                gruppe = pg;
-        }
-        return gruppe;
+    public static Set<Ordre> hentOdreAfType(String type) {
+        Set<Ordre> ordre = new HashSet<>();
+        if(type.equals("o")) {
+            for(Ordre o : Storage.hentInstans().hentOrdrer()) {
+                if(!(o instanceof Udlejning))
+                    ordre.add(o);
+            }
+        }else if(type.equals("u")) {
+            for(Ordre o : Storage.hentInstans().hentOrdrer()) {
+                if(o instanceof Udlejning)
+                    ordre.add(o);
+            }
+        }else throw new IllegalArgumentException("Type skal være o eller u");
+        return ordre;
     }
 
     public static void initStorage() {
@@ -239,22 +260,22 @@ public class Controller {
         Produkt p9g3 = produktGruppe3.opretProdukt("Lyng gin 4 cl", 100);
 
         // PRODUKTER - gruppe4
-        Produkt p1g4 = produktGruppe4.opretProdukt("Klosterbryg, 20 liter", 100);
-        Produkt p2g4 = produktGruppe4.opretProdukt("Jazz Classic, 25 liter", 100);
-        Produkt p3g4 = produktGruppe4.opretProdukt("Extra Pilsner, 25 liter", 100);
-        Produkt p4g4 = produktGruppe4.opretProdukt("Celebration, 20 liter", 100);
-        Produkt p5g4 = produktGruppe4.opretProdukt("Blondie, 25 liter", 100);
-        Produkt p6g4 = produktGruppe4.opretProdukt("Forårsbryg, 20 liter", 100);
-        Produkt p7g4 = produktGruppe4.opretProdukt("India Pale Ale, 20 liter", 100);
-        Produkt p8g4 = produktGruppe4.opretProdukt("Julebryg, 20 liter", 100);
-        Produkt p9g4 = produktGruppe4.opretProdukt("Impreial Stout, 20 liter", 100);
+        PantProdukt p1g4 = produktGruppe4.opretPantProdukt("Klosterbryg, 20 liter", 100, 20);
+        PantProdukt p2g4 = produktGruppe4.opretPantProdukt("Jazz Classic, 25 liter", 100, 25);
+        PantProdukt p3g4 = produktGruppe4.opretPantProdukt("Extra Pilsner, 25 liter", 100, 25);
+        PantProdukt p4g4 = produktGruppe4.opretPantProdukt("Celebration, 20 liter", 100, 20);
+        PantProdukt p5g4 = produktGruppe4.opretPantProdukt("Blondie, 25 liter", 100, 25);
+        PantProdukt p6g4 = produktGruppe4.opretPantProdukt("Forårsbryg, 20 liter", 100, 20);
+        PantProdukt p7g4 = produktGruppe4.opretPantProdukt("India Pale Ale, 20 liter", 100, 20);
+        PantProdukt p8g4 = produktGruppe4.opretPantProdukt("Julebryg, 20 liter", 100, 20);
+        PantProdukt p9g4 = produktGruppe4.opretPantProdukt("Impreial Stout, 20 liter", 100, 20);
         Produkt p10g4 = produktGruppe4.opretProdukt("Pant", 100);
 
         // PRODUKTER - gruppe5
-        Produkt p1g5 = produktGruppe5.opretProdukt("6 kg", 100);
+        PantProdukt p1g5 = produktGruppe5.opretPantProdukt("6 kg", 100, 6);
         Produkt p2g5 = produktGruppe5.opretProdukt("Pant", 100);
-        Produkt p3g5 = produktGruppe5.opretProdukt("4 kg", 100);
-        Produkt p4g5 = produktGruppe5.opretProdukt("10 kg", 100);
+        Produkt p3g5 = produktGruppe5.opretPantProdukt("4 kg", 100, 4);
+        Produkt p4g5 = produktGruppe5.opretPantProdukt("10 kg", 100, 10);
 
         // PRODUKTER - gruppe6
         Produkt p1g6 = produktGruppe6.opretProdukt("25kg sæk", 100);

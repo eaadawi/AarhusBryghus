@@ -1,6 +1,7 @@
 package model;
 
 public class Ordrelinje {
+
     private final int antal;
 
     private final Produkt produkt;

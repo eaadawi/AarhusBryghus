@@ -94,7 +94,8 @@ public class ProduktOpretVinduet extends Stage {
         int antal = Integer.parseInt(textFieldAntalProdukt.getText());
 
         // produkt oprettes
-        Controller.opretProdukt(textFieldNavnProdukt.getText(), antal, produktGruppe);
+        produktGruppe.opretProdukt(textFieldNavnProdukt.getText(), antal);
+//        Controller.opretProdukt(textFieldNavnProdukt.getText(), antal, produktGruppe);
 
         //fjerner text og lukker vinduet
         textFieldAntalProdukt.clear();
