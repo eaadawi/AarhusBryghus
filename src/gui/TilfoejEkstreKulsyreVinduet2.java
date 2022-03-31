@@ -157,6 +157,7 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
             tal =0;
         textFieldAntal.setText(""+tal);
 
+        udregnPris(textFieldPris);
     }
 
     private void udregnPris(TextField tf){
