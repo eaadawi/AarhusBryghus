@@ -32,27 +32,19 @@ public class Storage {
         return new Storage();
     }
 
-    /**
-     * Pre:
-     */
     public void tiljoejProduktGruppe (ProduktGruppe produktGruppe){
         produktGruppeSet.add(produktGruppe);
     }
 
-    /**
-     *
-     */
     public void tilfoejPrisliste(Prisliste prisliste) {
         prislisteSet.add(prisliste);
     }
 
-    /**
-     *
-     */
     public void tilfoejOrdre(Ordre ordre) {
         ordreSet.add(ordre);
     }
 
+    //TODO Lav test
     public void tilfoejKlippekort(Klippekort klippekort) {
         klippekortSet.add(klippekort);
     }
@@ -78,6 +70,10 @@ public class Storage {
         ordreSet.remove(ordre);
     }
 
+    /**
+     * Pre: Klippekort er i settet klippekortSet
+     */
+    //TODO Lav test
     public void fjernKlippekort(Klippekort klippekort) {
         klippekortSet.remove(klippekort);
     }
@@ -103,6 +99,9 @@ public class Storage {
         return new HashSet<>(ordreSet);
     }
 
+    /**
+     * Henter en kopi af klippekortSet
+     */
     public Set<Klippekort> hentKlippekort() {
         return new HashSet<>(klippekortSet);
     }
