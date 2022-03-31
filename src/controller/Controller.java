@@ -181,6 +181,7 @@ public class Controller {
      * Henter aller ordre af en bestemt type
      * "o" for kun normale ordre og "u" for udlejninger
      */
+    //TODO lav test og føj til klassediagram
     public static Set<Ordre> hentOdreAfType(String type) {
         Set<Ordre> ordre = new HashSet<>();
         if(type.equals("o")) {
