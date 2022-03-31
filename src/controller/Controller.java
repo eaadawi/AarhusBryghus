@@ -53,6 +53,15 @@ public class Controller {
     }
 
     /**
+     *
+     */
+    public static Klippekort opretKlippekort(String kundeNavn) {
+        Klippekort klippekort = new Klippekort(kundeNavn);
+        Storage.hentInstans().tilfoejKlippekort(klippekort);
+        return klippekort;
+    }
+
+    /**
      * Fjerner produkt fra produktGruppe
      */
     public static void fjernProdukt(Produkt produkt, ProduktGruppe produktGruppe){
@@ -81,6 +90,13 @@ public class Controller {
     }
 
     /**
+     *
+     */
+    public static void fjernKlippekort(Klippekort klippekort) {
+        Storage.hentInstans().fjernKlippekort(klippekort);
+    }
+
+    /**
      * Henter set af produktGruppe fra storage
      */
     public static Set<ProduktGruppe> hentProduktGrupper(){
@@ -99,6 +115,13 @@ public class Controller {
      */
     public static Set<Ordre> hentOrdrer() {
         return Storage.hentInstans().hentOrdrer();
+    }
+
+    /**
+     *
+     */
+    public static Set<Klippekort> hentKlippekort() {
+        return Storage.hentInstans().hentKlippekort();
     }
 
     /**

@@ -14,6 +14,7 @@ public class Storage {
     private final Set<ProduktGruppe> produktGruppeSet = new HashSet<>();
     private final Set<Prisliste> prislisteSet = new HashSet<>();
     private final Set<Ordre> ordreSet = new HashSet<>();
+    private final Set<Klippekort> klippekortSet = new HashSet<>();
 
     public static Storage hentInstans() {
         if(uniqueInstans == null) {
@@ -51,6 +52,10 @@ public class Storage {
         ordreSet.add(ordre);
     }
 
+    public void tilfoejKlippekort(Klippekort klippekort) {
+        klippekortSet.add(klippekort);
+    }
+
     /**
      * Pre: produktGruppe er ind i settet
      */
@@ -70,6 +75,10 @@ public class Storage {
      */
     public void fjernOrdre(Ordre ordre) {
         ordreSet.remove(ordre);
+    }
+
+    public void fjernKlippekort(Klippekort klippekort) {
+        klippekortSet.remove(klippekort);
     }
 
     /**
@@ -93,6 +102,10 @@ public class Storage {
         return new HashSet<>(ordreSet);
     }
 
+    public Set<Klippekort> hentKlippekort() {
+        return new HashSet<>(klippekortSet);
+    }
+
     /**
      * nulsætter alt data i storage
      */
@@ -100,6 +113,7 @@ public class Storage {
         prislisteSet.clear();
         produktGruppeSet.clear();
         ordreSet.clear();
+        klippekortSet.clear();
     }
 
 }
