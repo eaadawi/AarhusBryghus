@@ -185,7 +185,7 @@ class UdlejningTest {
         Controller.fjernPrisliste(prisliste);
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
+        Exception exception = assertThrows(IllegalArgumentException.class, u1::tilfoejLevering);
         assertTrue(exception.getMessage().contains("Der er ikke oprettet prislisten \"Butik\""));
     }
 
@@ -202,7 +202,7 @@ class UdlejningTest {
         Controller.fjernProduktGruppe(produktGruppe);
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
+        Exception exception = assertThrows(IllegalArgumentException.class, u1::tilfoejLevering);
         assertTrue(exception.getMessage().contains("Der er ikke oprettet produktgruppe \"Anlæg\""));
     }
 
@@ -216,10 +216,12 @@ class UdlejningTest {
             if(pg.hentNavn().equals("Anlæg"))
                 produktGruppe = pg;
         }
-        produktGruppe.fjernProdukt(Controller.hentProduktFraNavn("Anlæg", "Levering"));
+        if (produktGruppe != null)
+            produktGruppe.fjernProdukt(Controller.hentProduktFraNavn("Anlæg", "Levering"));
+
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejLevering());
+        Exception exception = assertThrows(IllegalArgumentException.class, u1::tilfoejLevering);
         assertTrue(exception.getMessage().contains("Der er ikke oprettet produktet \"Levering\""));
     }
 
