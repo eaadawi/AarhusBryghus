@@ -53,10 +53,12 @@ public class Controller {
     }
 
     /**
-     *
+     * Opretter og retunere et klippekort med id, tilføjer klippekortet til Storage
      */
+    //TODO Lav test
     public static Klippekort opretKlippekort(String kundeNavn) {
-        Klippekort klippekort = new Klippekort(kundeNavn);
+        int id = Storage.hentInstans().hentKlippekort().size()+1;
+        Klippekort klippekort = new Klippekort(id, kundeNavn);
         Storage.hentInstans().tilfoejKlippekort(klippekort);
         return klippekort;
     }
@@ -90,8 +92,9 @@ public class Controller {
     }
 
     /**
-     *
+     * Fjerner klippekort fra storage
      */
+    //TODO Lav test
     public static void fjernKlippekort(Klippekort klippekort) {
         Storage.hentInstans().fjernKlippekort(klippekort);
     }
@@ -119,8 +122,9 @@ public class Controller {
 
 
     /**
-     *
+     * Henter set af klippekort fra Storage
      */
+    //TODO Lav test
     public static Set<Klippekort> hentKlippekort() {
         return Storage.hentInstans().hentKlippekort();
     }
@@ -199,7 +203,8 @@ public class Controller {
     }
 
     public static void initStorage() {
-
+        Klippekort.aendreKlippekortPris(130);
+        Klippekort.aendreAntalKlip(4);
         // PRODUKTGRUPPER
         ProduktGruppe produktGruppe1 = Controller.opretProduktGruppe("flaske");
         ProduktGruppe produktGruppe2 = Controller.opretProduktGruppe("fadøl, 40cl");
