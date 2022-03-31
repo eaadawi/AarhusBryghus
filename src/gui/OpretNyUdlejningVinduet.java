@@ -2,6 +2,7 @@ package gui;
 
 import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,6 +14,7 @@ import javafx.stage.StageStyle;
 import model.Ordrelinje;
 import model.Prisliste;
 import model.Udlejning;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,6 +28,9 @@ public class OpretNyUdlejningVinduet extends Stage {
 
     private ListView<Ordrelinje> listViewFustager = new ListView<>();
     private ListView<Ordrelinje> listViewKulsyre = new ListView<>();
+    private TextField textFieldAdresse = new TextField();
+    private CheckBox checkBoxLevering = new CheckBox();
+
 
     public OpretNyUdlejningVinduet(String title) {
         this.initStyle(StageStyle.UTILITY);
@@ -130,7 +135,7 @@ public class OpretNyUdlejningVinduet extends Stage {
 
         //
         Label labelKrus = new Label();
-        labelKrus.setText("Krus(...):");
+        labelKrus.setText("Krus(stk):");
         //
         TextField textFieldKrus = new TextField();
         //
@@ -141,10 +146,10 @@ public class OpretNyUdlejningVinduet extends Stage {
         //-----------------------COL4_TF_OG_LABEL----------------------
 
         //
-        CheckBox checkBoxLevering = new CheckBox();
+        ChangeListener<Boolean> listenerChB = ( o, ol, n ) -> this.chBListenerMetod();
+        checkBoxLevering.selectedProperty().addListener(listenerChB);
         pane.add(checkBoxLevering, 3, 0);
         //
-        TextField textFieldAdresse = new TextField();
         pane.add(textFieldAdresse, 3, 1);
         //
         TextField textFieldAntalHaner = new TextField();
@@ -225,4 +230,21 @@ public class OpretNyUdlejningVinduet extends Stage {
         return copy;
     }
 
+
+    private void chBListenerMetod(){
+        if(checkBoxLevering.isSelected()){
+            textFieldAdresse.setEditable(true);
+        }else {
+            textFieldAdresse.clear();
+            textFieldAdresse.setEditable(false);
+        }
+    }
 }
+
+
+//    selectedProperty().addListener(new ChangeListener<Boolean>() {
+//@Override
+//public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+//        chk2.setSelected(!newValue);
+//        }
+//        })
