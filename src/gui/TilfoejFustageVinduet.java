@@ -58,30 +58,30 @@ public class TilfoejFustageVinduet extends Stage {
         Label labelFustage = new Label();
         labelFustage.setText("Fustage");
         pane.add(labelFustage, 0, 0);
-        ////////////-----------mangler type og items
-        comboBoxType.getItems().setAll(Controller.hentProdukterFraGruppenavn("fustage"));
-        comboBoxType.setEditable(false);
-        pane.add(comboBoxType,0 , 1);
+
         //
         Label labelAntal = new Label();
         labelAntal.setText("Antal");
-        pane.add(labelAntal,0, 2 );
+        pane.add(labelAntal,0, 1 );
         //
         Label labelStoerelse = new Label();
         labelStoerelse.setText("Stoerelse");
-        pane.add(labelStoerelse,0 ,3 );
+        pane.add(labelStoerelse,0 ,2 );
         //
         Label labelPris = new Label();
         labelPris.setText("Pris");
-        pane.add(labelPris,0 ,4 );
+        pane.add(labelPris,0 ,3 );
         //--------------------------COL2---------------------
 
+        comboBoxType.getItems().setAll(Controller.hentProdukterFraGruppenavn("fustage"));
+        comboBoxType.setEditable(false);
+        pane.add(comboBoxType,1 , 0);
         //TextField textFieldAntal
-        pane.add(textFieldAntal,1 ,2 );
+        pane.add(textFieldAntal,1 ,1 );
         //
-        pane.add(textFieldStoerelse,1 ,3 );
+        pane.add(textFieldStoerelse,1 ,2 );
         //
-        pane.add(textFieldPris,1 ,4 );
+        pane.add(textFieldPris,1 ,3 );
         //--------------------------COL3---------------------
 
         //
