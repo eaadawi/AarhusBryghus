@@ -213,7 +213,7 @@ class ControllerTest {
         produktGruppe.opretProdukt("Produkt 3", 1);
         produktGruppe.opretProdukt("Produkt 4", 1);
         produktGruppe.opretProdukt("Produkt 5", 1);
-        List<Produkt> forventet = new ArrayList<>();
+        List<Produkt> forventet;
         forventet = produktGruppe.hentProdukter();
 
         // Act
@@ -290,5 +290,19 @@ class ControllerTest {
         assertTrue(exception.getMessage().contains("Der findes ingen produkter med dette navn"));
     }
 
+    @Test
+    @Order(17)
+    void opretUdlejningTest() {
 
+        // Arrange
+        Controller.initStorage();
+
+        // Act
+        Udlejning udlejning = Controller.opretUdlejning();
+
+        // Assert
+        assertTrue(Storage.hentInstans().hentOrdrer().contains(udlejning));
+        assertEquals(udlejning.hentDato(), LocalDate.now());
+        assertEquals(udlejning.hentId(), Storage.hentInstans().hentOrdrer().size());
+    }
 }

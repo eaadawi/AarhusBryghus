@@ -48,4 +48,23 @@ class ProduktGruppeTest {
         // Assert
         assertFalse(produktGruppe.hentProdukter().contains(produkt));
     }
+
+    @Test
+    void opretPantProduktTest() {
+
+        // Arrange
+        ProduktGruppe produktGruppe = new ProduktGruppe("Fustage");
+        String navn = "PantProdukt Test";
+        int antalPaaLager = 10;
+        int stoerrelse = 25;
+
+        // Act
+        PantProdukt pantProdukt = produktGruppe.opretPantProdukt(navn, antalPaaLager, stoerrelse);
+
+        // Assert
+        assertEquals(navn, pantProdukt.hentNavn());
+        assertEquals(antalPaaLager, pantProdukt.hentAntalPaaLager());
+        assertEquals(stoerrelse, pantProdukt.hentStoerrelse());
+        assertTrue(produktGruppe.hentProdukter().contains(pantProdukt));
+    }
 }
