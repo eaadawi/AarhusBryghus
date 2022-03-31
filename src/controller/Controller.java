@@ -153,6 +153,26 @@ public class Controller {
         return produkt;
     }
 
+    /**
+     * Henter aller ordre af en bestemt type
+     * "o" for kun normale ordre og "u" for udlejninger
+     */
+    public static Set<Ordre> hentOdreAfType(String type) {
+        Set<Ordre> ordre = new HashSet<>();
+        if(type.equals("o")) {
+            for(Ordre o : Storage.hentInstans().hentOrdrer()) {
+                if(!(o instanceof Udlejning))
+                    ordre.add(o);
+            }
+        }else if(type.equals("u")) {
+            for(Ordre o : Storage.hentInstans().hentOrdrer()) {
+                if(o instanceof Udlejning)
+                    ordre.add(o);
+            }
+        }else throw new IllegalArgumentException("Type skal være o eller u");
+        return ordre;
+    }
+
     public static void initStorage() {
 
         // PRODUKTGRUPPER
