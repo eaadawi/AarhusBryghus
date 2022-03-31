@@ -11,27 +11,31 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Ordrelinje;
+import model.Prisliste;
 import model.Udlejning;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class OpretNyUdlejningVinduet extends Stage {
 
-    private final Udlejning udlejning;
+    private Udlejning udlejning;
+    private Prisliste prisliste;
 
     private ListView<Ordrelinje> listViewFustager = new ListView<>();
     private ListView<Ordrelinje> listViewKulsyre = new ListView<>();
 
-    public OpretNyUdlejningVinduet(String title, Udlejning udlejning) {
+    public OpretNyUdlejningVinduet(String title) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
 
         //
-        this.udlejning = udlejning;
+        udlejning = Controller.opretUdlejning();
         this.setTitle(title);
+        prisliste = Controller.hentPrislisteFraNavn("Butik");
 
         //
         GridPane pane = new GridPane();
@@ -121,7 +125,7 @@ public class OpretNyUdlejningVinduet extends Stage {
         int x = 200;
         listViewFustager.setPrefSize(x, x);
         //mangler items i listView
-//        listViewFustager.getItems().setAll(hentFustageOLListView());
+        listViewFustager.getItems().setAll(hentFustageOLListView());
         pane.add(listViewFustager, 2, 5);
 
         //
@@ -157,7 +161,7 @@ public class OpretNyUdlejningVinduet extends Stage {
 
         //ListView<Ordrelinje> listViewKulsyre
         listViewKulsyre.setPrefSize(x, x);
-//        listViewKulsyre.getItems().setAll(this.hentEkstraKulsyreListView());
+        listViewKulsyre.getItems().setAll(this.hentEkstraKulsyreListView());
         pane.add(listViewKulsyre, 3, 5);
 
         //
@@ -185,34 +189,40 @@ public class OpretNyUdlejningVinduet extends Stage {
 
 
     private void tilfoejFustageMetodeKnap() {
-        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilfoej fustage vinduet",udlejning);
+        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilfoej fustage vinduet", udlejning, prisliste);
         dialog.showAndWait();
 
         this.hentFustageOLListView();
     }
 
+    private List<Ordrelinje> hentFustageOLListView() {
+
+        List<Ordrelinje> copy = new ArrayList<Ordrelinje>(udlejning.hentOrdrelinjer());
+        copy.removeIf(o -> !o.hentProdukt().hentProduktGruppe().hentNavn().equals("fustage"));
+
+        listViewFustager.getItems().setAll(copy);
+
+        return copy;
+    }
+
 
     private void buttonEkstreKulsyreMetodeKnap() {
-        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilfoej ekstra kulsyre vinduet",udlejning);
+        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilfoej ekstra kulsyre vinduet", udlejning, prisliste);
         dialog.showAndWait();
 
         this.hentEkstraKulsyreListView();
     }
 
-    private List<Ordrelinje> hentFustageOLListView() {
-
-            List<Ordrelinje> copy = new ArrayList<Ordrelinje>(udlejning.hentOrdrelinjer());
-            copy.removeIf(o -> o.hentProdukt().hentProduktGruppe().hentNavn() != "Fustager");
-            return copy;
-
-    }
-
     private List<Ordrelinje> hentEkstraKulsyreListView() {
 
         List<Ordrelinje> copy = new ArrayList<Ordrelinje>(udlejning.hentOrdrelinjer());
-        copy.removeIf(o -> o.hentProdukt().hentProduktGruppe().hentNavn() != "Kulsyre");
-        return copy;
+        copy.removeIf(o -> !o.hentProdukt().hentProduktGruppe().hentNavn().equals("Kulsyre"));
 
+        //List
+
+        listViewKulsyre.getItems().setAll(copy);
+
+        return copy;
     }
 
 }

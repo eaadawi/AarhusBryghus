@@ -51,6 +51,17 @@ public class Controller {
     }
 
     /**
+     * Opretter og retunere en udlejning med dato og id, tilføjer udlejning til Storage
+     */
+    public static Udlejning opretUdlejning() {
+        LocalDate dato = LocalDate.now();
+        int id = Storage.hentInstans().hentOrdrer().size() + 1;
+        Udlejning udlejning = new Udlejning(dato, id);
+        Storage.hentInstans().tilfoejOrdre(udlejning);
+        return udlejning;
+    }
+
+    /**
      * Fjerner produkt fra produktGruppe
      */
     public static void fjernProdukt(Produkt produkt, ProduktGruppe produktGruppe){
@@ -149,6 +160,19 @@ public class Controller {
         }
         if(produkt == null) throw new IllegalArgumentException("Der findes ingen produkter med dette navn");
         return produkt;
+    }
+
+    /**
+     * Henter et produktGruppe udfra et navn på produktgruppen
+     */
+    public static ProduktGruppe hentProduktGruppeFraNavn(String pgNavn) {
+        List<ProduktGruppe> produktGruppeList = new ArrayList<>(hentProduktGrupper());
+        ProduktGruppe gruppe = null;
+        for(ProduktGruppe pg : produktGruppeList) {
+            if(pg.hentNavn().equals(pgNavn))
+                gruppe = pg;
+        }
+        return gruppe;
     }
 
     public static void initStorage() {

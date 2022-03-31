@@ -19,6 +19,7 @@ import model.*;
 public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
     private Ordre ordre;
+    private Prisliste prisliste;
 
     private ComboBox<Prisliste> comboBoxPrisliste = new ComboBox<>();
     private ComboBox<ProduktGruppe> comboBoxProduktGruppe = new ComboBox<>();
@@ -26,7 +27,7 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
     private TextField textFieldAntal = new TextField();
 
-    public TilfoejEkstreKulsyreVinduet2(String title,Ordre ordre) {
+    public TilfoejEkstreKulsyreVinduet2(String title,Ordre ordre,Prisliste pl) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -35,6 +36,7 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
         this.setTitle(title);
         this.ordre=ordre;
+        this.prisliste = pl;
         //
 
         GridPane pane = new GridPane();
@@ -71,17 +73,21 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         //---------------------TEXTFIELDS---------------------------------
 
         //comboBoxPrisliste
-        comboBoxPrisliste.getItems().setAll(Controller.hentPrislister());
+        comboBoxPrisliste.getItems().setAll(prisliste);
+        comboBoxPrisliste.getSelectionModel().select(0);
         ChangeListener<Prisliste> listener1 = (observable, oldValue, newValue) -> this.comboBoxPrislisteListener();
         comboBoxPrisliste.getSelectionModel().selectedItemProperty().addListener(listener1);
         pane.add(comboBoxPrisliste,1 ,0 );
 
         //comboBoxProduktGruppe
-        ChangeListener<ProduktGruppe> listener2 = (observable, oldValue, newValue) -> this.comboBoxProduktGruppeListener();
-        comboBoxProduktGruppe.getSelectionModel().selectedItemProperty().addListener(listener2);
+//        ChangeListener<ProduktGruppe> listener2 = (observable, oldValue, newValue) -> this.comboBoxProduktGruppeListener();
+//        comboBoxProduktGruppe.getSelectionModel().selectedItemProperty().addListener(listener2);
+        comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGruppeFraNavn("Kulsyre"));
+        comboBoxProduktGruppe.getSelectionModel().select(0);
         pane.add(comboBoxProduktGruppe, 1,1 );
 
         //comboboxProdukt
+        comboBoxProdukt.getItems().setAll(comboBoxProduktGruppe.getSelectionModel().getSelectedItem().hentProdukter());
         pane.add(comboBoxProdukt,1 ,2 );
 
         //
