@@ -110,6 +110,7 @@ public class Controller {
         return Storage.hentInstans().hentOrdrer();
     }
 
+
     /**
      * Henter produkter en produktgruppe og en prisliste har til fælles
      */
