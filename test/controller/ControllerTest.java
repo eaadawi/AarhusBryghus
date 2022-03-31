@@ -167,7 +167,7 @@ class ControllerTest {
         Ordre ordre = Controller.opretOrdre();
 
         // Act
-        Set<Ordre> ordreSet = Controller.hentOrdre();
+        Set<Ordre> ordreSet = Controller.hentOrdrer();
 
         // Assert
         assertEquals(ordre.hentDato(), LocalDate.now());

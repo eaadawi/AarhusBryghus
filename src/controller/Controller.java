@@ -42,6 +42,17 @@ public class Controller {
     }
 
     /**
+     * Opretter og retunere en udlejning med dags dato og id, tilføjer udlejningen til Storage
+     */
+    public static Udlejning opretUdlejning() {
+        LocalDate dato = LocalDate.now();
+        int id = Storage.hentInstans().hentOrdrer().size() + 1;
+        Udlejning udlejning = new Udlejning(dato, id);
+        Storage.hentInstans().tilfoejOrdre(udlejning);
+        return udlejning;
+    }
+
+    /**
      * Fjerner produkt fra produktGruppe
      */
     public static void fjernProdukt(Produkt produkt, ProduktGruppe produktGruppe){
@@ -86,7 +97,7 @@ public class Controller {
     /**
      * Henter set af ordre fra Storage
      */
-    public static Set<Ordre> hentOrdre() {
+    public static Set<Ordre> hentOrdrer() {
         return Storage.hentInstans().hentOrdrer();
     }
 
