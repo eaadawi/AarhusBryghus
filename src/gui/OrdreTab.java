@@ -72,7 +72,7 @@ public class OrdreTab extends GridPane {
         dialog.showAndWait();
         //
         //
-        ordreListView.getItems().setAll(Controller.hentOrdre());
+        ordreListView.getItems().setAll(Controller.hentOrdrer());
     }
 
     private void nyUdlejning(){
