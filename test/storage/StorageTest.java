@@ -1,5 +1,6 @@
 package storage;
 
+import controller.Controller;
 import model.Ordre;
 import model.Prisliste;
 import model.ProduktGruppe;
@@ -103,6 +104,22 @@ class StorageTest {
 
         // Assert
         assertFalse(testStorage.hentOrdrer().contains(ordre));
+    }
+
+    @Test
+    @Order(6)
+    void rydTest() {
+
+        // Arrange
+        Controller.initStorage();
+
+        // Act
+        Storage.hentInstans().rydStorage();
+
+        // Assert
+        assertTrue(Storage.hentInstans().hentProduktGrupper().isEmpty());
+        assertTrue(Storage.hentInstans().hentPrislister().isEmpty());
+        assertTrue(Storage.hentInstans().hentOrdrer().isEmpty());
     }
 
 }
