@@ -244,10 +244,11 @@ class ControllerTest {
     void hentPrislisteFraNavn_kasterFejl() {
 
         // Arrange
+        String navn = "Ikke eksisterende";
         Controller.initStorage();
 
         // Act & Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentPrislisteFraNavn("Ikke eksisterende"));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentPrislisteFraNavn(navn));
         assertTrue(exception.getMessage().contains("Der findes ingen prisliste med dette navn"));
     }
 
