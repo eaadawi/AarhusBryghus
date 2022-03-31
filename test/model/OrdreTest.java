@@ -54,7 +54,7 @@ class OrdreTest {
         int id = 1;
         LocalDate dato = LocalDate.of(2022, 4, 28);
         Ordre ordre = new Ordre(dato, id);
-        Produkt produkt = new Produkt("Øl", 11);
+        Produkt produkt = new Produkt("Øl", 100);
 
         Prisliste prisliste = new Prisliste("Bar", Valuta.KLIP);
         prisliste.tilfoejProdukt(produkt, 2);
