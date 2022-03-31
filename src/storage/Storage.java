@@ -1,5 +1,6 @@
 package storage;
 
+import model.Klippekort;
 import model.Ordre;
 import model.Prisliste;
 import model.ProduktGruppe;

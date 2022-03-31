@@ -285,7 +285,7 @@ public class OpretNyUdlejningVinduet extends Stage {
         udlejning.tilfoejSlutDato(slutDatoDatePicker.getValue());
         udlejning.tilfoejKundeNavn(navnTextField.getText());
         udlejning.tilfoejKundeTlfNr(telefonNrTextField.getText());
-        
+
         if(textFieldAdresse.getText().length()>0) {
             udlejning.tilfoejLevering();
         }
@@ -301,21 +301,9 @@ public class OpretNyUdlejningVinduet extends Stage {
 //            textSamletPris.setText(""+intUdAfTf(textSamletPris)+
 //    intUdAfTf(textFieldKrus)*Controller.hentPrislisteFraNavn("Butik").hentProdukter().);
 //        }
-//
-//
 //    }
 //
 //    private int intUdAfTf(TextField tf){
 //        return Integer.parseInt(tf.getText());
 //    }
 }
-
-
-
-
-//    selectedProperty().addListener(new ChangeListener<Boolean>() {
-//@Override
-//public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-//        chk2.setSelected(!newValue);
-//        }
-//        })
