@@ -25,7 +25,7 @@ public class TilfoejEkstreKulsyreVinduet extends Stage {
     private TextField textFieldAntal = new TextField();
     private TextField textFieldPris = new TextField();
 
-    public TilfoejEkstreKulsyreVinduet(String title,Ordre ordre,Prisliste prisliste) {
+    public TilfoejEkstreKulsyreVinduet(String title,Ordre ordre) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -86,6 +86,6 @@ public class TilfoejEkstreKulsyreVinduet extends Stage {
         Produkt p= Controller.hentProduktFraNavn("Kulsyre", "6 kg");
         ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),p, Controller.hentPrislisteFraNavn("Butik"));
 
-
+        this.hide();
     }
 }

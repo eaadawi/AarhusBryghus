@@ -2,6 +2,7 @@ package gui;
 
 import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,27 +12,45 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Ordrelinje;
+import model.Prisliste;
+import model.Produkt;
 import model.Udlejning;
 
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class OpretNyUdlejningVinduet extends Stage {
 
-    private final Udlejning udlejning;
+    private Udlejning udlejning;
+    private Prisliste prisliste;
+
+    private DatePicker startDatoDatePicker = new DatePicker();
+    private DatePicker slutDatoDatePicker = new DatePicker();
+    private TextField foedseldsdagTextField = new TextField();
+    private TextField telefonNrTextField = new TextField();
+    private TextField navnTextField = new TextField();
 
     private ListView<Ordrelinje> listViewFustager = new ListView<>();
     private ListView<Ordrelinje> listViewKulsyre = new ListView<>();
+    private TextField textFieldAdresse = new TextField();
+    private CheckBox checkBoxLevering = new CheckBox();
 
-    public OpretNyUdlejningVinduet(String title, Udlejning udlejning) {
+    private TextField textSamletPrisEKS = new TextField();
+    private TextField textSamletPris = new TextField();
+    private TextField textFieldKrus = new TextField();
+    public OpretNyUdlejningVinduet(String title) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
 
         //
-        this.udlejning = udlejning;
+        udlejning = Controller.opretUdlejning();
         this.setTitle(title);
+        prisliste = Controller.hentPrislisteFraNavn("Butik");
 
         //
         GridPane pane = new GridPane();
@@ -64,34 +83,31 @@ public class OpretNyUdlejningVinduet extends Stage {
         telefonNrLabel.setText("Telefon nr");
         pane.add(telefonNrLabel, 0, 3);
         //
-        Label emailLabel = new Label();
-        emailLabel.setText("Email");
-        pane.add(emailLabel, 0, 4);
+
         //
         Label foedseldsdagLabel = new Label();
         foedseldsdagLabel.setText("Foedseldsdag");
-        pane.add(foedseldsdagLabel, 0, 5);
+        pane.add(foedseldsdagLabel, 0, 4);
 
         //-------------------COL_2_TEXTFIELD-----------------
 
         //
-        DatePicker startDatoDatePicker = new DatePicker();
+
         pane.add(startDatoDatePicker, 1, 0);
         //
-        DatePicker slutDatoDatePicker = new DatePicker();
+
         pane.add(slutDatoDatePicker, 1, 1);
         //
-        TextField navnTextField = new TextField();
+
         pane.add(navnTextField, 1, 2);
         //
-        TextField telefonNrTextField = new TextField();
+
         pane.add(telefonNrTextField, 1, 3);
         //
-        TextField emailTextField = new TextField();
-        pane.add(emailTextField, 1, 4);
+
         //
-        TextField foedseldsdagTextField = new TextField();
-        pane.add(foedseldsdagTextField, 1, 5);
+        foedseldsdagTextField.setPromptText("yyyy-mm-dd");
+        pane.add(foedseldsdagTextField, 1, 4);
 
         //-----------------------COL3_LABEL----------------------
 
@@ -121,14 +137,18 @@ public class OpretNyUdlejningVinduet extends Stage {
         int x = 200;
         listViewFustager.setPrefSize(x, x);
         //mangler items i listView
-//        listViewFustager.getItems().setAll(hentFustageOLListView());
+        listViewFustager.getItems().setAll(hentFustageOLListView());
         pane.add(listViewFustager, 2, 5);
 
         //
         Label labelKrus = new Label();
-        labelKrus.setText("Krus(...):");
+        labelKrus.setText("Krus(stk):");
         //
-        TextField textFieldKrus = new TextField();
+        textFieldKrus.setText("0");
+        textFieldKrus.setEditable(true);
+
+//        textFieldKrus.textProperty().addListener((observable, oldValue, newValue) -> this.textFieldKrusListenerMetod());
+
         //
         HBox hBoxK = new HBox();
         hBoxK.getChildren().addAll(labelKrus, textFieldKrus);
@@ -137,10 +157,10 @@ public class OpretNyUdlejningVinduet extends Stage {
         //-----------------------COL4_TF_OG_LABEL----------------------
 
         //
-        CheckBox checkBoxLevering = new CheckBox();
+        ChangeListener<Boolean> listenerChB = ( o, ol, n ) -> this.chBListenerMetod();
+        checkBoxLevering.selectedProperty().addListener(listenerChB);
         pane.add(checkBoxLevering, 3, 0);
         //
-        TextField textFieldAdresse = new TextField();
         pane.add(textFieldAdresse, 3, 1);
         //
         TextField textFieldAntalHaner = new TextField();
@@ -157,7 +177,7 @@ public class OpretNyUdlejningVinduet extends Stage {
 
         //ListView<Ordrelinje> listViewKulsyre
         listViewKulsyre.setPrefSize(x, x);
-//        listViewKulsyre.getItems().setAll(this.hentEkstraKulsyreListView());
+        listViewKulsyre.getItems().setAll(this.hentEkstraKulsyreListView());
         pane.add(listViewKulsyre, 3, 5);
 
         //
@@ -171,49 +191,131 @@ public class OpretNyUdlejningVinduet extends Stage {
         //
         Button buttonTilfoejUdlejning = new Button();
         buttonTilfoejUdlejning.setText("Tilfoej udlejning");
+        buttonTilfoejUdlejning.setOnAction(event -> this.tilfoejUdlejningKnapMetod());
         pane.add(buttonTilfoejUdlejning, 3, 8);
 
         //-------------------COL5_textfields----------------
 
         //
-        TextField textSamletPrisEKS = new TextField();
         pane.add(textSamletPrisEKS, 4, 6);
         //
-        TextField textSamletPris = new TextField();
         pane.add(textSamletPris, 4, 7);
     }
 
 
     private void tilfoejFustageMetodeKnap() {
-        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilfoej fustage vinduet",udlejning);
+        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilfoej fustage vinduet", udlejning, prisliste);
         dialog.showAndWait();
 
         this.hentFustageOLListView();
     }
 
+    private List<Ordrelinje> hentFustageOLListView() {
+
+        List<Ordrelinje> copy = new ArrayList<Ordrelinje>(udlejning.hentOrdrelinjer());
+        copy.removeIf(o -> !o.hentProdukt().hentProduktGruppe().hentNavn().equals("fustage"));
+
+        listViewFustager.getItems().setAll(copy);
+
+        udregnPris(textSamletPris);
+        udregnPrisUdenPant(textSamletPrisEKS);
+
+        return copy;
+    }
+
 
     private void buttonEkstreKulsyreMetodeKnap() {
-
-        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilfoej ekstra kulsyre vinduet",udlejning);
+        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilfoej ekstra kulsyre vinduet", udlejning, prisliste);
         dialog.showAndWait();
 
         this.hentEkstraKulsyreListView();
     }
 
-    private List<Ordrelinje> hentFustageOLListView() {
-
-            List<Ordrelinje> copy = new ArrayList<Ordrelinje>(udlejning.hentOrdrelinjer());
-            copy.removeIf(o -> o.hentProdukt().hentProduktGruppe().hentNavn() != "Fustager");
-            return copy;
-
-    }
-
     private List<Ordrelinje> hentEkstraKulsyreListView() {
 
         List<Ordrelinje> copy = new ArrayList<Ordrelinje>(udlejning.hentOrdrelinjer());
-        copy.removeIf(o -> o.hentProdukt().hentProduktGruppe().hentNavn() != "Kulsyre");
-        return copy;
+        copy.removeIf(o -> !o.hentProdukt().hentProduktGruppe().hentNavn().equals("Kulsyre"));
 
+        //List
+
+        listViewKulsyre.getItems().setAll(copy);
+
+        udregnPris(textSamletPris);
+        udregnPrisUdenPant(textSamletPrisEKS);
+        return copy;
     }
 
+
+    private void chBListenerMetod(){
+        if(checkBoxLevering.isSelected()){
+            textFieldAdresse.setEditable(true);
+        }else {
+            textFieldAdresse.clear();
+            textFieldAdresse.setEditable(false);
+        }
+    }
+
+    private void udregnPris(TextField tf){
+        double pris = 0;
+        for(Ordrelinje ol : udlejning.hentOrdrelinjer()){
+            pris+=ol.samletPris();
+        }
+
+        double krusPris = 0;
+//        if(antal>0) {
+//            Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
+//            Produkt krus = Controller.hentProduktFraNavn("Anlæg", "Krus");
+//            krusPris = prisliste.hentPris(krus)*antal;
+//        }
+
+        tf.setText(""+pris+krusPris);
+    }
+
+    private void udregnPrisUdenPant(TextField tf){
+        double pris = 0;
+        for(Ordrelinje ol : udlejning.hentOrdrelinjer()){
+            if(!ol.hentProdukt().hentNavn().equals("Pant"))
+            pris+=ol.samletPris();
+        }
+        tf.setText(""+pris);
+    }
+
+    private void tilfoejUdlejningKnapMetod(){
+        udlejning.tilfoejStartDato(startDatoDatePicker.getValue());
+        udlejning.tilfoejSlutDato(slutDatoDatePicker.getValue());
+        udlejning.tilfoejKundeNavn(navnTextField.getText());
+        udlejning.tilfoejKundeTlfNr(telefonNrTextField.getText());
+        
+        if(textFieldAdresse.getText().length()>0) {
+            udlejning.tilfoejLevering();
+        }
+        udlejning.tilfoejKundeFoedselsdag(LocalDate.parse(foedseldsdagTextField.getText()));
+
+        this.hide();
+    }
+
+
+//
+//    private void textFieldKrusListenerMetod() {
+//        if(intUdAfTf(textFieldKrus)>0){
+//            textSamletPris.setText(""+intUdAfTf(textSamletPris)+
+//    intUdAfTf(textFieldKrus)*Controller.hentPrislisteFraNavn("Butik").hentProdukter().);
+//        }
+//
+//
+//    }
+//
+//    private int intUdAfTf(TextField tf){
+//        return Integer.parseInt(tf.getText());
+//    }
 }
+
+
+
+
+//    selectedProperty().addListener(new ChangeListener<Boolean>() {
+//@Override
+//public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+//        chk2.setSelected(!newValue);
+//        }
+//        })

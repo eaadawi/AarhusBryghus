@@ -19,7 +19,7 @@ public class OrdreTab extends GridPane {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
-        this.setGridLinesVisible(true);
+        this.setGridLinesVisible(false);
 
         //-------------------------LABEL----------------------------------
         //Label ordre
@@ -41,6 +41,7 @@ public class OrdreTab extends GridPane {
 
         //listView udlejningListView
         udlejningListView.setPrefSize(x, x*1.5);
+
         this.add(udlejningListView, 4, 1, 2, 2);
 
         //-------------------------BUTTON-------------------------------
@@ -72,15 +73,15 @@ public class OrdreTab extends GridPane {
         dialog.showAndWait();
         //
         //
-        ordreListView.getItems().setAll(Controller.hentOrdrer());
+        //ordreListView.getItems().setAll(Controller.hentOrdreOrdre());
     }
 
     private void nyUdlejning(){
-        OpretNyUdlejningVinduet dialog = new OpretNyUdlejningVinduet("Nyyyy Udlejning", null);
+        OpretNyUdlejningVinduet dialog = new OpretNyUdlejningVinduet("Nyyyy Udlejning");
         dialog.showAndWait();
         //
         //
-        //
+        //udlejningListView.getItems().setAll(Controller.hentOrdreUdenUdlejninger());
     }
 
 }

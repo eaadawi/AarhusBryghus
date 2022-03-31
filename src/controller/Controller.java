@@ -42,7 +42,7 @@ public class Controller {
     }
 
     /**
-     * Opretter og retunere en udlejning med dags dato og id, tilføjer udlejningen til Storage
+     * Opretter og retunere en udlejning med dato og id, tilføjer udlejning til Storage
      */
     public static Udlejning opretUdlejning() {
         LocalDate dato = LocalDate.now();
@@ -116,6 +116,7 @@ public class Controller {
     public static Set<Ordre> hentOrdrer() {
         return Storage.hentInstans().hentOrdrer();
     }
+
 
     /**
      *

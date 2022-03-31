@@ -10,13 +10,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.Ordre;
-import model.Prisliste;
-import model.Produkt;
-import model.ProduktGruppe;
+import model.*;
 
 public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
@@ -27,7 +25,9 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
     private ComboBox<ProduktGruppe> comboBoxProduktGruppe = new ComboBox<>();
     private ComboBox<Produkt> comboBoxProdukt = new ComboBox<>();
 
-    public TilfoejEkstreKulsyreVinduet2(String title,Ordre ordre) {
+    private TextField textFieldAntal = new TextField();
+
+    public TilfoejEkstreKulsyreVinduet2(String title,Ordre ordre,Prisliste pl) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -36,7 +36,7 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
         this.setTitle(title);
         this.ordre=ordre;
-        this.prisliste = prisliste;
+        this.prisliste = pl;
         //
 
         GridPane pane = new GridPane();
@@ -68,20 +68,26 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         pane.add(labelProdukt,0 ,2 );
         //
         Label labelAntal = new Label();
+        labelAntal.setText("Antal");
+        pane.add(labelAntal, 0, 3);
         //---------------------TEXTFIELDS---------------------------------
 
         //comboBoxPrisliste
-        comboBoxPrisliste.getItems().setAll(Controller.hentPrislister());
+        comboBoxPrisliste.getItems().setAll(prisliste);
+        comboBoxPrisliste.getSelectionModel().select(0);
         ChangeListener<Prisliste> listener1 = (observable, oldValue, newValue) -> this.comboBoxPrislisteListener();
         comboBoxPrisliste.getSelectionModel().selectedItemProperty().addListener(listener1);
         pane.add(comboBoxPrisliste,1 ,0 );
 
         //comboBoxProduktGruppe
-        ChangeListener<ProduktGruppe> listener2 = (observable, oldValue, newValue) -> this.comboBoxProduktGruppeListener();
-        comboBoxProduktGruppe.getSelectionModel().selectedItemProperty().addListener(listener2);
+//        ChangeListener<ProduktGruppe> listener2 = (observable, oldValue, newValue) -> this.comboBoxProduktGruppeListener();
+//        comboBoxProduktGruppe.getSelectionModel().selectedItemProperty().addListener(listener2);
+        comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGruppeFraNavn("Kulsyre"));
+        comboBoxProduktGruppe.getSelectionModel().select(0);
         pane.add(comboBoxProduktGruppe, 1,1 );
 
         //comboboxProdukt
+        comboBoxProdukt.getItems().setAll(comboBoxProduktGruppe.getSelectionModel().getSelectedItem().hentProdukter());
         pane.add(comboBoxProdukt,1 ,2 );
 
         //
@@ -89,10 +95,30 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         buttonTilfoej.setText("Tilfoej");
         buttonTilfoej.setOnAction(event -> this.tilfoejEkstraKulsyreKnap());
         pane.add(buttonTilfoej,1 ,3 );
+
+        //
+        textFieldAntal.setText("0");
+        textFieldAntal.setEditable(false);
+
+        //
+        Button buttonPlus = new Button("+");
+        buttonPlus.setOnAction(event -> this.plusKulsyre());
+
+        Button buttonMinus = new Button("-");
+        buttonMinus.setOnAction(event -> this.minusKulsyre());
+
+
+        //
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(textFieldAntal,buttonPlus,buttonMinus);
+        pane.add(hBox, 0, 3);
     }
 
     private void tilfoejEkstraKulsyreKnap(){
-        //ordre.opretOrdrelinje();
+        int tal = Integer.parseInt(textFieldAntal.getText());
+        PantProdukt pp = new PantProdukt(comboBoxProdukt.getSelectionModel().getSelectedItem().hentNavn(),tal,1);
+        ordre.opretOrdrelinje(tal,comboBoxProdukt.getSelectionModel().getSelectedItem(),comboBoxPrisliste.getSelectionModel().getSelectedItem());
+        this.hide();
     }
 
     private void comboBoxPrislisteListener() {
@@ -109,5 +135,17 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
     private void opdaterProduktListView(){
         comboBoxProdukt.getItems().setAll(comboBoxProduktGruppe.getSelectionModel().getSelectedItem().hentProdukter());
+    }
+
+    private void plusKulsyre(){
+        int tal = Integer.parseInt(textFieldAntal.getText());
+        tal++;
+        textFieldAntal.setText(""+tal);
+    }
+
+    private void minusKulsyre(){
+        int tal = Integer.parseInt(textFieldAntal.getText());
+        tal--;
+        textFieldAntal.setText(""+tal);
     }
 }
