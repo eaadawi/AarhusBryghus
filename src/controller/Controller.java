@@ -55,6 +55,7 @@ public class Controller {
     /**
      * Opretter og retunere et klippekort med id, tilføjer klippekortet til Storage
      */
+
     //TODO Lav test
     public static Klippekort opretKlippekort(String kundeNavn) {
         int id = Storage.hentInstans().hentKlippekort().size()+1;

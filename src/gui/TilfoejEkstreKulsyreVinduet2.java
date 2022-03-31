@@ -1,5 +1,6 @@
 package gui;
 
+import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -26,6 +27,7 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
     private ComboBox<Produkt> comboBoxProdukt = new ComboBox<>();
 
     private TextField textFieldAntal = new TextField();
+    private TextField textFieldPris = new TextField();
 
     public TilfoejEkstreKulsyreVinduet2(String title,Ordre ordre,Prisliste pl) {
         this.initStyle(StageStyle.UTILITY);
@@ -59,17 +61,17 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         labelPrisliste.setText("Prisliste");
         pane.add(labelPrisliste,0 , 0);
         //Label labelAntal
-        Label labelProduktGruppe = new Label();
-        labelProduktGruppe.setText("ProduktGruppe");
-        pane.add(labelProduktGruppe,0 ,1 );
         //Label labelPris
         Label labelProdukt = new Label();
         labelProdukt.setText("Produkt");
-        pane.add(labelProdukt,0 ,2 );
+        pane.add(labelProdukt,0 ,1 );
         //
         Label labelAntal = new Label();
-        labelAntal.setText("Antal");
-        pane.add(labelAntal, 0, 3);
+        labelAntal.setText("Antal");//tilfoejes i row2 senere ind i hboxMain
+        //
+        Label labelPris = new Label("Pris");
+        pane.add(labelPris, 0, 3);
+
         //---------------------TEXTFIELDS---------------------------------
 
         //comboBoxPrisliste
@@ -80,21 +82,16 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         pane.add(comboBoxPrisliste,1 ,0 );
 
         //comboBoxProduktGruppe
-//        ChangeListener<ProduktGruppe> listener2 = (observable, oldValue, newValue) -> this.comboBoxProduktGruppeListener();
-//        comboBoxProduktGruppe.getSelectionModel().selectedItemProperty().addListener(listener2);
-        comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGruppeFraNavn("Kulsyre"));
-        comboBoxProduktGruppe.getSelectionModel().select(0);
-        pane.add(comboBoxProduktGruppe, 1,1 );
 
         //comboboxProdukt
-        comboBoxProdukt.getItems().setAll(comboBoxProduktGruppe.getSelectionModel().getSelectedItem().hentProdukter());
-        pane.add(comboBoxProdukt,1 ,2 );
+        comboBoxProdukt.getItems().setAll(Controller.hentProdukterFraGruppenavn("Kulsyre"));
+        pane.add(comboBoxProdukt, 1,1 );
 
         //
         Button buttonTilfoej = new Button();
         buttonTilfoej.setText("Tilfoej");
         buttonTilfoej.setOnAction(event -> this.tilfoejEkstraKulsyreKnap());
-        pane.add(buttonTilfoej,1 ,3 );
+        pane.add(buttonTilfoej,2 ,3 );
 
         //
         textFieldAntal.setText("0");
@@ -109,9 +106,17 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
 
         //
+        HBox hBoxMain = new HBox(labelAntal);
+        hBoxMain.setPadding(new Insets(10));
+        hBoxMain.setSpacing(10);
+
         HBox hBox = new HBox();
         hBox.getChildren().addAll(textFieldAntal,buttonPlus,buttonMinus);
-        pane.add(hBox, 0, 3);
+        hBoxMain.getChildren().add(hBox);
+        pane.add(hBoxMain, 0, 2,2,1);
+
+        //
+        pane.add(textFieldPris, 1, 3);
     }
 
     private void tilfoejEkstraKulsyreKnap(){
@@ -141,11 +146,23 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         int tal = Integer.parseInt(textFieldAntal.getText());
         tal++;
         textFieldAntal.setText(""+tal);
+
+        udregnPris(textFieldPris);
     }
 
     private void minusKulsyre(){
         int tal = Integer.parseInt(textFieldAntal.getText());
         tal--;
+        if(tal<0)
+            tal =0;
         textFieldAntal.setText(""+tal);
+
+        udregnPris(textFieldPris);
+    }
+
+    private void udregnPris(TextField tf){
+        int antal = Integer.parseInt(textFieldAntal.getText());
+        double pris = Controller.hentPrislisteFraNavn("Butik").hentPris(comboBoxProdukt.getSelectionModel().getSelectedItem());
+        textFieldPris.setText(""+antal*pris);
     }
 }
