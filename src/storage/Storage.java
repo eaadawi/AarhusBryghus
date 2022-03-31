@@ -93,4 +93,13 @@ public class Storage {
         return new HashSet<>(ordreSet);
     }
 
+    /**
+     * nulsætter alt data i storage
+     */
+    public void rydStorage() {
+        prislisteSet.clear();
+        produktGruppeSet.clear();
+        ordreSet.clear();
+    }
+
 }

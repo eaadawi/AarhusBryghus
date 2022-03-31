@@ -2,6 +2,7 @@ package model;
 
 import controller.Controller;
 import org.junit.jupiter.api.Test;
+import storage.Storage;
 
 import java.time.LocalDate;
 
@@ -45,6 +46,7 @@ class UdlejningTest {
     void totalPrisMedPant_fustage() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
         Produkt p1 = Controller.hentProduktFraNavn("fustage", "Klosterbryg, 20 liter");
@@ -63,6 +65,7 @@ class UdlejningTest {
     void totalPrisMedPant_kulsyre() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
         Produkt p1 = Controller.hentProduktFraNavn("Kulsyre", "6 kg");
@@ -80,6 +83,7 @@ class UdlejningTest {
     void totalPrisMedPant_hane() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
         Produkt p1 = Controller.hentProduktFraNavn("Anlæg", "2-haner");
@@ -97,6 +101,7 @@ class UdlejningTest {
     void totalPrisMedPant_samlet() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
         Produkt p1 = Controller.hentProduktFraNavn("fustage", "Klosterbryg, 20 liter");
@@ -180,6 +185,7 @@ class UdlejningTest {
     void tilfoejLevering_KasterFejlPrisliste() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
         Controller.fjernPrisliste(prisliste);
@@ -193,6 +199,7 @@ class UdlejningTest {
     void tilfoejLevering_KasterFejlProduktGruppe() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         ProduktGruppe produktGruppe = null;
         for(ProduktGruppe pg : Controller.hentProduktGrupper()) {
@@ -210,6 +217,7 @@ class UdlejningTest {
     void tilfoejLevering_KasterFejlProdukt() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         ProduktGruppe produktGruppe = null;
         for(ProduktGruppe pg : Controller.hentProduktGrupper()) {
@@ -229,6 +237,7 @@ class UdlejningTest {
     void fjernLevering() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         u1.tilfoejLevering();
         u1.tilfoejAdresse("Vej 3");
