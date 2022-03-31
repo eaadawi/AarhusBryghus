@@ -289,4 +289,6 @@ class ControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentProduktFraNavn("Test", "Ikke Eksisterende"));
         assertTrue(exception.getMessage().contains("Der findes ingen produkter med dette navn"));
     }
+
+
 }
