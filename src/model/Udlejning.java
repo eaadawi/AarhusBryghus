@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 
 
 public class Udlejning extends Ordre{
+
     private LocalDate startDato;
     private LocalDate slutDato;
     private String kundeNavn;

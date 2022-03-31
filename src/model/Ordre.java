@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ordre {
+
     private final LocalDate dato;
     private Betalinsgmetode betalinsgmetode;
     private final int id;

@@ -167,7 +167,7 @@ class ControllerTest {
         Ordre ordre = Controller.opretOrdre();
 
         // Act
-        Set<Ordre> ordreSet = Controller.hentOrdre();
+        Set<Ordre> ordreSet = Controller.hentOrdrer();
 
         // Assert
         assertEquals(ordre.hentDato(), LocalDate.now());
@@ -289,4 +289,6 @@ class ControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentProduktFraNavn("Test", "Ikke Eksisterende"));
         assertTrue(exception.getMessage().contains("Der findes ingen produkter med dette navn"));
     }
+
+
 }

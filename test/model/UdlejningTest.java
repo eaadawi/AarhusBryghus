@@ -1,6 +1,7 @@
 package model;
 
 import controller.Controller;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import storage.Storage;
 
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UdlejningTest {
 
     @Test
+    @Order(1)
     void constructor_med_tilfoej() {
         // Arrange
         LocalDate dato = LocalDate.of(2022,3,29);
@@ -43,6 +45,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(2)
     void totalPrisMedPant_fustage() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -62,6 +65,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(3)
     void totalPrisMedPant_kulsyre() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -80,6 +84,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(4)
     void totalPrisMedPant_hane() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -98,6 +103,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(5)
     void totalPrisMedPant_samlet() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -123,6 +129,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(6)
     void tilfoejStartDato_kasterFejl() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -140,6 +147,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(7)
     void tilfoejSlutDato_kasterFejl() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -157,6 +165,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(8)
     void tilfoejKundeFoedselsdag_kasterFejl() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -169,6 +178,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(9)
     void tilfoejLevering() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -182,6 +192,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(10)
     void tilfoejLevering_KasterFejlPrisliste() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -196,6 +207,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(11)
     void tilfoejLevering_KasterFejlProduktGruppe() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -214,6 +226,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(12)
     void tilfoejLevering_KasterFejlProdukt() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
@@ -234,6 +247,7 @@ class UdlejningTest {
     }
 
     @Test
+    @Order(13)
     void fjernLevering() {
         // Arrange
         Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
