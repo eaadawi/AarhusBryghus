@@ -127,18 +127,20 @@ public class OpretNyUdlejningVinduet extends Stage {
         Button buttonTilfoejFustage = new Button();
         buttonTilfoejFustage.setText("Tilfoej fustage");
         buttonTilfoejFustage.setOnAction(event -> this.tilfoejFustageMetodeKnap());
-        pane.add(buttonTilfoejFustage, 2, 3);
         //
         Label labelFustager = new Label();
         labelFustager.setText("Fustager:");
-        pane.add(labelFustager, 2, 4);
+        //
+        HBox hBoxFustager = new HBox(labelFustager,buttonTilfoejFustage);
+        hBoxFustager.setSpacing(10);
+        pane.add(hBoxFustager, 2, 3);
 
         //ListView<?> listViewFustager
         int x = 200;
         listViewFustager.setPrefSize(x, x);
         //mangler items i listView
         listViewFustager.getItems().setAll(hentFustageOLListView());
-        pane.add(listViewFustager, 2, 5);
+        pane.add(listViewFustager, 2, 4);
 
         //
         Label labelKrus = new Label();
@@ -152,7 +154,7 @@ public class OpretNyUdlejningVinduet extends Stage {
         //
         HBox hBoxK = new HBox();
         hBoxK.getChildren().addAll(labelKrus, textFieldKrus);
-        pane.add(hBoxK, 2, 6);
+        pane.add(hBoxK, 2, 5);
 
         //-----------------------COL4_TF_OG_LABEL----------------------
 
@@ -166,40 +168,42 @@ public class OpretNyUdlejningVinduet extends Stage {
         TextField textFieldAntalHaner = new TextField();
         pane.add(textFieldAntalHaner, 3, 2);
         //
-        Button buttonEkstreKulsyre = new Button();
-        buttonEkstreKulsyre.setText("Ekstrea kulsyre");
-        buttonEkstreKulsyre.setOnAction(event -> this.buttonEkstreKulsyreMetodeKnap());
-        pane.add(buttonEkstreKulsyre, 3, 3);
+        Button buttonEkstraKulsyre = new Button();
+        buttonEkstraKulsyre.setText("Ekstrea kulsyre");
+        buttonEkstraKulsyre.setOnAction(event -> this.buttonEkstraKulsyreMetodeKnap());
         //
         Label labelKulsyre = new Label();
         labelKulsyre.setText("Kulsyre");
-        pane.add(labelKulsyre, 3, 4);
+        //
+        HBox hBoxKulsyre = new HBox(labelKulsyre,buttonEkstraKulsyre);
+        hBoxKulsyre.setSpacing(10);
+        pane.add(hBoxKulsyre, 3, 3);
 
         //ListView<Ordrelinje> listViewKulsyre
         listViewKulsyre.setPrefSize(x, x);
         listViewKulsyre.getItems().setAll(this.hentEkstraKulsyreListView());
-        pane.add(listViewKulsyre, 3, 5);
+        pane.add(listViewKulsyre, 3, 4);
 
         //
         Label labelSamletPrisEKS = new Label();
         labelSamletPrisEKS.setText("Samlet pris (eks. pant):");
-        pane.add(labelSamletPrisEKS, 3, 6);
+        pane.add(labelSamletPrisEKS, 3, 5);
         //
         Label labelSamletPris = new Label();
         labelSamletPris.setText("Samlet pris");
-        pane.add(labelSamletPris, 3, 7);
+        pane.add(labelSamletPris, 3, 6);
         //
         Button buttonTilfoejUdlejning = new Button();
         buttonTilfoejUdlejning.setText("Tilfoej udlejning");
         buttonTilfoejUdlejning.setOnAction(event -> this.tilfoejUdlejningKnapMetod());
-        pane.add(buttonTilfoejUdlejning, 3, 8);
+        pane.add(buttonTilfoejUdlejning, 3, 7);
 
         //-------------------COL5_textfields----------------
 
         //
-        pane.add(textSamletPrisEKS, 4, 6);
+        pane.add(textSamletPrisEKS, 4, 5);
         //
-        pane.add(textSamletPris, 4, 7);
+        pane.add(textSamletPris, 4, 6);
     }
 
 
@@ -224,7 +228,7 @@ public class OpretNyUdlejningVinduet extends Stage {
     }
 
 
-    private void buttonEkstreKulsyreMetodeKnap() {
+    private void buttonEkstraKulsyreMetodeKnap() {
         TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilfoej ekstra kulsyre vinduet", udlejning, prisliste);
         dialog.showAndWait();
 
