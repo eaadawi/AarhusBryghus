@@ -55,11 +55,11 @@ public class Controller {
     /**
      *
      */
-    public static Klippekort opretKlippekort(String kundeNavn) {
-        Klippekort klippekort = new Klippekort(kundeNavn);
-        Storage.hentInstans().tilfoejKlippekort(klippekort);
-        return klippekort;
-    }
+//    public static Klippekort opretKlippekort(String kundeNavn) {
+//        Klippekort klippekort = new Klippekort(kundeNavn);
+//        Storage.hentInstans().tilfoejKlippekort(klippekort);
+//        return klippekort;
+//    }
 
     /**
      * Fjerner produkt fra produktGruppe

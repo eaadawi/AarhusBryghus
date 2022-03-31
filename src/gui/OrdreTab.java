@@ -73,7 +73,7 @@ public class OrdreTab extends GridPane {
         dialog.showAndWait();
         //
         //
-        //ordreListView.getItems().setAll(Controller.hentOrdreOrdre());
+        ordreListView.getItems().setAll(Controller.hentOdreAfType("o"));
     }
 
     private void nyUdlejning(){
@@ -81,7 +81,7 @@ public class OrdreTab extends GridPane {
         dialog.showAndWait();
         //
         //
-        //udlejningListView.getItems().setAll(Controller.hentOrdreUdenUdlejninger());
+        udlejningListView.getItems().setAll(Controller.hentOdreAfType("u"));
     }
 
 }
