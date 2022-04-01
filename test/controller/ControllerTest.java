@@ -303,4 +303,98 @@ class ControllerTest {
         assertEquals(udlejning.hentDato(), LocalDate.now());
         assertEquals(udlejning.hentId(), Storage.hentInstans().hentOrdrer().size());
     }
+
+    @Test
+    @Order(18)
+    void opretKlippekortTest() {
+
+        // Arrange
+        String kundeNavn = "Anders Andersen";
+
+        // Act
+        Klippekort klippekort = Controller.opretKlippekort(kundeNavn);
+
+        // Assert
+        assertEquals(klippekort.hentId(), Storage.hentInstans().hentKlippekort().size());
+        assertEquals(klippekort.hentKundeNavn(), kundeNavn);
+        assertTrue(Storage.hentInstans().hentKlippekort().contains(klippekort));
+    }
+
+    @Test
+    @Order(19)
+    void fjernKlippekortTest() {
+
+        // Arrange
+        String kundeNavn = "Anders Andersen";
+        Klippekort klippekort = Controller.opretKlippekort(kundeNavn);
+
+        // Act
+        Controller.fjernKlippekort(klippekort);
+
+        // Assert
+        assertFalse(Storage.hentInstans().hentKlippekort().contains(klippekort));
+    }
+
+    @Test
+    @Order(20)
+    void hentKlippekortTest() {
+
+        // Arrange
+        String kundeNavn = "Anders Andersen";
+        Klippekort klippekort = Controller.opretKlippekort(kundeNavn);
+
+        // Act
+        Set<Klippekort> klippekortSet = Controller.hentKlippekort();
+
+        // Assert
+        assertEquals(klippekort.hentId(), Storage.hentInstans().hentKlippekort().size());
+        assertEquals(klippekort.hentKundeNavn(), kundeNavn);
+        assertTrue(klippekortSet.contains(klippekort));
+    }
+
+    @Test
+    @Order(21)
+    void hentOrdreAfTypeTest_o() {
+
+        // Arrange
+        String type = "o";
+        Ordre ordre = Controller.opretOrdre();
+        Udlejning udlejning = Controller.opretUdlejning();
+
+        // Act
+        Set<Ordre> ordreSet = Controller.hentOdreAfType(type);
+
+        // Assert
+        assertTrue(ordreSet.contains(ordre));
+        assertFalse(ordreSet.contains(udlejning));
+    }
+
+    @Test
+    @Order(22)
+    void hentOrdreAfTypeTest_u() {
+
+        // Arrange
+        String type = "u";
+        Udlejning udlejning = Controller.opretUdlejning();
+        Ordre ordre = Controller.opretOrdre();
+
+        // Act
+        Set<Ordre> ordreSet = Controller.hentOdreAfType(type);
+
+        // Assert
+        assertTrue(ordreSet.contains(udlejning));
+        assertFalse(ordreSet.contains(ordre));
+    }
+
+    @Test
+    @Order(23)
+    void hentOrdreAfTypeTest_kasterFejl() {
+
+        // Arrange
+        String type = "p";
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentOdreAfType(type));
+        assertTrue(exception.getMessage().contains("Type skal være o eller u"));
+    }
 }

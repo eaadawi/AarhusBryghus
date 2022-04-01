@@ -44,7 +44,6 @@ public class Storage {
         ordreSet.add(ordre);
     }
 
-    //TODO Lav test
     public void tilfoejKlippekort(Klippekort klippekort) {
         klippekortSet.add(klippekort);
     }
@@ -73,7 +72,6 @@ public class Storage {
     /**
      * Pre: Klippekort er i settet klippekortSet
      */
-    //TODO Lav test
     public void fjernKlippekort(Klippekort klippekort) {
         klippekortSet.remove(klippekort);
     }
