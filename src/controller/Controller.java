@@ -4,10 +4,7 @@ import model.*;
 import storage.Storage;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Controller {
 
@@ -199,6 +196,22 @@ public class Controller {
         return ordre;
     }
 
+    /**
+     * Henter alle klippekort hvor kundenavnet indeholder den givet string
+     */
+    public static Set<Klippekort> soegKlippekort(String input){
+        Set<Klippekort> klippekort = new HashSet<>();
+        CharSequence inputCharSequence = input.toLowerCase(Locale.ROOT).trim();
+
+        for(Klippekort k : Storage.hentInstans().hentKlippekort()) {
+            String navn = k.hentKundeNavn().toLowerCase(Locale.ROOT);
+            if(navn.contains(inputCharSequence))
+                klippekort.add(k);
+        }
+
+        return klippekort;
+    }
+
     public static void initStorage() {
         Klippekort.aendreKlippekortPris(130);
         Klippekort.aendreAntalKlip(4);
@@ -277,8 +290,8 @@ public class Controller {
         // PRODUKTER - gruppe5
         PantProdukt p1g5 = produktGruppe5.opretPantProdukt("6 kg", 100, 6);
         Produkt p2g5 = produktGruppe5.opretProdukt("Pant", 100);
-        Produkt p3g5 = produktGruppe5.opretPantProdukt("4 kg", 100, 4);
-        Produkt p4g5 = produktGruppe5.opretPantProdukt("10 kg", 100, 10);
+        produktGruppe5.opretPantProdukt("4 kg", 100, 4);
+        produktGruppe5.opretPantProdukt("10 kg", 100, 10);
 
         // PRODUKTER - gruppe6
         Produkt p1g6 = produktGruppe6.opretProdukt("25kg sæk", 100);

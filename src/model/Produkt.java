@@ -54,7 +54,7 @@ public class Produkt {
      */
     @Override
     public String toString() {
-        return String.format("%-30s %-30s", navn, hentProduktGruppe().hentNavn());
+        return String.format("%-25s %s", navn, hentProduktGruppe().hentNavn());
     }
 
 }
