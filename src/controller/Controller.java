@@ -56,9 +56,8 @@ public class Controller {
      * Opretter og retunere et klippekort med id, tilføjer klippekortet til Storage
      */
 
-    //TODO Lav test
     public static Klippekort opretKlippekort(String kundeNavn) {
-        int id = Storage.hentInstans().hentKlippekort().size()+1;
+        int id = Storage.hentInstans().hentKlippekort().size() + 1;
         Klippekort klippekort = new Klippekort(id, kundeNavn);
         Storage.hentInstans().tilfoejKlippekort(klippekort);
         return klippekort;
@@ -95,7 +94,6 @@ public class Controller {
     /**
      * Fjerner klippekort fra storage
      */
-    //TODO Lav test
     public static void fjernKlippekort(Klippekort klippekort) {
         Storage.hentInstans().fjernKlippekort(klippekort);
     }
@@ -125,7 +123,6 @@ public class Controller {
     /**
      * Henter set af klippekort fra Storage
      */
-    //TODO Lav test
     public static Set<Klippekort> hentKlippekort() {
         return Storage.hentInstans().hentKlippekort();
     }
@@ -186,7 +183,6 @@ public class Controller {
      * Henter aller ordre af en bestemt type
      * "o" for kun normale ordre og "u" for udlejninger
      */
-    //TODO lav test og føj til klassediagram
     public static Set<Ordre> hentOdreAfType(String type) {
         Set<Ordre> ordre = new HashSet<>();
         if(type.equals("o")) {
