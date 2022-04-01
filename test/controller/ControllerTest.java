@@ -397,4 +397,26 @@ class ControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentOdreAfType(type));
         assertTrue(exception.getMessage().contains("Type skal være o eller u"));
     }
+
+    @Test
+    @Order(23)
+    void soegKlipppekort() {
+
+        // Arrange
+        String navn1 = "Anders Andersen";
+        String navn2 = "Hans Hansen";
+        String input = "Anders Andersen";
+        Klippekort klippekort1 = Controller.opretKlippekort(navn1);
+        Klippekort klippekort2 = Controller.opretKlippekort(navn1);
+        Klippekort klippekort3 = Controller.opretKlippekort(navn2);
+
+        // Act
+        Set<Klippekort> klippekortSet = Controller.soegKlippekort(input);
+
+        // Assert
+        assertTrue(klippekortSet.contains(klippekort1));
+        assertTrue(klippekortSet.contains(klippekort2));
+        assertFalse(klippekortSet.contains(klippekort3));
+
+    }
 }

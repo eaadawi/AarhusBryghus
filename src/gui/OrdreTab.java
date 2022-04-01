@@ -63,7 +63,7 @@ public class OrdreTab extends GridPane {
         VBox vBox = new VBox();
         vBox.getChildren().add(opretOrder);
         vBox.setAlignment(Pos.BOTTOM_CENTER);//pos bottom i vbox
-        this.add(vBox, 3, 2);
+        this.add(vBox, 2, 2);
 
     }
 

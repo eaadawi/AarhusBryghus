@@ -50,6 +50,8 @@ public class TilfoejOrderLinjeVinduet extends Stage {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
         pane.setVgap(10);
+        pane.setMinHeight(200);
+        pane.setMinWidth(400);
         pane.setGridLinesVisible(false);
 
         //---------------------LABELS---------------------------------
