@@ -359,12 +359,14 @@ class ControllerTest {
         // Arrange
         String type = "o";
         Ordre ordre = Controller.opretOrdre();
+        Udlejning udlejning = Controller.opretUdlejning();
 
         // Act
         Set<Ordre> ordreSet = Controller.hentOdreAfType(type);
 
         // Assert
         assertTrue(ordreSet.contains(ordre));
+        assertFalse(ordreSet.contains(udlejning));
     }
 
     @Test
@@ -374,12 +376,14 @@ class ControllerTest {
         // Arrange
         String type = "u";
         Udlejning udlejning = Controller.opretUdlejning();
+        Ordre ordre = Controller.opretOrdre();
 
         // Act
         Set<Ordre> ordreSet = Controller.hentOdreAfType(type);
 
         // Assert
         assertTrue(ordreSet.contains(udlejning));
+        assertFalse(ordreSet.contains(ordre));
     }
 
     @Test
