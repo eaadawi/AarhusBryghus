@@ -50,6 +50,11 @@ public class Ordre {
         this.betalinsgmetode = betalinsgmetode;
     }
 
+    //TODO Lav test
+    public void tilfoejKlippekort(Klippekort klippekort) {
+        this.klippekort.add(klippekort);
+    }
+
     public Ordrelinje opretOrdrelinje(int antal, Produkt produkt, Prisliste prisliste) {
         Ordrelinje ol = new Ordrelinje(antal, produkt, prisliste);
         ordrelinjer.add(ol);
@@ -66,6 +71,14 @@ public class Ordre {
         int antal = ordrelinje.hentAntal();
         Produkt produkt = ordrelinje.hentProdukt();
         produkt.tilfoejAntalPaaLager(antal);
+    }
+
+    /**
+     * Pre: Klippekort er i denne ordre
+     */
+    //TODO Lav test
+    public void fjernKlippekort(Klippekort klippekort) {
+        this.klippekort.remove(klippekort);
     }
 
     public LocalDate hentDato() {
@@ -88,8 +101,9 @@ public class Ordre {
         return new ArrayList<>(klippekort);
     }
 
-    public void tilfoejKlippekort(Klippekort klippekort) {
-        this.klippekort.add(klippekort);
+    //TODO Opdatere constructor testen så den inkludere betaltMedKlip
+    public boolean harBetaltMedKlip() {
+        return betaltMedKlip;
     }
 
     /**
@@ -97,6 +111,7 @@ public class Ordre {
      * med de tilknyttede klippekort hvis der ikke er betalt allerede og sætter betaltMedKlip til true
      * Kaster en IllegalArgumentException hvis der ikke er nok klip tilsammen på de tilknyttede klippekort
      */
+    //TODO Lav test
     public void betalMedKlippekort() {
         int pris = klipPris();
         int antalKlip = 0;
