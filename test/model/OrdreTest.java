@@ -128,4 +128,42 @@ class OrdreTest {
         assertFalse(ordre.hentOrdrelinjer().contains(ordrelinje));
         assertEquals(10, produkt.hentAntalPaaLager());
     }
+
+    @Test
+    void betalMedKlippekort() {
+        // Arrange
+        Ordre ordre = new Ordre(LocalDate.of(2022, 4, 28), 1);
+        Produkt produkt = new Produkt("Øl", 10);
+        Prisliste prisliste = new Prisliste("Bar", Valuta.KLIP);
+        prisliste.tilfoejProdukt(produkt, 6);
+        ordre.opretOrdrelinje(1, produkt, prisliste);
+        Klippekort.aendreAntalKlip(8);
+        Klippekort klippekort1 = new Klippekort(1, "Bo Ibsen");
+        Klippekort klippekort2 = new Klippekort(2, "Bo Ibsen");
+        ordre.tilfoejKlippekort(klippekort1);
+        ordre.tilfoejKlippekort(klippekort2);
+
+        // Act
+        ordre.betalMedKlippekort();
+
+        // Assert
+        assertTrue(ordre.harBetaltMedKlip());
+    }
+
+    @Test
+    void betalMedKlippekort_kasterFejl() {
+        // Arrange
+        Ordre ordre = new Ordre(LocalDate.of(2022, 4, 28), 1);
+        Produkt produkt = new Produkt("Øl", 10);
+        Prisliste prisliste = new Prisliste("Bar", Valuta.KLIP);
+        prisliste.tilfoejProdukt(produkt, 5);
+        ordre.opretOrdrelinje(2, produkt, prisliste);
+        Klippekort.aendreAntalKlip(9);
+        Klippekort klippekort = new Klippekort(1, "Bo Ibsen");
+        ordre.tilfoejKlippekort(klippekort);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, ordre::betalMedKlippekort);
+        assertTrue(exception.getMessage().contains("Der er ikke nok klip"));
+    }
 }
