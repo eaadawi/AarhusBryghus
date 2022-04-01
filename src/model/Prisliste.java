@@ -51,8 +51,6 @@ public class Prisliste {
     /**
      * udskriver navn og valuta af prisliste ind i listView
      */
-    // TODO ?
-
     @Override
     public String toString() {
         return navn+" / "+valuta.toString();
