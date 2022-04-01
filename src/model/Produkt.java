@@ -49,11 +49,17 @@ public class Produkt {
         return antalPaaLager == produkt.antalPaaLager && navn.equals(produkt.navn);
     }
 
+    @Override
+    public String toString() {
+
+        return navn + " " + hentProduktGruppe().hentNavn();
+    }
+
     /**
      * Metoden tilfoejes for at vise navnet i listView
      */
-    @Override
-    public String toString() {
-        return navn + " " + hentProduktGruppe().hentNavn();
+    public String toString(Prisliste prisliste) {
+        String str = String.format("%10s %10s %10f", navn, hentProduktGruppe().hentNavn(), prisliste.hentPris(this));
+        return str ;
     }
 }
