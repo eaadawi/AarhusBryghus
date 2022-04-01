@@ -278,11 +278,11 @@ public class OpretPrislisteTab extends GridPane {
 
 
 //            ////////////////////////////////////////////
-            ArrayList<Double> priser = new ArrayList<>();
-            for(Produkt p: pl.hentProdukter()){
-                priser.add(pl.hentPris(p));
-            }
-            produktListViewPris.getItems().setAll(priser);
+//            ArrayList<Double> priser = new ArrayList<>();
+//            for(Produkt p: pl.hentProdukter()){
+//                priser.add(pl.hentPris(p));
+//            }
+//            produktListViewPris.getItems().setAll(priser);
 
         } else {
             produktListView.getItems().clear();
