@@ -39,7 +39,7 @@ public class OpretPrislisteTab extends GridPane {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
-        this.setGridLinesVisible(true);
+        this.setGridLinesVisible(false);
 
         //----------------------------------------_Prisliste LIST VIEW
 
