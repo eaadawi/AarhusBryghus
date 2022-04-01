@@ -2,8 +2,6 @@ package model;
 
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class KlippekortTest {
@@ -71,7 +69,6 @@ class KlippekortTest {
         int fjern = 5;
         Klippekort.aendreAntalKlip(4);
         Klippekort klippekort = new Klippekort(1, "Bo Ibsen");
-        int forventet = 3;
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> klippekort.fjernKlip(fjern));

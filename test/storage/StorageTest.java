@@ -1,10 +1,7 @@
 package storage;
 
 import controller.Controller;
-import model.Ordre;
-import model.Prisliste;
-import model.ProduktGruppe;
-import model.Valuta;
+import model.*;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -120,6 +117,35 @@ class StorageTest {
         assertTrue(Storage.hentInstans().hentProduktGrupper().isEmpty());
         assertTrue(Storage.hentInstans().hentPrislister().isEmpty());
         assertTrue(Storage.hentInstans().hentOrdrer().isEmpty());
+    }
+
+    @Test
+    @Order(7)
+    void tilfoejKlippekort() {
+        // Arrange
+        Klippekort klippekort = new Klippekort(1, "Bo Ibsen");
+        Storage testStorage = Storage.hentTestStorage();
+
+        // Act
+        testStorage.tilfoejKlippekort(klippekort);
+
+        // Assert
+        assertTrue(testStorage.hentKlippekort().contains(klippekort));
+    }
+
+    @Test
+    @Order(8)
+    void fjernKlippekort() {
+        // Arrange
+        Klippekort klippekort = new Klippekort(1, "Bo Ibsen");
+        Storage testStorage = Storage.hentTestStorage();
+        testStorage.tilfoejKlippekort(klippekort);
+
+        // Act
+        testStorage.fjernKlippekort(klippekort);
+
+        // Assert
+        assertFalse(testStorage.hentKlippekort().contains(klippekort));
     }
 
 }
