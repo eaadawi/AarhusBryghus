@@ -109,12 +109,14 @@ public class OpretPrislisteTab extends GridPane {
         produktListView.setPrefWidth(250);
         produktListView.setPrefHeight(200);
 
+
+
         //henter og viser produkter af selected Prisliste
         hentOgVisProdukter(prislisteListView.getSelectionModel().getSelectedItem());
 
 //        //tilfoejes listener til produktListView
-//        ChangeListener<Produkt> listenerProdukt = (ov, o, n) -> this.selectedProduktChanged(fjernProduktKnappe);
-//        produktListView.getSelectionModel().selectedItemProperty().addListener(listenerProdukt);
+        ChangeListener<Produkt> listenerProdukt = (ov, o, n) -> this.selectedProduktChanged(fjernProduktKnappe);
+        produktListView.getSelectionModel().selectedItemProperty().addListener(listenerProdukt);
 
 
         //Knapper til produkt tekst settes
@@ -191,16 +193,18 @@ public class OpretPrislisteTab extends GridPane {
         b2.setDisable(false);
 
         //pg er den valgte element fra listView
-        Prisliste pg = prislisteListView.getSelectionModel().getSelectedItem();
+        Prisliste pl = prislisteListView.getSelectionModel().getSelectedItem();
 
         //opdateres produkt listView
-        if (pg != null) {
+        if (pl != null) {
 
             //oprettes list for at samle produkter
             List<Produkt> produktList = new ArrayList<>();
 
-            for (Produkt p : pg.hentProdukter()) {
+            for (Produkt p : pl.hentProdukter()) {
+                pl.hentPris(p);
                 produktList.add(p);
+
             }
 
             // produktListView opdateres med de produkter som passer til den valgte Prisliste
@@ -282,7 +286,7 @@ public class OpretPrislisteTab extends GridPane {
 
         } else {
             produktListView.getItems().clear();
-//            produktListViewPris.getItems().clear();
+            produktListViewPris.getItems().clear();
         }
 
 
@@ -294,9 +298,9 @@ public class OpretPrislisteTab extends GridPane {
         hentOgVisProdukter(pl);
     }
 
-//    private void selectedProduktChanged(){
-//
-//    }
+    private void selectedProduktChanged(Button button){
+
+    }
 }
 
 
