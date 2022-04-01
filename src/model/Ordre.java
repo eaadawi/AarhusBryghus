@@ -75,7 +75,6 @@ public class Ordre {
     /**
      * Pre: Klippekort er i denne ordre
      */
-    //TODO Lav test
     public void fjernKlippekort(Klippekort klippekort) {
         this.klippekort.remove(klippekort);
     }
