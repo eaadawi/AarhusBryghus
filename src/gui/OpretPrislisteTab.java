@@ -2,9 +2,13 @@ package gui;
 
 import com.sun.javafx.property.adapter.PropertyDescriptor;
 import controller.Controller;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -27,7 +31,7 @@ public class OpretPrislisteTab extends GridPane {
 
     private final ListView<Prisliste> prislisteListView = new ListView<>();
     private final ListView<Produkt> produktListView = new ListView<>();
-    private final ListView<Double> produktListViewPris = new ListView<>();
+    private final ListView<String> produktListViewPris = new ListView<>();
 
     //disable knapper
     private final Button fjernPrislisteKnappe = new Button();
@@ -110,7 +114,6 @@ public class OpretPrislisteTab extends GridPane {
         produktListView.setPrefHeight(200);
 
 
-
         //henter og viser produkter af selected Prisliste
         hentOgVisProdukter(prislisteListView.getSelectionModel().getSelectedItem());
 
@@ -153,9 +156,17 @@ public class OpretPrislisteTab extends GridPane {
 
         //----------------------produktListViewPris-----------------------
 
+
         //produktListViewPris size
+
         produktListViewPris.setPrefSize(80, 200);
+        //
+
+        //produktListViewPris listener
+        //ChangeListener<ScrollBar> scrollBarChangeListenerPris = (observable, oldValue, newValue) -> this.scrollPrisListenerMetod();
+//
         hentOgVisProdukter(prislisteListView.getSelectionModel().getSelectedItem());
+
 
         //HBox til 2 ListView navn og pris
         HBox hBoxLV = new HBox();
@@ -173,8 +184,8 @@ public class OpretPrislisteTab extends GridPane {
 
         //hentes prislister fra Controller
         prislisteListView.getItems().setAll(Controller.hentPrislister());
-//        int index = prislisteListView.getItems().size() - 1;
-//        produktListView.getSelectionModel().select(index);
+        int index = prislisteListView.getItems().size() - 1;
+        produktListView.getSelectionModel().select(index);
 
     }
 
@@ -209,8 +220,16 @@ public class OpretPrislisteTab extends GridPane {
 
             // produktListView opdateres med de produkter som passer til den valgte Prisliste
             produktListView.getItems().setAll(produktList);
+            ArrayList<String> priser = new ArrayList<>();
+            for(Produkt p: pl.hentProdukter()){
+                priser.add(pl.hentPris(p) + " " + Valuta.DKK.toString());
+            }
+            produktListViewPris.getItems().setAll(priser);
+
         }
     }
+
+
 
     /**
      * Metod srpoerger om bekraeftelse at slette Prisliste
@@ -277,12 +296,12 @@ public class OpretPrislisteTab extends GridPane {
             produktListView.getItems().setAll(pl.hentProdukter());
 
 
-//            ////////////////////////////////////////////
-//            ArrayList<Double> priser = new ArrayList<>();
-//            for(Produkt p: pl.hentProdukter()){
-//                priser.add(pl.hentPris(p));
-//            }
-//            produktListViewPris.getItems().setAll(priser);
+/////////////////////////////////////////////////////////////////////////
+            ArrayList<String> priser = new ArrayList<>();
+            for(Produkt p: pl.hentProdukter()){
+                priser.add(pl.hentPris(p) + " " + Valuta.DKK.toString());
+            }
+            produktListViewPris.getItems().setAll(priser);
 
         } else {
             produktListView.getItems().clear();
@@ -299,8 +318,11 @@ public class OpretPrislisteTab extends GridPane {
     }
 
     private void selectedProduktChanged(Button button){
-
+        int index = produktListView.getSelectionModel().getSelectedIndex();
+        produktListViewPris.getSelectionModel().select(index);
     }
+
+
 }
 
 
@@ -536,4 +558,18 @@ produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getS
     private void opdatereProduktGrupperComboBox(){
         produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getSelectedItem().hentProdukter());
     }
+
+
 }
+
+
+//list1.setOnScrollListener(new SyncedScrollListener(list2));
+//        list2.setOnScrollListener(new SyncedScrollListener(list1));
+
+//    ChangeListener<ScrollBar> clsb1 = (observable, oldValue, newValue) -> this.scrollThing();
+//        produktListView.onScrollToProperty().addListener();
+//        produktListViewPris.scrollTo(produktListView.onScrollToProperty().);
+
+
+//        produktListView.onScrollToProperty().getValue();
+//                produktListViewPris.onScrollToProperty().setValue(produktListView.onScrollToProperty().getValue());

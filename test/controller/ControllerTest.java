@@ -24,6 +24,7 @@ class ControllerTest {
         ProduktGruppe pg = Controller.opretProduktGruppe(navn);
 
         // Assert
+        assertEquals(navn, pg.hentNavn());
         assertTrue(Storage.hentInstans().hentProduktGrupper().contains(pg));
 
     }

@@ -1,5 +1,6 @@
 package model;
 
+import controller.Controller;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ class OrdreTest {
         Ordre ordre = new Ordre(dato, id);
 
         // Assert
+        assertFalse(ordre.harBetaltMedKlip());
         assertEquals(dato, ordre.hentDato());
         assertEquals(id, ordre.hentId());
     }
@@ -128,7 +130,37 @@ class OrdreTest {
         assertFalse(ordre.hentOrdrelinjer().contains(ordrelinje));
         assertEquals(10, produkt.hentAntalPaaLager());
     }
+    
+    @Test
+    void tilfoejKlippekort() {
 
+        // Arrange
+        String kundeNavn = "Anders Andersen";
+        Klippekort klippekort = Controller.opretKlippekort(kundeNavn);
+        Ordre ordre = Controller.opretOrdre();
+
+        // Act
+        ordre.tilfoejKlippekort(klippekort);
+
+        // Assert
+        assertTrue(ordre.hentKlippekort().contains(klippekort));
+    }
+
+    @Test
+    void fjernKlippekort() {
+
+        // Arrange
+        String kundeNavn = "Anders Andersen";
+        Ordre ordre = Controller.opretOrdre();
+        Klippekort klippekort = Controller.opretKlippekort(kundeNavn);
+        ordre.tilfoejKlippekort(klippekort);
+
+        // Act
+        ordre.fjernKlippekort(klippekort);
+
+        // Assert
+        assertFalse(ordre.hentKlippekort().contains(klippekort));
+  
     @Test
     void betalMedKlippekort() {
         // Arrange
