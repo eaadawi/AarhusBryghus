@@ -9,12 +9,15 @@ public class Ordre {
     private final LocalDate dato;
     private Betalinsgmetode betalinsgmetode;
     private final int id;
+    private boolean betaltMedKlip;
 
     private final List<Ordrelinje> ordrelinjer = new ArrayList<>();
+    private List<Klippekort> klippekort = new ArrayList<>();
 
     public Ordre(LocalDate dato, int id) {
         this.dato = dato;
         this.id = id;
+        betaltMedKlip = false;
     }
 
     /**
@@ -79,6 +82,37 @@ public class Ordre {
 
     public List<Ordrelinje> hentOrdrelinjer() {
         return new ArrayList<>(ordrelinjer);
+    }
+
+    public List<Klippekort> hentKlippekort() {
+        return new ArrayList<>(klippekort);
+    }
+
+    public void tilfoejKlippekort(Klippekort klippekort) {
+        this.klippekort.add(klippekort);
+    }
+
+    /**
+     * Betaler for den del af ordren der skal betales med klip,
+     * med de tilknyttede klippekort hvis der ikke er betalt allerede og sætter betaltMedKlip til true
+     * Kaster en IllegalArgumentException hvis der ikke er nok klip tilsammen på de tilknyttede klippekort
+     */
+    public void betalMedKlippekort() {
+        int pris = klipPris();
+        int antalKlip = 0;
+        for(Klippekort k : klippekort) {
+            antalKlip += k.hentAntalKlipTilbage();
+        }
+        if(pris > antalKlip)
+            throw new IllegalArgumentException("Der er ikke nok klip");
+
+        betaltMedKlip = true;
+        for(Klippekort k : klippekort) {
+            while(pris > 0 && k.hentAntalKlipTilbage() > 0) {
+                pris--;
+                k.fjernKlip(1);
+            }
+        }
     }
 
     @Override
