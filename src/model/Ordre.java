@@ -50,7 +50,6 @@ public class Ordre {
         this.betalinsgmetode = betalinsgmetode;
     }
 
-    //TODO Lav test
     public void tilfoejKlippekort(Klippekort klippekort) {
         this.klippekort.add(klippekort);
     }
@@ -76,7 +75,6 @@ public class Ordre {
     /**
      * Pre: Klippekort er i denne ordre
      */
-    //TODO Lav test
     public void fjernKlippekort(Klippekort klippekort) {
         this.klippekort.remove(klippekort);
     }
@@ -101,7 +99,6 @@ public class Ordre {
         return new ArrayList<>(klippekort);
     }
 
-    //TODO Opdatere constructor testen så den inkludere betaltMedKlip
     public boolean harBetaltMedKlip() {
         return betaltMedKlip;
     }
