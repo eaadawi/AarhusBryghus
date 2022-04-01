@@ -160,9 +160,11 @@ class OrdreTest {
 
         // Assert
         assertFalse(ordre.hentKlippekort().contains(klippekort));
-  
+    }
+
     @Test
     void betalMedKlippekort() {
+
         // Arrange
         Ordre ordre = new Ordre(LocalDate.of(2022, 4, 28), 1);
         Produkt produkt = new Produkt("Øl", 10);
