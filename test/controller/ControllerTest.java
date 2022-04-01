@@ -397,4 +397,16 @@ class ControllerTest {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentOdreAfType(type));
         assertTrue(exception.getMessage().contains("Type skal være o eller u"));
     }
+
+    @Test
+    @Order(23)
+    void soegKlipppekort() {
+
+        // Arrange
+
+        // Act
+
+        // Assert
+
+    }
 }
