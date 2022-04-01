@@ -12,7 +12,7 @@ public class Ordre {
     private boolean betaltMedKlip;
 
     private final List<Ordrelinje> ordrelinjer = new ArrayList<>();
-    private List<Klippekort> klippekort = new ArrayList<>();
+    private final List<Klippekort> klippekortList = new ArrayList<>();
 
     public Ordre(LocalDate dato, int id) {
         this.dato = dato;
@@ -51,7 +51,7 @@ public class Ordre {
     }
 
     public void tilfoejKlippekort(Klippekort klippekort) {
-        this.klippekort.add(klippekort);
+        this.klippekortList.add(klippekort);
     }
 
     public Ordrelinje opretOrdrelinje(int antal, Produkt produkt, Prisliste prisliste) {
@@ -76,7 +76,7 @@ public class Ordre {
      * Pre: Klippekort er i denne ordre
      */
     public void fjernKlippekort(Klippekort klippekort) {
-        this.klippekort.remove(klippekort);
+        this.klippekortList.remove(klippekort);
     }
 
     public LocalDate hentDato() {
@@ -96,7 +96,7 @@ public class Ordre {
     }
 
     public List<Klippekort> hentKlippekort() {
-        return new ArrayList<>(klippekort);
+        return new ArrayList<>(klippekortList);
     }
 
     public boolean harBetaltMedKlip() {
@@ -112,14 +112,14 @@ public class Ordre {
     public void betalMedKlippekort() {
         int pris = klipPris();
         int antalKlip = 0;
-        for(Klippekort k : klippekort) {
+        for(Klippekort k : klippekortList) {
             antalKlip += k.hentAntalKlipTilbage();
         }
         if(pris > antalKlip)
             throw new IllegalArgumentException("Der er ikke nok klip");
 
         betaltMedKlip = true;
-        for(Klippekort k : klippekort) {
+        for(Klippekort k : klippekortList) {
             while(pris > 0 && k.hentAntalKlipTilbage() > 0) {
                 pris--;
                 k.fjernKlip(1);

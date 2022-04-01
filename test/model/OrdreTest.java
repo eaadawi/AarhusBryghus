@@ -169,9 +169,9 @@ class OrdreTest {
         Ordre ordre = new Ordre(LocalDate.of(2022, 4, 28), 1);
         Produkt produkt = new Produkt("Øl", 10);
         Prisliste prisliste = new Prisliste("Bar", Valuta.KLIP);
-        prisliste.tilfoejProdukt(produkt, 6);
+        prisliste.tilfoejProdukt(produkt, 4);
         ordre.opretOrdrelinje(1, produkt, prisliste);
-        Klippekort.aendreAntalKlip(8);
+        Klippekort.aendreAntalKlip(4);
         Klippekort klippekort1 = new Klippekort(1, "Bo Ibsen");
         Klippekort klippekort2 = new Klippekort(2, "Bo Ibsen");
         ordre.tilfoejKlippekort(klippekort1);
