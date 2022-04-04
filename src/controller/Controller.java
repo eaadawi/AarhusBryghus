@@ -215,6 +215,7 @@ public class Controller {
     /**
      * Henter alle normale ordre som er oprettet inden for den givet periode
      */
+    //TODO Lav test
     public static Set<Ordre> hentOrdrePeriode(LocalDate startDato, LocalDate slutDato) {
         Set<Ordre> set = new HashSet<>();
         for(Ordre o : hentOdreAfType("o")) {
@@ -228,6 +229,7 @@ public class Controller {
     /**
      * Udregner den samlet mængde af klip brugt til at betale for de givet ordre
      */
+    //TODO Lav test
     public static int udregnSamletForbrugteKlip(Set<Ordre> ordre) {
         int samletKlip = 0;
         for(Ordre o : ordre) {
@@ -239,6 +241,7 @@ public class Controller {
     /**
      * Henter og retunere en liste med ordre på en given dato
      */
+    //TODO Lav test
     public static Set<Ordre> hentOrdreDato(LocalDate dato) {
 
         Set<Ordre> ordrer = new HashSet<>();
@@ -255,6 +258,7 @@ public class Controller {
     /**
      * Udregner den samlede omsætning på en liste af ordre
      */
+    //TODO Lav test
     public static double hentSamletOmsaetning(LocalDate dato) {
 
         double samletOmsaetning = 0;
