@@ -135,6 +135,9 @@ class ControllerTest {
     @Order(8)
     void opretOrdreTest() {
 
+        // Arrange
+        Storage.hentInstans().rydStorage();
+
         // Act
         Ordre ordre = Controller.opretOrdre();
 
