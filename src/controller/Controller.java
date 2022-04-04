@@ -217,11 +217,15 @@ public class Controller {
      */
     //TODO Lav test
     public static Set<Ordre> hentOrdrePeriode(LocalDate startDato, LocalDate slutDato) {
+        if(slutDato.isBefore(startDato)) throw new IllegalArgumentException("startDato må ikke være før slutDato");
+
         Set<Ordre> set = new HashSet<>();
         for(Ordre o : hentOdreAfType("o")) {
             LocalDate dato = o.hentDato();
-            if(!(startDato.isBefore(dato)) && !(slutDato.isAfter(dato)))
+            if(!(startDato.isAfter(dato)) && !(slutDato.isBefore(dato))) {
                 set.add(o);
+                System.out.println(o);
+            }
         }
         return set;
     }
