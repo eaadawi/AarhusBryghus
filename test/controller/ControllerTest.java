@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -420,7 +421,7 @@ class ControllerTest {
         assertFalse(klippekortSet.contains(klippekort3));
 
     }
-
+  
     @Test
     @Order(24)
     void hentOrdreDato() {
@@ -461,5 +462,71 @@ class ControllerTest {
 
         // Assert
         assertEquals(pris, forventet);
+    }
+  
+    @Test
+    @Order(26)
+    void hentOrdrePeriode() {
+        // Arrange
+        Ordre o1 = new  Ordre(LocalDate.of(2022, 4, 4), 1);
+        Ordre o2 = new Ordre(LocalDate.of(2022, 5, 4), 2);
+        Ordre o3 = new Ordre(LocalDate.of(2022, 7, 4), 3);
+        Ordre o4 = new Ordre(LocalDate.of(2022, 8, 4), 4);
+
+        Storage.hentInstans().tilfoejOrdre(o1);
+        Storage.hentInstans().tilfoejOrdre(o2);
+        Storage.hentInstans().tilfoejOrdre(o3);
+        Storage.hentInstans().tilfoejOrdre(o4);
+
+        LocalDate startDato = LocalDate.of(2022, 5, 4);
+        LocalDate slutDato = LocalDate.of(2022, 7, 4);
+
+        // Act
+        Set<Ordre> ordreSet = Controller.hentOrdrePeriode(startDato, slutDato);
+        System.out.println(ordreSet);
+
+        // Assert
+        assertFalse(ordreSet.contains(o1));
+        assertTrue(ordreSet.contains(o2));
+        assertTrue(ordreSet.contains(o3));
+        assertFalse(ordreSet.contains(o4));
+    }
+
+    @Test
+    @Order(27)
+    void hentOrdrePeriode_kasterFejl() {
+        // Arrange
+        LocalDate startDato = LocalDate.of(2022, 5, 4);
+        LocalDate slutDato = LocalDate.of(2022, 4, 4);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentOrdrePeriode(startDato, slutDato));
+        assertTrue(exception.getMessage().contains("startDato må ikke være før slutDato"));
+    }
+
+    @Test
+    @Order(28)
+    void udregnSamletForbrugteKlip() {
+        // Arrange
+        Ordre o1 = Controller.opretOrdre();
+        Ordre o2 = Controller.opretOrdre();
+        Ordre o3 = Controller.opretOrdre();
+        Set<Ordre> ordreSet = new HashSet<>(List.of(o1, o2, o3));
+        Prisliste pl = new Prisliste("Prisliste", Valuta.KLIP);
+        Produkt p = new Produkt("Øl", 100);
+        pl.tilfoejProdukt(p, 2);
+
+        o1.opretOrdrelinje(2, p, pl);
+        o1.opretOrdrelinje(3, p, pl);
+        o2.opretOrdrelinje(1, p, pl);
+        o3.opretOrdrelinje(2, p, pl);
+
+        int forventet = 16;
+
+        // Act
+        int resultat = Controller.udregnSamletForbrugteKlip(ordreSet);
+
+        // Assert
+        assertEquals(forventet, resultat);
     }
 }
