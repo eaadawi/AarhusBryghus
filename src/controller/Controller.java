@@ -213,6 +213,30 @@ public class Controller {
     }
 
     /**
+     * Henter alle normale ordre som er oprettet inden for den givet periode
+     */
+    public static Set<Ordre> hentOrdrePeriode(LocalDate startDato, LocalDate slutDato) {
+        Set<Ordre> set = new HashSet<>();
+        for(Ordre o : hentOdreAfType("o")) {
+            LocalDate dato = o.hentDato();
+            if(!(startDato.isBefore(dato)) && !(slutDato.isAfter(dato)))
+                set.add(o);
+        }
+        return set;
+    }
+
+    /**
+     * Udregner den samlet mængde af klip brugt til at betale for de givet ordre
+     */
+    public static int udregnSamletForbrugteKlip(Set<Ordre> ordre) {
+        int samletKlip = 0;
+        for(Ordre o : ordre) {
+            samletKlip += o.klipPris();
+        }
+        return samletKlip;
+    }
+
+    /**
      * Henter og retunere en liste med ordre på en given dato
      */
     public static Set<Ordre> hentOrdreDato(LocalDate dato) {
