@@ -215,9 +215,9 @@ public class Controller {
     /**
      * Henter og retunere en liste med ordre på en given dato
      */
-    public static List<Ordre> hentOrdreDato(LocalDate dato) {
+    public static Set<Ordre> hentOrdreDato(LocalDate dato) {
 
-        List<Ordre> ordrer = new ArrayList<>();
+        Set<Ordre> ordrer = new HashSet<>();
         String type = "o";
         for (Ordre o : hentOdreAfType(type)) {
             if (o.hentDato() == dato) {
@@ -231,7 +231,7 @@ public class Controller {
     /**
      * Udregner den samlede omsætning på en liste af ordre
      */
-    public static double hentSamletOmsaetning(List<Ordre> ordrer) {
+    public static double hentSamletOmsaetning(Set<Ordre> ordrer) {
 
         double samletOmsaetning = 0;
         for (Ordre o : ordrer) {
