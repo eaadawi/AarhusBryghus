@@ -160,6 +160,7 @@ class OrdreTest {
 
         // Assert
         assertFalse(ordre.hentKlippekort().contains(klippekort));
+    }
   
     @Test
     void betalMedKlippekort() {
