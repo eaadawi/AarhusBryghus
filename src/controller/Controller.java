@@ -252,6 +252,7 @@ public class Controller {
             }
         }
 
+
         return ordrer;
     }
 
@@ -259,11 +260,18 @@ public class Controller {
      * Udregner den samlede omsætning på en liste af ordre
      */
     //TODO Lav test
-    public static double hentSamletOmsaetning(Set<Ordre> ordrer) {
+    public static double hentSamletOmsaetning(LocalDate dato) {
 
         double samletOmsaetning = 0;
+        Set<Ordre> ordrer = hentOrdreDato(dato);
         for (Ordre o : ordrer) {
             samletOmsaetning += o.totalPris();
+        }
+
+        for (Klippekort k : hentKlippekort()){
+            if (k.hentDato() == dato) {
+                samletOmsaetning += k.hentPris();
+            }
         }
 
         return samletOmsaetning;
