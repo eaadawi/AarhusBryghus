@@ -421,7 +421,49 @@ class ControllerTest {
         assertFalse(klippekortSet.contains(klippekort3));
 
     }
+  
+    @Test
+    @Order(24)
+    void hentOrdreDato() {
 
+        // Arrange
+        LocalDate dato = LocalDate.now();
+        Ordre ordre1 = Controller.opretOrdre();
+        Ordre ordre2 = Controller.opretOrdre();
+        Ordre ordre3 = Controller.opretOrdre();
+
+        // Act
+        Set<Ordre> ordreSet = Controller.hentOrdreDato(dato);
+
+        // Assert
+        assertTrue(ordreSet.contains(ordre1));
+        assertTrue(ordreSet.contains(ordre2));
+        assertTrue(ordreSet.contains(ordre3));
+    }
+
+    @Test
+    @Order(25)
+    void udregnSamletOmsaetning() {
+
+        // Arrange
+        LocalDate dato = LocalDate.now();
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+        Ordre ordre = Controller.opretOrdre();
+        Produkt produkt1 = Controller.hentProduktFraNavn("Beklædning", "polo");
+        Produkt produkt2 = Controller.hentProduktFraNavn("Beklædning", "cap");
+        Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
+        ordre.opretOrdrelinje(1,produkt1, prisliste);
+        ordre.opretOrdrelinje(2, produkt2, prisliste);
+        double forventet = 160;
+
+        // Act
+        double pris = Controller.hentSamletOmsaetning(dato);
+
+        // Assert
+        assertEquals(pris, forventet);
+    }
+  
     @Test
     @Order(26)
     void hentOrdrePeriode() {

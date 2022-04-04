@@ -245,17 +245,15 @@ public class Controller {
     /**
      * Henter og retunere en liste med ordre på en given dato
      */
-    //TODO Lav test
     public static Set<Ordre> hentOrdreDato(LocalDate dato) {
 
         Set<Ordre> ordrer = new HashSet<>();
         String type = "o";
         for (Ordre o : hentOdreAfType(type)) {
-            if (o.hentDato() == dato) {
+            if (o.hentDato().equals(dato)) {
                 ordrer.add(o);
             }
         }
-
 
         return ordrer;
     }
@@ -263,7 +261,6 @@ public class Controller {
     /**
      * Udregner den samlede omsætning på en liste af ordre
      */
-    //TODO Lav test
     public static double hentSamletOmsaetning(LocalDate dato) {
 
         double samletOmsaetning = 0;
