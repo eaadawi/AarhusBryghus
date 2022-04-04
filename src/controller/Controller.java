@@ -278,6 +278,35 @@ public class Controller {
         return samletOmsaetning;
     }
 
+    /**
+     * Henter mulig størrelser for fustager
+     */
+    public static Set<Integer> muligeStoerrelser() {
+
+        Set<Integer> stoerrelser = new HashSet<>();
+
+        for (Produkt p : hentProdukterFraGruppenavn("fustage")) {
+            if (p instanceof PantProdukt) {
+                int stoerrelse = ((PantProdukt) p).hentStoerrelse();
+                stoerrelser.add(stoerrelse);
+            }
+        }
+
+        return stoerrelser;
+    }
+
+    /**
+     * Udregner pris for fustage af given størrelse
+     */
+    public static double udregnFustagePris(int stoerrelse, PantProdukt fustage) {
+
+        int startStoerrelse = fustage.hentStoerrelse();
+        Prisliste prisliste = hentPrislisteFraNavn("Butik");
+        double startPris = prisliste.hentPris(fustage);
+
+        return startPris/startStoerrelse * stoerrelse;
+    }
+
     public static void initStorage() {
         Klippekort.aendreKlippekortPris(130);
         Klippekort.aendreAntalKlip(4);
