@@ -236,6 +236,35 @@ public class Controller {
         return samletKlip;
     }
 
+    /**
+     * Henter og retunere en liste med ordre på en given dato
+     */
+    public static Set<Ordre> hentOrdreDato(LocalDate dato) {
+
+        Set<Ordre> ordrer = new HashSet<>();
+        String type = "o";
+        for (Ordre o : hentOdreAfType(type)) {
+            if (o.hentDato() == dato) {
+                ordrer.add(o);
+            }
+        }
+
+        return ordrer;
+    }
+
+    /**
+     * Udregner den samlede omsætning på en liste af ordre
+     */
+    public static double hentSamletOmsaetning(Set<Ordre> ordrer) {
+
+        double samletOmsaetning = 0;
+        for (Ordre o : ordrer) {
+            samletOmsaetning += o.totalPris();
+        }
+
+        return samletOmsaetning;
+    }
+
     public static void initStorage() {
         Klippekort.aendreKlippekortPris(130);
         Klippekort.aendreAntalKlip(4);
