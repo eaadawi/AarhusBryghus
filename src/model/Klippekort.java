@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Klippekort {
     private static int antalKlip;
     private static double klippekortPris;
@@ -7,10 +9,12 @@ public class Klippekort {
     private final String kundeNavn;
     private final double pris;
     private int antalKlipTilbage;
+    private final LocalDate dato;
 
     public Klippekort(int id, String kundeNavn) {
         this.id = id;
         this.kundeNavn = kundeNavn;
+        this.dato = LocalDate.now();
         pris = klippekortPris;
         antalKlipTilbage = antalKlip;
     }
@@ -61,6 +65,10 @@ public class Klippekort {
 
     public int hentAntalKlipTilbage() {
         return antalKlipTilbage;
+    }
+
+    public LocalDate hentDato() {
+        return dato;
     }
 
     /**

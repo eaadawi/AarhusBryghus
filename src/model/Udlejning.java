@@ -123,6 +123,7 @@ public class Udlejning extends Ordre{
         this.kundeTlfNr = kundeTlfNr;
     }
 
+
     /**
      * Kaster IllegalArgumentException hvis kunden er under 18 år
      */
