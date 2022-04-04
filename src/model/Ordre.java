@@ -108,7 +108,6 @@ public class Ordre {
      * med de tilknyttede klippekort hvis der ikke er betalt allerede og sætter betaltMedKlip til true
      * Kaster en IllegalArgumentException hvis der ikke er nok klip tilsammen på de tilknyttede klippekort
      */
-    //TODO Lav test
     public void betalMedKlippekort() {
         int pris = klipPris();
         int antalKlip = 0;
