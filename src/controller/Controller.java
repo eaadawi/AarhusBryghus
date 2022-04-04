@@ -291,6 +291,18 @@ public class Controller {
         return stoerrelser;
     }
 
+    /**
+     * Udregner pris for fustage af given størrelse
+     */
+    public static double udregnFustagePris(int stoerrelse, PantProdukt fustage) {
+
+        int startStoerrelse = fustage.hentStoerrelse();
+        Prisliste prisliste = hentPrislisteFraNavn("Butik");
+        double startPris = prisliste.hentPris(fustage);
+
+        return startPris/startStoerrelse * stoerrelse;
+    }
+
     public static void initStorage() {
         Klippekort.aendreKlippekortPris(130);
         Klippekort.aendreAntalKlip(4);

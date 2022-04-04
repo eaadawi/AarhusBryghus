@@ -462,4 +462,44 @@ class ControllerTest {
         // Assert
         assertEquals(pris, forventet);
     }
+
+    @Test
+    @Order(29)
+    void muligeStoerrelser() {
+
+        // Arrange
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+
+        // Act
+        Set<Integer> stoerrelser = Controller.muligeStoerrelser();
+
+        // Assert
+        assertTrue(stoerrelser.contains(20));
+        assertTrue(stoerrelser.contains(25));
+        assertFalse(stoerrelser.contains(19));
+        assertFalse(stoerrelser.contains(0));
+        assertFalse(stoerrelser.contains(21));
+        assertFalse(stoerrelser.contains(26));
+        assertFalse(stoerrelser.contains(24));
+    }
+
+    @Test
+    @Order(30)
+    void udregnFustagePris() {
+
+        // Arrange
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+        int stoerrelse = 30;
+        Produkt fustage = Controller.hentProduktFraNavn("fustage", "Klosterbryg, 20 liter");
+        double forventet = 1162.5;
+
+        // Act
+        double pris = Controller.udregnFustagePris(stoerrelse, (PantProdukt) fustage);
+
+        // Assert
+        assertEquals(pris, forventet);
+
+    }
 }
