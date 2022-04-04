@@ -531,7 +531,8 @@ class ControllerTest {
 
         // Assert
         assertEquals(forventet, resultat);
-      
+    }
+
     @Test
     @Order(29)
     void muligeStoerrelser() {
