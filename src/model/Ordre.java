@@ -12,7 +12,7 @@ public class Ordre {
     private boolean betaltMedKlip;
 
     private final List<Ordrelinje> ordrelinjer = new ArrayList<>();
-    private List<Klippekort> klippekortList = new ArrayList<>();
+    private final List<Klippekort> klippekortList = new ArrayList<>();
 
     public Ordre(LocalDate dato, int id) {
         this.dato = dato;

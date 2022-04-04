@@ -320,6 +320,9 @@ public class OpretPrislisteTab extends GridPane {
     private void selectedProduktChanged(Button button){
         int index = produktListView.getSelectionModel().getSelectedIndex();
         produktListViewPris.getSelectionModel().select(index);
+        produktListView.scrollTo(index);//finally
+        produktListViewPris.scrollTo(index);//
+
     }
 
 
