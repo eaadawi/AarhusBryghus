@@ -306,8 +306,11 @@ public class Controller {
     }
 
     public static void initStorage() {
+
+        // Init Klippekort
         Klippekort.aendreKlippekortPris(130);
         Klippekort.aendreAntalKlip(4);
+
         // PRODUKTGRUPPER
         ProduktGruppe produktGruppe1 = Controller.opretProduktGruppe("flaske");
         ProduktGruppe produktGruppe2 = Controller.opretProduktGruppe("fadøl, 40cl");
@@ -584,6 +587,22 @@ public class Controller {
         fredagsbarKlip.tilfoejProdukt(p9g2, 1);
         fredagsbarKlip.tilfoejProdukt(p10g2, 1);
         fredagsbarKlip.tilfoejProdukt(p18g2, 1);
+
+        // PRISLISTE - Brugerdefineret
+        Prisliste brugerdefineredeFustager = Controller.opretPrisliste("Brugerdefinerede fustager", Valuta.DKK);
+
+
+        // KLIPPEKORT
+        Klippekort klippekort1 = Controller.opretKlippekort("Anders Andersen");
+        Klippekort klippekort2 = Controller.opretKlippekort("Hans Hansen");
+        Klippekort klippekort3 = Controller.opretKlippekort("Jane Jensen");
+        Klippekort klippekort4 = Controller.opretKlippekort("Anders Andersen");
+        Klippekort klippekort5 = Controller.opretKlippekort("Mette Frederiksen");
+        Klippekort klippekort6 = Controller.opretKlippekort("Lars Løkke");
+        Klippekort klippekort7 = Controller.opretKlippekort("Søren Pape");
+        Klippekort klippekort8 = Controller.opretKlippekort("Sofie Carsten Nielsen");
+        Klippekort klippekort9 = Controller.opretKlippekort("Alex Vanopslagh");
+        Klippekort klippekort10 = Controller.opretKlippekort("Mai Villadsen");
     }
 
 }
