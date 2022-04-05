@@ -451,7 +451,6 @@ class ControllerTest {
 
         // Arrange
         LocalDate dato = LocalDate.now();
-        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Ordre ordre = Controller.opretOrdre();
         Produkt produkt1 = Controller.hentProduktFraNavn("Beklædning", "polo");
@@ -538,7 +537,6 @@ class ControllerTest {
     void muligeStoerrelser() {
 
         // Arrange
-        Storage.hentInstans().rydStorage();
         Controller.initStorage();
 
         // Act
@@ -559,7 +557,6 @@ class ControllerTest {
     void udregnFustagePris() {
 
         // Arrange
-        Storage.hentInstans().rydStorage();
         Controller.initStorage();
         int stoerrelse = 30;
         Produkt fustage = Controller.hentProduktFraNavn("fustage", "Klosterbryg, 20 liter");
