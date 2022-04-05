@@ -8,10 +8,12 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Ordre;
+import model.PantProdukt;
 import model.Prisliste;
 import model.Produkt;
 
@@ -27,7 +29,7 @@ public class TilfoejFustageVinduet extends Stage {
     private final ComboBox<Integer> comboBoxStoerelse = new ComboBox<>();
     private final TextField textFieldPris = new TextField();
 
-    public TilfoejFustageVinduet(String title, Ordre ordre,Prisliste pl) {
+    public TilfoejFustageVinduet(String title, Ordre ordre, Prisliste pl) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -46,7 +48,7 @@ public class TilfoejFustageVinduet extends Stage {
 
     }
 
-    private void initContentPane(GridPane pane){
+    private void initContentPane(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
         pane.setVgap(10);
@@ -60,29 +62,38 @@ public class TilfoejFustageVinduet extends Stage {
         pane.add(labelFustage, 0, 0);
 
         //
-        Label labelAntal = new Label();
-        labelAntal.setText("Antal");
-        pane.add(labelAntal,0, 1 );
-        //
         Label labelStoerelse = new Label();
         labelStoerelse.setText("Størrelse");
-        pane.add(labelStoerelse,0 ,2 );
+        pane.add(labelStoerelse, 0, 1);
+        //
+        Label labelAntal = new Label();
+        labelAntal.setText("Antal");
+        pane.add(labelAntal, 0, 2);
         //
         Label labelPris = new Label();
         labelPris.setText("Pris");
-        pane.add(labelPris,0 ,3 );
+        pane.add(labelPris, 0, 3);
         //--------------------------COL2---------------------
 
         comboBoxType.getItems().setAll(Controller.hentProdukterFraGruppenavn("fustage"));
         comboBoxType.setEditable(false);
-        pane.add(comboBoxType,1 , 0);
+        pane.add(comboBoxType, 1, 0);
+        //
+        comboBoxStoerelse.getItems().setAll(Controller.muligeStoerrelser());
+        pane.add(comboBoxStoerelse, 1, 1);
         //TextField textFieldAntal
-        pane.add(textFieldAntal,1 ,1 );
+        textFieldAntal.setText("0");
         //
-        //comboBoxStoerelse.getItems().setAll(Controller.);
-        pane.add(comboBoxStoerelse,1 ,2 );
+        Button antalPlus = new Button("+");
+        antalPlus.setOnAction(event -> this.antalPlusKnapMetod());
+        Button antalMinus = new Button("-");
+        antalMinus.setOnAction(event -> this.antalMinusKnapMetod());
         //
-        pane.add(textFieldPris,1 ,3 );
+        HBox hBoxAntal = new HBox(textFieldAntal, antalPlus, antalMinus);
+        pane.add(hBoxAntal, 1, 2);
+        //
+        textFieldPris.setEditable(false);
+        pane.add(textFieldPris, 1, 3);
         //--------------------------COL3---------------------
 
         //
@@ -90,16 +101,45 @@ public class TilfoejFustageVinduet extends Stage {
         Button buttonTilfoe = new Button();
         buttonTilfoe.setText("Tilføj");
         buttonTilfoe.setOnAction(event -> this.tilfoejFustageKnapMetod());
-        pane.add(buttonTilfoe,2 ,5 );
+        pane.add(buttonTilfoe, 2, 5);
     }
 
-    private void tilfoejFustageKnapMetod(){
-        ordre.opretOrdrelinje(getIntFraTF(textFieldAntal),comboBoxType.getSelectionModel().getSelectedItem(),prisliste);
+    private void tilfoejFustageKnapMetod() {
+        ordre.opretOrdrelinje(getIntFraTF(textFieldAntal), comboBoxType.getSelectionModel().getSelectedItem(), prisliste);
         this.hide();
     }
 
-    private int getIntFraTF(TextField tf){
+    private int getIntFraTF(TextField tf) {
         return Integer.parseInt(tf.getText());
     }
 
+    private void antalPlusKnapMetod() {
+        int tal = Integer.parseInt(textFieldAntal.getText());
+        tal++;
+
+        textFieldAntal.setText("" + tal);
+        if (comboBoxType.getSelectionModel().getSelectedItem() instanceof PantProdukt) {
+            PantProdukt pp = (PantProdukt) comboBoxType.getSelectionModel().getSelectedItem();
+            textFieldPris.setText("" + Controller.udregnFustagePris(
+                    comboBoxStoerelse.getSelectionModel().getSelectedItem(), pp
+            ) * tal);
+        }
+    }
+
+    private void antalMinusKnapMetod() {
+        int tal = Integer.parseInt(textFieldAntal.getText());
+        tal--;
+        if (tal >= 0) {
+            textFieldAntal.setText("" + tal);
+            if (comboBoxType.getSelectionModel().getSelectedItem() instanceof PantProdukt) {
+                PantProdukt pp = (PantProdukt) comboBoxType.getSelectionModel().getSelectedItem();
+                textFieldPris.setText("" + Controller.udregnFustagePris(
+                        comboBoxStoerelse.getSelectionModel().getSelectedItem(), pp
+                ) * tal);
+            }
+        } else {
+            textFieldAntal.setText("0");
+            textFieldPris.setText("0.0");
+        }
+    }
 }
