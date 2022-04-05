@@ -89,7 +89,7 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
         //
         Button buttonTilfoej = new Button();
-        buttonTilfoej.setText("Tilfoej");
+        buttonTilfoej.setText("Tilføj");
         buttonTilfoej.setOnAction(event -> this.tilfoejEkstraKulsyreKnap());
         pane.add(buttonTilfoej,2 ,3 );
 

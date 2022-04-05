@@ -33,7 +33,7 @@ public class StatistikTab extends GridPane {
         this.add(labelDato, 0, 1);
 
         //
-        Label labelSamletOmsaetning = new Label("Samlet omsaetning");
+        Label labelSamletOmsaetning = new Label("Samlet omsætning");
         this.add(labelSamletOmsaetning, 0, 3);
 
         //

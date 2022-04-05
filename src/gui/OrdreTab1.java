@@ -16,10 +16,10 @@ import model.*;
 public class OrdreTab1 extends GridPane {
     private Ordre ordre;
     private Prisliste prisliste;
-    private Button buttonTilfoejAnlaeg = new Button("Tilfoej anlaeg");
-    private Button buttonTilfoejFustage = new Button("Tilfoej fustage");
-    private Button buttonTilfoejKulsyre = new Button("Tilfoej kulsyre");
-    private Button buttonTilfoejKrus = new Button("Tilfoej krus");
+    private Button buttonTilfoejAnlaeg = new Button("Tilføj anlaeg");
+    private Button buttonTilfoejFustage = new Button("Tilføj fustage");
+    private Button buttonTilfoejKulsyre = new Button("Tilføj kulsyre");
+    private Button buttonTilfoejKrus = new Button("Tilføj krus");
     private Button buttonFjernOL = new Button("Fjern linje");
 
     private ListView<Ordrelinje> ordrelinjeListView = new ListView<>();
@@ -71,28 +71,28 @@ public class OrdreTab1 extends GridPane {
 
     private void buttonTilfoejAnlaegKnapMetod(){
         //TODO items
-        AnlaegVinduet dialog = new AnlaegVinduet("Tilfoej anlaeg",ordre);
+        AnlaegVinduet dialog = new AnlaegVinduet("Tilføj anlæg",ordre);
         dialog.showAndWait();
 
         opdaterListView();
     }
 
     private void buttonTilfoejFustageKnapMetod(){
-        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilfoej fustage",ordre,prisliste);
+        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilføj fustage",ordre,prisliste);
         dialog.showAndWait();
 
         opdaterListView();
     }
 
     private void buttonTilfoejKulsyreKnapMetod(){
-        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilfoej kulsyre",ordre,prisliste);
+        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilføj kulsyre",ordre,prisliste);
         dialog.showAndWait();
 
         opdaterListView();
     }
 
     private void buttonTilfoejKrusKnapMetod(){
-        TilfoejEkstraKrus dialog = new TilfoejEkstraKrus("Tilfoej ekstra krus", ordre, prisliste);
+        TilfoejEkstraKrus dialog = new TilfoejEkstraKrus("Tilføj ekstra krus", ordre, prisliste);
         dialog.showAndWait();
 
         opdaterListView();

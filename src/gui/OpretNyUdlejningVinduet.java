@@ -40,10 +40,10 @@ public class OpretNyUdlejningVinduet extends Stage {
     private TextField textSamletPris = new TextField();
     private TextField textFieldKrus = new TextField();
 
-    private Button buttonTilfoejAnlaeg = new Button("Tilfoej anlaeg");
-    private Button buttonTilfoejFustage = new Button("Tilfoej fustage");
-    private Button buttonTilfoejKulsyre = new Button("Tilfoej kulsyre");
-    private Button buttonTilfoejKrus = new Button("Tilfoej krus");
+    private Button buttonTilfoejAnlaeg = new Button("Tilføj anlæg");
+    private Button buttonTilfoejFustage = new Button("Tilføj fustage");
+    private Button buttonTilfoejKulsyre = new Button("Tilføj kulsyre");
+    private Button buttonTilfoejKrus = new Button("Tilføj krus");
     private Button buttonFjernOL = new Button("Fjern linje");
 
     private ListView<Ordrelinje> ordrelinjeListView = new ListView<>();
@@ -92,7 +92,7 @@ public class OpretNyUdlejningVinduet extends Stage {
 
         //
         Label foedseldsdagLabel = new Label();
-        foedseldsdagLabel.setText("Foedseldsdag");
+        foedseldsdagLabel.setText("Fødseldsdag");
         pane.add(foedseldsdagLabel, 0, 4);
 
         //
@@ -171,7 +171,7 @@ public class OpretNyUdlejningVinduet extends Stage {
         buttonFjernOL.setMaxWidth(Double.MAX_VALUE);
         //Button buttonTilfoejUdlejning
         Button buttonTilfoejUdlejning = new Button();
-        buttonTilfoejUdlejning.setText("Tilfoej udlejning");
+        buttonTilfoejUdlejning.setText("Tilføj udlejning");
         buttonTilfoejUdlejning.setOnAction(event -> this.tilfoejUdlejningKnapMetod());
         buttonTilfoejUdlejning.setMaxWidth(Double.MAX_VALUE);
         pane.add(buttonTilfoejUdlejning, 3, 10);
@@ -203,7 +203,7 @@ public class OpretNyUdlejningVinduet extends Stage {
 
 
     private void tilfoejFustageMetodeKnap() {
-        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilfoej fustage vinduet", udlejning, prisliste);
+        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilføj fustage vinduet", udlejning, prisliste);
         dialog.showAndWait();
 
 
@@ -211,7 +211,7 @@ public class OpretNyUdlejningVinduet extends Stage {
 
 
     private void buttonEkstraKulsyreMetodeKnap() {
-        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilfoej ekstra kulsyre vinduet", udlejning, prisliste);
+        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilføj ekstra kulsyre vinduet", udlejning, prisliste);
         dialog.showAndWait();
 
 
@@ -260,28 +260,28 @@ public class OpretNyUdlejningVinduet extends Stage {
 
     private void buttonTilfoejAnlaegKnapMetod() {
         //TODO items
-        AnlaegVinduet dialog = new AnlaegVinduet("Tilfoej anlaeg", udlejning);
+        AnlaegVinduet dialog = new AnlaegVinduet("Tilføj anlaeg", udlejning);
         dialog.showAndWait();
 
         opdaterListView();
     }
 
     private void buttonTilfoejFustageKnapMetod() {
-        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilfoej fustage", udlejning, prisliste);
+        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilføj fustage", udlejning, prisliste);
         dialog.showAndWait();
 
         opdaterListView();
     }
 
     private void buttonTilfoejKulsyreKnapMetod() {
-        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilfoej kulsyre", udlejning, prisliste);
+        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilføj kulsyre", udlejning, prisliste);
         dialog.showAndWait();
 
         opdaterListView();
     }
 
     private void buttonTilfoejKrusKnapMetod() {
-        TilfoejEkstraKrus dialog = new TilfoejEkstraKrus("Tilfoej ekstra krus", udlejning, prisliste);
+        TilfoejEkstraKrus dialog = new TilfoejEkstraKrus("Tilføj ekstra krus", udlejning, prisliste);
         dialog.showAndWait();
 
         opdaterListView();
@@ -340,7 +340,7 @@ class TilfoejEkstraKrus extends Stage {
         pane.add(textFieldAntal, 1, 0);
         //-------------------- Button ------------------------------
         //
-        Button buttonTilfoej = new Button("Tilfoej");
+        Button buttonTilfoej = new Button("Tilføj");
         buttonTilfoej.setOnAction(event -> this.buttonTilfoejKnapMetod());
     }
 

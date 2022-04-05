@@ -54,7 +54,7 @@ public class TilfoejEkstreKulsyreVinduet extends Stage {
 
         //Label labelPrisliste
         Label labelStoerelse = new Label();
-        labelStoerelse.setText("Stoerelse");
+        labelStoerelse.setText("Størrelse");
         pane.add(labelStoerelse,0 , 0);
         //Label labelAntal
         Label labelAntal = new Label();
@@ -77,7 +77,7 @@ public class TilfoejEkstreKulsyreVinduet extends Stage {
 
         //
         Button buttonTilfoej = new Button();
-        buttonTilfoej.setText("Tilfoej");
+        buttonTilfoej.setText("Tilføj");
         buttonTilfoej.setOnAction(event -> this.tilfoejEkstraKulsyreKnap());
         pane.add(buttonTilfoej,1 ,3 );
     }

@@ -17,8 +17,8 @@ public class KlippekortTab extends GridPane {
     private ListView<Klippekort> klippekortListViewValgte = new ListView<>();
 
     private Button buttonOpretNyKlippekort = new Button("Opret Ny");
-    private Button buttonSoeg = new Button("Soeg");
-    private Button buttonTilfoejKk = new Button("Tilfoej");
+    private Button buttonSoeg = new Button("Søg");
+    private Button buttonTilfoejKk = new Button("Tilføj");
     private Button buttonFjernKk = new Button("Fjern");
 
 
