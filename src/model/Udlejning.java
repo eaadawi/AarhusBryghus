@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 
-public class Udlejning extends Ordre{
+public class Udlejning extends Ordre {
 
     private LocalDate startDato;
     private LocalDate slutDato;
@@ -26,23 +26,23 @@ public class Udlejning extends Ordre{
      */
     public double totalPrisMedPant() {
         double pris = 0;
-        for(Ordrelinje ol : super.hentOrdrelinjer()) {
+        for (Ordrelinje ol : super.hentOrdrelinjer()) {
             pris += ol.samletPris();
             Produkt produkt = ol.hentProdukt();
             ProduktGruppe pg = produkt.hentProduktGruppe();
 
             // Tilføjer pant for alle fustager/kulsyre
-            if(produkt instanceof PantProdukt) {
+            if (produkt instanceof PantProdukt) {
                 Produkt pant = null;
-                for(Produkt p : pg.hentProdukter()) {
-                    if(p.hentNavn().equals("Pant")) {
+                for (Produkt p : pg.hentProdukter()) {
+                    if (p.hentNavn().equals("Pant")) {
                         pant = p;
                         break;
                     }
                 }
                 if (pant != null)
                     pris += (ol.hentAntal() * ol.hentPrisliste().hentPris(pant));
-                }
+            }
         }
 
         // Runder af til 2 decimaler efter punktummet
@@ -97,9 +97,9 @@ public class Udlejning extends Ordre{
      * Kaster IllegalArgumentException givet dato er før dagens dato eller efter slutDato
      */
     public void tilfoejStartDato(LocalDate startDato) {
-        if(startDato.isBefore(super.hentDato()))
+        if (startDato.isBefore(super.hentDato()))
             throw new IllegalArgumentException("StatDato kan ikke være før i dag");
-        if(slutDato != null && slutDato.isBefore(startDato))
+        if (slutDato != null && slutDato.isBefore(startDato))
             throw new IllegalArgumentException("StartDato kan ikke være efter slutDato");
         this.startDato = startDato;
     }
@@ -108,9 +108,9 @@ public class Udlejning extends Ordre{
      * Kaster IllegalArgumentException givet dato er før startDato
      */
     public void tilfoejSlutDato(LocalDate slutDato) {
-        if(slutDato.isBefore(super.hentDato()))
+        if (slutDato.isBefore(super.hentDato()))
             throw new IllegalArgumentException("SlutDato kan ikke være før i dag");
-        if(startDato != null && slutDato.isBefore(startDato))
+        if (startDato != null && slutDato.isBefore(startDato))
             throw new IllegalArgumentException("StartDato kan ikke være efter slutDato");
         this.slutDato = slutDato;
     }
@@ -128,9 +128,9 @@ public class Udlejning extends Ordre{
      * Kaster IllegalArgumentException hvis kunden er under 18 år
      */
     public void tilfoejKundeFoedselsdag(LocalDate kundeFoedselsdag) {
-        if(ChronoUnit.YEARS.between(kundeFoedselsdag, super.hentDato()) >= 18 && kundeFoedselsdag.isBefore(super.hentDato())) {
+        if (ChronoUnit.YEARS.between(kundeFoedselsdag, super.hentDato()) >= 18 && kundeFoedselsdag.isBefore(super.hentDato())) {
             this.kundeFoedselsdag = kundeFoedselsdag;
-        }else throw new IllegalArgumentException("Kunden skal være fyldt 18 år");
+        } else throw new IllegalArgumentException("Kunden skal være fyldt 18 år");
     }
 
     public void tilfoejAdresse(String adresse) {
@@ -141,7 +141,7 @@ public class Udlejning extends Ordre{
      * Tilføjer en ordrelinje med produktet levering fra produktgruppen anlæg og med prislisten butik og sætter levering til true
      */
     public void tilfoejLevering() {
-        if(!levering) {
+        if (!levering) {
             levering = true;
 
             Prisliste prisliste = null;
@@ -156,7 +156,8 @@ public class Udlejning extends Ordre{
                 if (pg.hentNavn().equals("Anlæg"))
                     produktGruppe = pg;
             }
-            if (produktGruppe == null) throw new IllegalArgumentException("Der er ikke oprettet produktgruppe \"Anlæg\"");
+            if (produktGruppe == null)
+                throw new IllegalArgumentException("Der er ikke oprettet produktgruppe \"Anlæg\"");
 
             Produkt levering = null;
             for (Produkt p : produktGruppe.hentProdukter()) {
