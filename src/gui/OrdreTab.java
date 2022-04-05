@@ -77,7 +77,7 @@ public class OrdreTab extends GridPane {
     }
 
     private void nyUdlejning(){
-        OpretNyUdlejningVinduet dialog = new OpretNyUdlejningVinduet("Nyyyy Udlejning");
+        OpretNyUdlejningVinduet dialog = new OpretNyUdlejningVinduet("Ny Udlejning");
         dialog.showAndWait();
         //
         //

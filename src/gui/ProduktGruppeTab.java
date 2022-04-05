@@ -71,7 +71,7 @@ public class ProduktGruppeTab extends GridPane {
 
         //Knappe tilfoej til ProduktGruppe oprettes
         Button tilfoejProduktGrupperKnappe = new Button();
-        tilfoejProduktGrupperKnappe.setText("Tilfoej");
+        tilfoejProduktGrupperKnappe.setText("Tilføj");
         tilfoejProduktGrupperKnappe.setOnAction(event -> this.opretProduktGruppe());
 
         //Knappe fjern text settes
@@ -119,7 +119,7 @@ public class ProduktGruppeTab extends GridPane {
 
 
         //Knapper til produkt tekst settes
-        tiljoejProduktKnappe.setText("Tilfoej");
+        tiljoejProduktKnappe.setText("Tilføj");
 
         //tilfoejProduktKnappe disables til der bliver valgt produktGruppe
         tiljoejProduktKnappe.setDisable(true);
@@ -175,7 +175,7 @@ public class ProduktGruppeTab extends GridPane {
 
         // oprettes knap tilfoej antal
         Button produktAntalTilfoejButton = new Button();
-        produktAntalTilfoejButton.setText("Tilfoej antal");
+        produktAntalTilfoejButton.setText("Tilføj antal");
 
         //metoden til tilfoejAntal knappe
         produktAntalTilfoejButton.setOnAction(event -> this.tilfoejAntal());
@@ -261,10 +261,10 @@ public class ProduktGruppeTab extends GridPane {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
         //navn på alert vinduet
-        alert.setTitle("Baekreftelse vinduet");
+        alert.setTitle("Bekræftelse vindue");
 
         //anden linje text
-        alert.setHeaderText("Oensker at slette produkt gruppe?");
+        alert.setHeaderText("Ønsker at slette produkt gruppe?");
         //tredje linje text
         alert.setContentText("Er du sikkert på at produkt gruppe skal slettes?");
 
@@ -329,10 +329,10 @@ public class ProduktGruppeTab extends GridPane {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
         //navn på alert vinduet
-        alert.setTitle("Baekreftelse vinduet");
+        alert.setTitle("Bekræftelse vindue");
 
         //anden linje text med produkt navn
-        alert.setHeaderText("Oensker at slette produkt " + p.hentNavn() + " ?");
+        alert.setHeaderText("Ønsker at slette produkt " + p.hentNavn() + " ?");
         //tredje linje text
         alert.setContentText("Er du sikkert på at produkt skal slettes?");
 
@@ -429,7 +429,7 @@ public class ProduktGruppeTab extends GridPane {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-        alert.setContentText("Der er ikke nok produkter paa lageren!");
+        alert.setContentText("Der er ikke nok produkter på lageret!");
         alert.showAndWait();
 
     }
@@ -441,7 +441,7 @@ public class ProduktGruppeTab extends GridPane {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-        alert.setContentText("Der er upassende antal tilfoejes paa lageren!");
+        alert.setContentText("Der er upassende antal tilføjes på lageret!");
         alert.showAndWait();
 
     }
