@@ -13,14 +13,17 @@ import javafx.stage.StageStyle;
 import model.Betalinsgmetode;
 import model.Ordre;
 import model.Ordrelinje;
+import model.Prisliste;
 
 import java.util.Optional;
 
 
 public class OpretOrderVinduet extends Stage {
 
-    private final Ordre order;
-    private ListView<Ordrelinje> ordreLinjeListView = new ListView<>();
+    private final Ordre ordre;
+    private final Prisliste prisliste;
+
+    private ListView<Ordrelinje> ordrelinjeListView = new ListView<>();
 
     private TextField textFieldDKK = new TextField();
     private TextField textFieldKlip = new TextField();
@@ -35,16 +38,17 @@ public class OpretOrderVinduet extends Stage {
 
         //
         this.setTitle(title);
-        order = o;
-
+        ordre = o;
+        prisliste =Controller.hentPrislisteFraNavn("Butik");
+        //
         GridPane pane = new GridPane();
         this.initContentPane(pane);
 
         Scene scene = new Scene(pane);
         this.setScene(scene);
 
-        //order slettes hvis vinduet er blive lukket
-        this.setOnCloseRequest(event -> Controller.fjernOrdre(order));
+        //ordre slettes hvis vinduet er blive lukket
+        this.setOnCloseRequest(event -> Controller.fjernOrdre(ordre));
     }
 
     private void initContentPane(GridPane pane) {
@@ -59,25 +63,25 @@ public class OpretOrderVinduet extends Stage {
         pane.add(valyteProdukter, 0, 0);
 
 
-        //ListView<Ordre> ordreLinjeListView
+        //ListView<Ordrelinje> ordreLinjeListView
         int size = 200;
-        ordreLinjeListView.setPrefSize(size, size);
-        ordreLinjeListView.getItems().setAll(order.hentOrdrelinjer());
-        pane.add(ordreLinjeListView, 0, 1);
+        ordrelinjeListView.setPrefSize(size, size);
+        ordrelinjeListView.getItems().setAll(ordre.hentOrdrelinjer());
+        pane.add(ordrelinjeListView, 0, 1);
 
         //Knappe tilfoej
-        Button buttonTilfoejOrder = new Button("Tilfoej");
-        buttonTilfoejOrder.setOnAction(event -> this.tilfoejOrdreLinjeKnapMetode());
+        Button buttonTilfoejordre = new Button("Tilfoej");
+        buttonTilfoejordre.setOnAction(event -> this.tilfoejOrdreLinjeKnapMetode());
 
 
         //Knappe fjern
-        Button buttonFjernOrder = new Button("Fjern");
-        buttonFjernOrder.setOnAction(event -> this.fjernOrderLinje());
+        Button buttonFjernordre = new Button("Fjern");
+        buttonFjernordre.setOnAction(event -> this.fjernordreLinje());
 
         //HBox hBoxTFOrdre
         HBox hBoxTFOrdre = new HBox();
-        hBoxTFOrdre.getChildren().add(buttonTilfoejOrder);
-        hBoxTFOrdre.getChildren().add(buttonFjernOrder);
+        hBoxTFOrdre.getChildren().add(buttonTilfoejordre);
+        hBoxTFOrdre.getChildren().add(buttonFjernordre);
         pane.add(hBoxTFOrdre, 0, 2);
 
 
@@ -114,13 +118,16 @@ public class OpretOrderVinduet extends Stage {
         pane.add(textFieldKlip, 2, 3);
 
 
-        //--------------------------BELOEB----------------------------
+        //-------------------------- Button ----------------------------
 
         //Button buttonBeloeb
         Button knapBeloeb = new Button();
         knapBeloeb.setText("Beloeb");
         knapBeloeb.setOnAction(event -> this.beloebKnapMetode());
         pane.add(knapBeloeb, 3, 3);
+
+        //
+        //-------------- Button ------------
 
     }
 
@@ -131,56 +138,56 @@ public class OpretOrderVinduet extends Stage {
     }
 
     /**
-     * Metoden aabner et vindue for at tilfoeje en ny order linje
+     * Metoden aabner et vindue for at tilfoeje en ny ordre linje
      */
     private void tilfoejOrdreLinjeKnapMetode() {
-        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilfoej order linje", null, order);
+        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilfoej ordre linje", null, ordre);
         dialog.showAndWait();
         //
         opdatereTF();
         //
-        ordreLinjeListView.getItems().setAll(order.hentOrdrelinjer());
+        ordrelinjeListView.getItems().setAll(ordre.hentOrdrelinjer());
     }
 
     private void opdatereTF() {
-        double talDkk = order.totalPris();
-        int talKlip = order.klipPris();
+        double talDkk = ordre.totalPris();
+        int talKlip = ordre.klipPris();
 
         textFieldDKK.setText("" + talDkk);
         textFieldKlip.setText("" + talKlip);
     }
 
     /**
-     * Metoden der fjerner den valgte order linje
+     * Metoden der fjerner den valgte ordre linje
      */
-    private void fjernOrderLinje() {
-        if (ordreLinjeListView.getSelectionModel().getSelectedItem() != null) {
-            fjernOrderLinjeBesked();
+    private void fjernordreLinje() {
+        if (ordrelinjeListView.getSelectionModel().getSelectedItem() != null) {
+            fjernordreLinjeBesked();
         } else {
-            fjernOrderLinjeBeskedFejl();
+            fjernordreLinjeBeskedFejl();
         }
     }
 
-    private void fjernOrderLinjeBesked() {
+    private void fjernordreLinjeBesked() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
         //navn på alert vinduet
         alert.setTitle("Baekreftelse vinduet");
 
         //anden linje text
-        alert.setHeaderText("Oensker at slette orderLinje?");
+        alert.setHeaderText("Oensker at slette ordreLinje?");
         //tredje linje text
-        alert.setContentText("Er du sikkert på at orderLinje skal slettes?");
+        alert.setContentText("Er du sikkert på at ordreLinje skal slettes?");
 
         //oprettes reaktion på knappe truk
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
 
             //den valgte produkt fra listView Prisliste fjernes
-            order.fjernOrdrelinje(ordreLinjeListView.getSelectionModel().getSelectedItem());
+            ordre.fjernOrdrelinje(ordrelinjeListView.getSelectionModel().getSelectedItem());
 
-            //opdatere orderLinjeListViewe efter orderLinje var slettet
-            ordreLinjeListView.getItems().setAll(order.hentOrdrelinjer());
+            //opdatere ordreLinjeListViewe efter ordreLinje var slettet
+            ordrelinjeListView.getItems().setAll(ordre.hentOrdrelinjer());
 
         } else {
             //vinduet lukkes
@@ -188,19 +195,20 @@ public class OpretOrderVinduet extends Stage {
         }
     }
 
-    private void fjernOrderLinjeBeskedFejl() {
+    private void fjernordreLinjeBeskedFejl() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         //navn på alert vinduet
         alert.setTitle("Information vinduet");
 
         //anden linje text
-        alert.setHeaderText("Order linje er ikke vaglt?");
+        alert.setHeaderText("ordre linje er ikke vaglt?");
 
         //tredje linje text
-        alert.setContentText("Du skal valge order linje.");
+        alert.setContentText("Du skal valge ordre linje.");
 
     }
+
 }
 
 
