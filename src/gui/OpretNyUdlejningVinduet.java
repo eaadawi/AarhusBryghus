@@ -122,8 +122,11 @@ public class OpretNyUdlejningVinduet extends Stage {
         //------------------- DatePicker -----------------
 
         //
+        startDatoDatePicker.setValue(LocalDate.now());
+        startDatoDatePicker.setEditable(false);
         pane.add(startDatoDatePicker, 1, 0);
         //
+        slutDatoDatePicker.setEditable(false);
         pane.add(slutDatoDatePicker, 1, 1);
 
         //-------------------- TextField ------------------------------
@@ -244,7 +247,7 @@ public class OpretNyUdlejningVinduet extends Stage {
     }
 
     private void buttonTilfoejAnlaegKnapMetod() {
-        //TODO items
+
         AnlaegVinduet dialog = new AnlaegVinduet("Tilføj anlaeg", udlejning);
         dialog.showAndWait();
 
