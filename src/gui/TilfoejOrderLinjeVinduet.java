@@ -82,7 +82,7 @@ public class TilfoejOrderLinjeVinduet extends Stage {
         comboBoxPrisliste.getItems().setAll(Controller.hentPrislister());
         pane.add(comboBoxPrisliste, 1, 0);
 
-        ChangeListener<Prisliste> listener = (ov, o, n) -> this.valgPrisliste(comboBoxPrisliste.getSelectionModel().getSelectedItem());
+        ChangeListener<Prisliste> listener = (ov, o, n) -> this.valgPrisliste();
         comboBoxPrisliste.getSelectionModel().selectedItemProperty().addListener(listener);
 
 
@@ -123,10 +123,11 @@ public class TilfoejOrderLinjeVinduet extends Stage {
         //
         this.hide();
     }
-//
+
+    //
 
 
-    private void valgPrisliste(Prisliste pl){
+    private void valgPrisliste(){
         comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGrupper());
     }
 

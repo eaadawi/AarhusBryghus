@@ -127,9 +127,12 @@ public class StatistikTab extends GridPane {
     private void listenerDPR(DatePicker dp1,DatePicker dp2){
         if (dp1.getValue()!=null && dp2.getValue()!=null){
             //TODO items
+
             listViewOrdreKlip.getItems().setAll(Controller.hentOrdrePeriode(datePickerStartDato.getValue(), datePickerSlutDato.getValue()));
 
+
             //TODO textField2 opdatering
+
         }
     }
 }

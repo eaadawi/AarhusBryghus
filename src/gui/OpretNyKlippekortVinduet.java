@@ -16,6 +16,7 @@ import model.Klippekort;
 
 public class OpretNyKlippekortVinduet extends Stage {
 
+
     private Klippekort klippekort = null;
     private TextField textFieldKundenavn = new TextField();
 
@@ -67,7 +68,7 @@ public class OpretNyKlippekortVinduet extends Stage {
     }
 
     private void opretKnapMetod(){
-        Controller.opretKlippekort(textFieldKundenavn.getText());
+        klippekort = Controller.opretKlippekort(textFieldKundenavn.getText());
         this.hide();
     }
 
