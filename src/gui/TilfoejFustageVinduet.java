@@ -24,7 +24,7 @@ public class TilfoejFustageVinduet extends Stage {
     private final ComboBox<Produkt> comboBoxType = new ComboBox<>();
 
     private final TextField textFieldAntal = new TextField();
-    private final TextField textFieldStoerelse = new TextField();
+    private final ComboBox<Integer> comboBoxStoerelse = new ComboBox<>();
     private final TextField textFieldPris = new TextField();
 
     public TilfoejFustageVinduet(String title, Ordre ordre,Prisliste pl) {
@@ -79,7 +79,8 @@ public class TilfoejFustageVinduet extends Stage {
         //TextField textFieldAntal
         pane.add(textFieldAntal,1 ,1 );
         //
-        pane.add(textFieldStoerelse,1 ,2 );
+        //comboBoxStoerelse.getItems().setAll(Controller.);
+        pane.add(comboBoxStoerelse,1 ,2 );
         //
         pane.add(textFieldPris,1 ,3 );
         //--------------------------COL3---------------------
