@@ -27,5 +27,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="javafx" level="application" />
+    <orderEntry type="library" name="mockito-core-4.3.1" level="application" />
+    <orderEntry type="library" name="byte-buddy-1.12.7" level="application" />
   </component>
 </module>
