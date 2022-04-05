@@ -70,7 +70,7 @@ public class OpretOrderVinduet extends Stage {
         pane.add(ordrelinjeListView, 0, 1);
 
         //Knappe tilfoej
-        Button buttonTilfoejordre = new Button("Tilfoej");
+        Button buttonTilfoejordre = new Button("Tilføj");
         buttonTilfoejordre.setOnAction(event -> this.tilfoejOrdreLinjeKnapMetode());
 
 
@@ -122,7 +122,7 @@ public class OpretOrderVinduet extends Stage {
 
         //Button buttonBeloeb
         Button knapBeloeb = new Button();
-        knapBeloeb.setText("Beloeb");
+        knapBeloeb.setText("Beløb");
         knapBeloeb.setOnAction(event -> this.beloebKnapMetode());
         pane.add(knapBeloeb, 3, 3);
 
@@ -141,7 +141,7 @@ public class OpretOrderVinduet extends Stage {
      * Metoden aabner et vindue for at tilfoeje en ny ordre linje
      */
     private void tilfoejOrdreLinjeKnapMetode() {
-        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilfoej ordre linje", null, ordre);
+        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilføj ordre linje", null, ordre);
         dialog.showAndWait();
         //
         opdatereTF();
@@ -172,12 +172,12 @@ public class OpretOrderVinduet extends Stage {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
         //navn på alert vinduet
-        alert.setTitle("Baekreftelse vinduet");
+        alert.setTitle("Bekræftelses vindue");
 
         //anden linje text
-        alert.setHeaderText("Oensker at slette ordreLinje?");
+        alert.setHeaderText("Ønsker at slette ordreLinje?");
         //tredje linje text
-        alert.setContentText("Er du sikkert på at ordreLinje skal slettes?");
+        alert.setContentText("Er du sikker på at ordreLinjen skal slettes?");
 
         //oprettes reaktion på knappe truk
         Optional<ButtonType> result = alert.showAndWait();
@@ -199,13 +199,13 @@ public class OpretOrderVinduet extends Stage {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         //navn på alert vinduet
-        alert.setTitle("Information vinduet");
+        alert.setTitle("Informations vindue");
 
         //anden linje text
-        alert.setHeaderText("ordre linje er ikke vaglt?");
+        alert.setHeaderText("ordre linje er ikke valgt?");
 
         //tredje linje text
-        alert.setContentText("Du skal valge ordre linje.");
+        alert.setContentText("Du skal vælge en ordrelinje.");
 
     }
 

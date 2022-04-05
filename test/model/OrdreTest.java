@@ -130,7 +130,7 @@ class OrdreTest {
         assertFalse(ordre.hentOrdrelinjer().contains(ordrelinje));
         assertEquals(10, produkt.hentAntalPaaLager());
     }
-    
+
     @Test
     void tilfoejKlippekort() {
 

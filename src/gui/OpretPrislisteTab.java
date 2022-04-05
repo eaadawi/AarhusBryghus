@@ -74,7 +74,7 @@ public class OpretPrislisteTab extends GridPane {
 
         //Knappe tilfoej til Prisliste oprettes
         Button tiljoejPrislisteKnappe = new Button();
-        tiljoejPrislisteKnappe.setText("TilfoejPL");
+        tiljoejPrislisteKnappe.setText("TilføjPL");
         tiljoejPrislisteKnappe.setOnAction(event -> this.opretPrisliste());
 
         //Knappe fjern text settes
@@ -123,7 +123,7 @@ public class OpretPrislisteTab extends GridPane {
 
 
         //Knapper til produkt tekst settes
-        tiljoejProduktKnappe.setText("TilfoejP");
+        tiljoejProduktKnappe.setText("TilføjP");
 
         //tilfoejProduktKnappe disables til der bliver valgt Prisliste
         tiljoejProduktKnappe.setDisable(true);
@@ -177,7 +177,7 @@ public class OpretPrislisteTab extends GridPane {
 
 
     private void opretPrisliste() {
-        OpretPrislisteVinduet dialog = new OpretPrislisteVinduet("Opret Prisliste Vinduet",null,null);
+        OpretPrislisteVinduet dialog = new OpretPrislisteVinduet("Opret Prisliste Vindue",null,null);
         dialog.showAndWait();
 
         // Wait for the modal dialog to close
@@ -240,10 +240,10 @@ public class OpretPrislisteTab extends GridPane {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
         //navn på alert vinduet
-        alert.setTitle("Baekreftelse vinduet");
+        alert.setTitle("Bekræftelse vinduet");
 
         //anden linje text
-        alert.setHeaderText("Oensker at slette prisliste?");
+        alert.setHeaderText("Ønsker at slette prisliste?");
         //tredje linje text
         alert.setContentText("Er du sikkert på at prislisten skal slettes?");
 
@@ -394,7 +394,7 @@ class OpretPrislisteVinduet extends Stage {
 
         //knap opret oprettes
         Button opretPL = new Button();
-        opretPL.setText("Opret prislist");
+        opretPL.setText("Opret prisliste");
 
         //aktion til opret knappe tilfoejes
         opretPL.setOnAction(event -> this.opretPrisliste());
@@ -404,7 +404,7 @@ class OpretPrislisteVinduet extends Stage {
 
         //knap cancell oprettes
         Button cancellButton = new Button();
-        cancellButton.setText("Cancell");
+        cancellButton.setText("Cancel");
 
         //knap cancell tilfoejes til pane
         pane.add(cancellButton, 1, 2);
@@ -512,7 +512,7 @@ produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getS
 
         //knap tilfoej produkt til prislisten oprettes
         Button tilfoejProduktKnap2 = new Button();
-        tilfoejProduktKnap2.setText("tilfoejPP");
+        tilfoejProduktKnap2.setText("TilføjP");
 
         //aktion til opret knappe tilfoejes
         tilfoejProduktKnap2.setOnAction(event -> this.tilfoejProduktTilPL(prisliste));
@@ -522,7 +522,7 @@ produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getS
 
         //knap cancell oprettes
         Button cancellButton = new Button();
-        cancellButton.setText("Cancell");
+        cancellButton.setText("Cancel");
 
         //knap cancell tilfoejes til pane
         pane.add(cancellButton, 1, 2);

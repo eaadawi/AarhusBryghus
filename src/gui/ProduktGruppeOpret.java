@@ -66,7 +66,7 @@ public class ProduktGruppeOpret extends Stage {
 
         //knap cancell oprettes
         Button cancellButton = new Button();
-        cancellButton.setText("Cancell");
+        cancellButton.setText("Cancel");
 
         //knap cancell tilfoejes til pane
         pane.add(cancellButton,1,1);

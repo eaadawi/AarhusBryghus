@@ -65,7 +65,7 @@ public class TilfoejFustageVinduet extends Stage {
         pane.add(labelAntal,0, 1 );
         //
         Label labelStoerelse = new Label();
-        labelStoerelse.setText("Stoerelse");
+        labelStoerelse.setText("Størrelse");
         pane.add(labelStoerelse,0 ,2 );
         //
         Label labelPris = new Label();
@@ -88,7 +88,7 @@ public class TilfoejFustageVinduet extends Stage {
         //
 
         Button buttonTilfoe = new Button();
-        buttonTilfoe.setText("Tilfoej");
+        buttonTilfoe.setText("Tilføj");
         buttonTilfoe.setOnAction(event -> this.tilfoejFustageKnapMetod());
         pane.add(buttonTilfoe,2 ,5 );
     }

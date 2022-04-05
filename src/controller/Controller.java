@@ -12,7 +12,7 @@ public class Controller {
      * Opretter og returnere produktGruppe med given navn og tiljoeje den ind i storrage
      */
 
-    public static ProduktGruppe opretProduktGruppe(String navn){
+    public static ProduktGruppe opretProduktGruppe(String navn) {
         ProduktGruppe pg = new ProduktGruppe(navn);
         Storage.hentInstans().tiljoejProduktGruppe(pg);
         return pg;
@@ -63,14 +63,14 @@ public class Controller {
     /**
      * Fjerner produkt fra produktGruppe
      */
-    public static void fjernProdukt(Produkt produkt, ProduktGruppe produktGruppe){
+    public static void fjernProdukt(Produkt produkt, ProduktGruppe produktGruppe) {
         produktGruppe.fjernProdukt(produkt);
     }
 
     /**
      * Fjerner produktGruppe fra Storage
      */
-    public static void fjernProduktGruppe(ProduktGruppe produktGruppe){
+    public static void fjernProduktGruppe(ProduktGruppe produktGruppe) {
         Storage.hentInstans().fjernjProduktGruppe(produktGruppe);
     }
 
@@ -98,7 +98,7 @@ public class Controller {
     /**
      * Henter set af produktGruppe fra storage
      */
-    public static Set<ProduktGruppe> hentProduktGrupper(){
+    public static Set<ProduktGruppe> hentProduktGrupper() {
         return Storage.hentInstans().hentProduktGrupper();
     }
 
@@ -130,8 +130,8 @@ public class Controller {
     public static Set<Produkt> hentFaellesProdukter(ProduktGruppe produktGruppe, Prisliste prisliste) {
         Set<Produkt> produkter = new HashSet<>();
         Set<Produkt> plProdukter = prisliste.hentProdukter();
-        for(Produkt p : produktGruppe.hentProdukter()) {
-            if(plProdukter.contains(p))
+        for (Produkt p : produktGruppe.hentProdukter()) {
+            if (plProdukter.contains(p))
                 produkter.add(p);
         }
         return produkter;
@@ -142,8 +142,8 @@ public class Controller {
      */
     public static List<Produkt> hentProdukterFraGruppenavn(String pgNavn) {
         List<Produkt> produkter = new ArrayList<>();
-        for(ProduktGruppe pg : hentProduktGrupper()) {
-            if(pg.hentNavn().equals(pgNavn))
+        for (ProduktGruppe pg : hentProduktGrupper()) {
+            if (pg.hentNavn().equals(pgNavn))
                 produkter = pg.hentProdukter();
         }
         return produkter;
@@ -154,11 +154,11 @@ public class Controller {
      */
     public static Prisliste hentPrislisteFraNavn(String plNavn) {
         Prisliste prisliste = null;
-        for(Prisliste pl : hentPrislister()) {
-            if(pl.hentNavn().equals(plNavn))
+        for (Prisliste pl : hentPrislister()) {
+            if (pl.hentNavn().equals(plNavn))
                 prisliste = pl;
         }
-        if(prisliste == null) throw new IllegalArgumentException("Der findes ingen prisliste med dette navn");
+        if (prisliste == null) throw new IllegalArgumentException("Der findes ingen prisliste med dette navn");
         return prisliste;
     }
 
@@ -168,11 +168,11 @@ public class Controller {
     public static Produkt hentProduktFraNavn(String pgNavn, String pNavn) {
         List<Produkt> produkter = hentProdukterFraGruppenavn(pgNavn);
         Produkt produkt = null;
-        for(Produkt p : produkter) {
-            if(p.hentNavn().equals(pNavn))
+        for (Produkt p : produkter) {
+            if (p.hentNavn().equals(pNavn))
                 produkt = p;
         }
-        if(produkt == null) throw new IllegalArgumentException("Der findes ingen produkter med dette navn");
+        if (produkt == null) throw new IllegalArgumentException("Der findes ingen produkter med dette navn");
         return produkt;
     }
 
@@ -182,37 +182,130 @@ public class Controller {
      */
     public static Set<Ordre> hentOdreAfType(String type) {
         Set<Ordre> ordre = new HashSet<>();
-        if(type.equals("o")) {
-            for(Ordre o : Storage.hentInstans().hentOrdrer()) {
-                if(!(o instanceof Udlejning))
+        if (type.equals("o")) {
+            for (Ordre o : Storage.hentInstans().hentOrdrer()) {
+                if (!(o instanceof Udlejning))
                     ordre.add(o);
             }
-        }else if(type.equals("u")) {
-            for(Ordre o : Storage.hentInstans().hentOrdrer()) {
-                if(o instanceof Udlejning)
+        } else if (type.equals("u")) {
+            for (Ordre o : Storage.hentInstans().hentOrdrer()) {
+                if (o instanceof Udlejning)
                     ordre.add(o);
             }
-        }else throw new IllegalArgumentException("Type skal være o eller u");
+        } else throw new IllegalArgumentException("Type skal være o eller u");
         return ordre;
     }
 
     /**
      * Henter alle klippekort hvor kundenavnet indeholder den givet string
      */
-    public static Set<Klippekort> soegKlippekort(String input){
+    public static Set<Klippekort> soegKlippekort(String input) {
         Set<Klippekort> klippekort = new HashSet<>();
         CharSequence inputCharSequence = input.toLowerCase(Locale.ROOT).trim();
 
-        for(Klippekort k : Storage.hentInstans().hentKlippekort()) {
+        for (Klippekort k : Storage.hentInstans().hentKlippekort()) {
             String navn = k.hentKundeNavn().toLowerCase(Locale.ROOT);
-            if(navn.contains(inputCharSequence))
+            if (navn.contains(inputCharSequence))
                 klippekort.add(k);
         }
 
         return klippekort;
     }
 
+    /**
+     * Henter alle normale ordre som er oprettet inden for den givet periode
+     */
+    public static Set<Ordre> hentOrdrePeriode(LocalDate startDato, LocalDate slutDato) {
+        if (slutDato.isBefore(startDato)) throw new IllegalArgumentException("startDato må ikke være før slutDato");
+
+        Set<Ordre> set = new HashSet<>();
+        for (Ordre o : hentOdreAfType("o")) {
+            LocalDate dato = o.hentDato();
+            if (!(startDato.isAfter(dato)) && !(slutDato.isBefore(dato))) {
+                set.add(o);
+            }
+        }
+        return set;
+    }
+
+    /**
+     * Udregner den samlet mængde af klip brugt til at betale for de givet ordre
+     */
+    public static int udregnSamletForbrugteKlip(Set<Ordre> ordre) {
+        int samletKlip = 0;
+        for (Ordre o : ordre) {
+            samletKlip += o.klipPris();
+        }
+        return samletKlip;
+    }
+
+    /**
+     * Henter og retunere en liste med ordre på en given dato
+     */
+    public static Set<Ordre> hentOrdreDato(LocalDate dato) {
+
+        Set<Ordre> ordrer = new HashSet<>();
+        String type = "o";
+        for (Ordre o : hentOdreAfType(type)) {
+            if (o.hentDato().equals(dato)) {
+                ordrer.add(o);
+            }
+        }
+
+        return ordrer;
+    }
+
+    /**
+     * Udregner den samlede omsætning på en liste af ordre
+     */
+    public static double hentSamletOmsaetning(LocalDate dato) {
+
+        double samletOmsaetning = 0;
+        Set<Ordre> ordrer = hentOrdreDato(dato);
+        for (Ordre o : ordrer) {
+            samletOmsaetning += o.totalPris();
+        }
+
+        for (Klippekort k : hentKlippekort()) {
+            if (k.hentDato() == dato) {
+                samletOmsaetning += k.hentPris();
+            }
+        }
+
+        return samletOmsaetning;
+    }
+
+    /**
+     * Henter mulig størrelser for fustager
+     */
+    public static Set<Integer> muligeStoerrelser() {
+
+        Set<Integer> stoerrelser = new HashSet<>();
+
+        for (Produkt p : hentProdukterFraGruppenavn("fustage")) {
+            if (p instanceof PantProdukt) {
+                int stoerrelse = ((PantProdukt) p).hentStoerrelse();
+                stoerrelser.add(stoerrelse);
+            }
+        }
+
+        return stoerrelser;
+    }
+
+    /**
+     * Udregner pris for fustage af given størrelse
+     */
+    public static double udregnFustagePris(int stoerrelse, PantProdukt fustage) {
+
+        int startStoerrelse = fustage.hentStoerrelse();
+        Prisliste prisliste = hentPrislisteFraNavn("Butik");
+        double startPris = prisliste.hentPris(fustage);
+
+        return startPris / startStoerrelse * stoerrelse;
+    }
+
     public static void initStorage() {
+        Storage.hentInstans().rydStorage();
         Klippekort.aendreKlippekortPris(130);
         Klippekort.aendreAntalKlip(4);
         // PRODUKTGRUPPER
@@ -359,14 +452,14 @@ public class Controller {
         fredagsbar.tilfoejProdukt(p13g2, 15);
         fredagsbar.tilfoejProdukt(p14g2, 15);
         fredagsbar.tilfoejProdukt(p15g2, 15);
-        fredagsbar.tilfoejProdukt(p16g2,15);
+        fredagsbar.tilfoejProdukt(p16g2, 15);
         fredagsbar.tilfoejProdukt(p17g2, 10);
         fredagsbar.tilfoejProdukt(p18g2, 30);
 
         // GRUPPE 3
         fredagsbar.tilfoejProdukt(p1g3, 599);
         fredagsbar.tilfoejProdukt(p2g3, 50);
-        fredagsbar.tilfoejProdukt(p3g3,499);
+        fredagsbar.tilfoejProdukt(p3g3, 499);
         fredagsbar.tilfoejProdukt(p4g3, 300);
         fredagsbar.tilfoejProdukt(p5g3, 350);
         fredagsbar.tilfoejProdukt(p6g3, 80);

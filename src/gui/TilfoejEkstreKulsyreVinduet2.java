@@ -87,7 +87,6 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         comboBoxProdukt.getItems().setAll(Controller.hentProdukterFraGruppenavn("Kulsyre"));
         pane.add(comboBoxProdukt, 1,1 );
 
-
         //
         textFieldAntal.setText("0");
         textFieldAntal.setEditable(false);
