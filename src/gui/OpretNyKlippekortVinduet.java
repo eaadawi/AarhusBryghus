@@ -68,6 +68,7 @@ public class OpretNyKlippekortVinduet extends Stage {
 
     private void opretKnapMetod(){
         Controller.opretKlippekort(textFieldKundenavn.getText());
+        this.hide();
     }
 
 }
