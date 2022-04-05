@@ -18,9 +18,9 @@ public class Storage {
     private final Set<Klippekort> klippekortSet = new HashSet<>();
 
     public static Storage hentInstans() {
-        if(uniqueInstans == null) {
+        if (uniqueInstans == null) {
             synchronized (Storage.class) {
-                if(uniqueInstans == null) {
+                if (uniqueInstans == null) {
                     uniqueInstans = new Storage();
                 }
             }
@@ -32,7 +32,7 @@ public class Storage {
         return new Storage();
     }
 
-    public void tiljoejProduktGruppe (ProduktGruppe produktGruppe){
+    public void tiljoejProduktGruppe(ProduktGruppe produktGruppe) {
         produktGruppeSet.add(produktGruppe);
     }
 
@@ -51,7 +51,7 @@ public class Storage {
     /**
      * Pre: produktGruppe er ind i settet
      */
-    public void fjernjProduktGruppe (ProduktGruppe produktGruppe){
+    public void fjernjProduktGruppe(ProduktGruppe produktGruppe) {
         produktGruppeSet.remove(produktGruppe);
     }
 
@@ -79,7 +79,7 @@ public class Storage {
     /**
      * Henter en kopi af produktGruppeSet
      */
-    public Set<ProduktGruppe> hentProduktGrupper(){
+    public Set<ProduktGruppe> hentProduktGrupper() {
         return new HashSet<>(produktGruppeSet);
     }
 

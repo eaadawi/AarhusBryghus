@@ -53,6 +53,6 @@ public class Prisliste {
      */
     @Override
     public String toString() {
-        return navn+" / "+valuta.toString();
+        return navn + " / " + valuta.toString();
     }
 }

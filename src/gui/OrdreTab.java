@@ -11,10 +11,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import model.Ordre;
 
+import java.util.Random;
+
 public class OrdreTab extends GridPane {
     private ListView<Ordre> ordreListView = new ListView<>();
     private ListView<Ordre> udlejningListView = new ListView<>();
     private Ordre ordre;
+    private Button opretUdlejning = new Button();
+
     public OrdreTab() {
         this.setPadding(new Insets(20));
         this.setHgap(20);
@@ -53,7 +57,9 @@ public class OrdreTab extends GridPane {
         opretOrder.setOnAction(event -> this.opretOrder());
 
         //Button opretUdlejning knap
-        Button opretUdlejning = new Button();
+
+        opretUdlejning.setPrefSize(size,size);
+
         opretUdlejning.setText("Ny Udlejning");
         this.add(opretUdlejning, 6, 1);
         opretUdlejning.setOnAction(event -> this.nyUdlejning());
@@ -80,6 +86,11 @@ public class OrdreTab extends GridPane {
         OpretNyUdlejningVinduet dialog = new OpretNyUdlejningVinduet("Ny Udlejning");
         dialog.showAndWait();
         //
+        Random r = new Random();
+        int a = r.nextInt(256);
+        int b = r.nextInt(256);
+        int c = r.nextInt(256);
+        opretUdlejning.setStyle("-fx-background-color: rgb("+a+","+b+","+c+");");
         //
         udlejningListView.getItems().setAll(Controller.hentOdreAfType("u"));
     }

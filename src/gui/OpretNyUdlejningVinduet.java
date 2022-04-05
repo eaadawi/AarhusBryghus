@@ -52,7 +52,7 @@ public class OpretNyUdlejningVinduet extends Stage {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
-
+        this.setOnCloseRequest(event -> this.vinduetLukkesMetod());
         //
         udlejning = Controller.opretUdlejning();
         this.setTitle(title);
@@ -122,8 +122,11 @@ public class OpretNyUdlejningVinduet extends Stage {
         //------------------- DatePicker -----------------
 
         //
+        startDatoDatePicker.setValue(LocalDate.now());
+        startDatoDatePicker.setEditable(false);
         pane.add(startDatoDatePicker, 1, 0);
         //
+        slutDatoDatePicker.setEditable(false);
         pane.add(slutDatoDatePicker, 1, 1);
 
         //-------------------- TextField ------------------------------
@@ -139,7 +142,21 @@ public class OpretNyUdlejningVinduet extends Stage {
         pane.add(foedseldsdagTextField, 1, 4);
 
         //
+        pane.add(checkBoxLevering, 3, 0);
+        //
+        textFieldAdresse.setEditable(false);
         pane.add(textFieldAdresse, 3, 1);
+        //
+        pane.add(buttonTilfoejAnlaeg, 2, 3);
+
+        //
+        pane.add(buttonTilfoejFustage, 2, 4);
+
+        //
+        pane.add(buttonTilfoejKulsyre, 2, 5);
+
+        //
+        pane.add(buttonTilfoejKrus, 2, 6);
 
         //
         textSamletPrisEKS.setEditable(false);
@@ -153,19 +170,19 @@ public class OpretNyUdlejningVinduet extends Stage {
         //Button buttonTilfoejAnlaeg
         buttonTilfoejAnlaeg.setOnAction(event -> this.buttonTilfoejAnlaegKnapMetod());
         buttonTilfoejAnlaeg.setMaxWidth(Double.MAX_VALUE);
-        pane.add(buttonTilfoejAnlaeg, 2, 3);
+
         //Button buttonTilfoejFustage
         buttonTilfoejFustage.setOnAction(event -> this.buttonTilfoejFustageKnapMetod());
         buttonTilfoejFustage.setMaxWidth(Double.MAX_VALUE);
-        pane.add(buttonTilfoejFustage, 2, 4);
+
         //Button buttonTilfoejKulsyre
         buttonTilfoejKulsyre.setOnAction(event -> this.buttonTilfoejKulsyreKnapMetod());
         buttonTilfoejKulsyre.setMaxWidth(Double.MAX_VALUE);
-        pane.add(buttonTilfoejKulsyre, 2, 5);
+
         //Button buttonTilfoejKrus
         buttonTilfoejKrus.setOnAction(event -> this.buttonTilfoejKrusKnapMetod());
         buttonTilfoejKrus.setMaxWidth(Double.MAX_VALUE);
-        pane.add(buttonTilfoejKrus, 2, 6);
+
         //Button buttonFjernOL
         buttonFjernOL.setOnAction(event -> this.buttonFjernOLKnapMetod(ordrelinjeListView.getSelectionModel().getSelectedItem()));
         buttonFjernOL.setMaxWidth(Double.MAX_VALUE);
@@ -186,18 +203,6 @@ public class OpretNyUdlejningVinduet extends Stage {
         //
         ChangeListener<Boolean> listenerChB = (o, ol, n) -> this.chBListenerMetod();
         checkBoxLevering.selectedProperty().addListener(listenerChB);
-        pane.add(checkBoxLevering, 3, 0);
-
-
-        //------------------- VBox ----------------
-        //
-//        VBox vBox = new VBox();
-//        vBox.setSpacing(10);
-//        vBox.getChildren().add(buttonTilfoejAnlaeg);
-//        vBox.getChildren().add(buttonTilfoejFustage);
-//        vBox.getChildren().add(buttonTilfoejKulsyre);
-//        vBox.getChildren().add(buttonTilfoejKrus);
-//        pane.add(vBox, 2, 3);
 
     }
 
@@ -227,23 +232,6 @@ public class OpretNyUdlejningVinduet extends Stage {
         }
     }
 
-    private void udregnPris(TextField tf) {
-        double pris = 0;
-        for (Ordrelinje ol : udlejning.hentOrdrelinjer()) {
-            pris += ol.samletPris();
-        }
-
-    }
-
-    private void udregnPrisUdenPant(TextField tf) {
-        double pris = 0;
-        for (Ordrelinje ol : udlejning.hentOrdrelinjer()) {
-            if (!ol.hentProdukt().hentNavn().equals("Pant"))
-                pris += ol.samletPris();
-        }
-        tf.setText("" + pris);
-    }
-
     private void tilfoejUdlejningKnapMetod() {
         udlejning.tilfoejStartDato(startDatoDatePicker.getValue());
         udlejning.tilfoejSlutDato(slutDatoDatePicker.getValue());
@@ -259,7 +247,7 @@ public class OpretNyUdlejningVinduet extends Stage {
     }
 
     private void buttonTilfoejAnlaegKnapMetod() {
-        //TODO items
+
         AnlaegVinduet dialog = new AnlaegVinduet("Tilføj anlaeg", udlejning);
         dialog.showAndWait();
 
@@ -293,7 +281,17 @@ public class OpretNyUdlejningVinduet extends Stage {
     }
 
     private void opdaterListView() {
+        this.opdaterPriser();
         ordrelinjeListView.getItems().setAll(udlejning.hentOrdrelinjer());
+    }
+
+    private void opdaterPriser(){
+        textSamletPris.setText(""+udlejning.totalPrisMedPant());
+        textSamletPrisEKS.setText(""+udlejning.totalPris());
+    }
+
+    private void vinduetLukkesMetod(){
+        Controller.fjernOrdre(udlejning);
     }
 
 }
@@ -342,9 +340,14 @@ class TilfoejEkstraKrus extends Stage {
         //
         Button buttonTilfoej = new Button("Tilføj");
         buttonTilfoej.setOnAction(event -> this.buttonTilfoejKnapMetod());
+        pane.add(buttonTilfoej, 2, 1);
     }
 
+    /**
+     * Antal kruser skal ikke overstige antal kruser på lageren
+     */
     private void buttonTilfoejKnapMetod() {
+
         ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()), Controller.hentProduktFraNavn("Anlæg", "Krus"), prisliste);
         this.hide();
     }

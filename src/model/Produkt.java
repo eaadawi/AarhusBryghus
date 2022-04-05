@@ -11,7 +11,7 @@ public class Produkt {
      */
     public Produkt(String navn, int antalPaaLager) {
         this.navn = navn;
-        if(antalPaaLager < 0)
+        if (antalPaaLager < 0)
             throw new IllegalArgumentException("Antal må ikke være negativt");
         this.antalPaaLager = antalPaaLager;
     }
@@ -36,7 +36,7 @@ public class Produkt {
      * Kaster en IllegalArgumentException hvis der ikke er nok tilbage på lager
      */
     public void fjernAntalPaaLager(int antal) {
-        if(antalPaaLager - antal < 0)
+        if (antalPaaLager - antal < 0)
             throw new IllegalArgumentException("Der er kun " + antalPaaLager + " tilbage på lager");
         antalPaaLager -= antal;
     }
