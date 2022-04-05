@@ -244,7 +244,7 @@ public class OpretNyUdlejningVinduet extends Stage {
     }
 
     private void buttonTilfoejAnlaegKnapMetod() {
-        //TODO items
+
         AnlaegVinduet dialog = new AnlaegVinduet("Tilføj anlaeg", udlejning);
         dialog.showAndWait();
 

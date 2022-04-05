@@ -24,7 +24,7 @@ public class AnlaegVinduet extends Stage {
     private TextField textField1 = new TextField();
     private TextField textField2 = new TextField();
 
-    public AnlaegVinduet(String title, Ordre ordre){
+    public AnlaegVinduet(String title, Ordre ordre) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -39,7 +39,7 @@ public class AnlaegVinduet extends Stage {
         this.setScene(scene);
     }
 
-    private void initContentPane(GridPane pane){
+    private void initContentPane(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
         pane.setVgap(10);
@@ -48,6 +48,7 @@ public class AnlaegVinduet extends Stage {
         //-------------------- ComboBox --------------------
         //produktComboBox
         //TODO items
+        produktComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> this.produktComboBoxListener());
         hentProdukterAnlaeg(produktComboBox);
         pane.add(produktComboBox, 0, 0);
         //-------------------- TextField --------------------
@@ -68,17 +69,26 @@ public class AnlaegVinduet extends Stage {
 
     }
 
-    private void buttonKnapMetod(){
+    private void buttonKnapMetod() {
         ordre.opretOrdrelinje(Integer.parseInt(textField2.getText()),
-                produktComboBox.getSelectionModel().getSelectedItem(),Controller.hentPrislisteFraNavn("Butik"));
+                produktComboBox.getSelectionModel().getSelectedItem(), Controller.hentPrislisteFraNavn("Butik"));
         this.hide();
 
 //        ordre.opretOrdrelinje(Integer.parseInt(textField2.getText()),produktComboBox.getSelectionModel().getSelectedItem(),Controller.hentPrislisteFraNavn("Butik"));
     }
 
-    private void hentProdukterAnlaeg(ComboBox<Produkt> comboBox){
+    private void hentProdukterAnlaeg(ComboBox<Produkt> comboBox) {
         List<Produkt> produkts = Controller.hentProdukterFraGruppenavn("Anlæg");
         produkts.removeIf(p -> p.hentNavn().equals("Levering") || p.hentNavn().equals("Krus"));
         produktComboBox.getItems().setAll(produkts);
+    }
+
+    private void produktComboBoxListener() {
+        if (produktComboBox.getSelectionModel().getSelectedItem().hentNavn().equals("Bar med flere haner")) {
+            textField1.setEditable(true);
+        } else {
+            textField1.setEditable(false);
+            textField1.clear();
+        }
     }
 }

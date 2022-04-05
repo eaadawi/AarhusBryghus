@@ -1,5 +1,6 @@
 package gui;
 
+import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
@@ -9,13 +10,19 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import model.Ordre;
 
 public class StatistikTab extends GridPane {
 
-    private ListView listViewOrdre = new ListView();
-    private ListView listViewOrdreKlip = new ListView();
+    private ListView<Ordre> listViewOrdre = new ListView();
+    private ListView<Ordre> listViewOrdreKlip = new ListView();
     private TextField textField1 = new TextField();
     private TextField textField2 = new TextField();
+    private DatePicker datePickerDato = new DatePicker();
+    private DatePicker datePickerStartDato = new DatePicker();
+    private DatePicker datePickerSlutDato = new DatePicker();
+
+
     public StatistikTab(){
         this.setPadding(new Insets(20));
         this.setHgap(20);
@@ -53,14 +60,12 @@ public class StatistikTab extends GridPane {
         //-----------------------DatePicker--------------
 
         //
-        DatePicker datePickerDato = new DatePicker();
+
         datePickerDato.valueProperty().addListener((observable, oldValue, newValue) -> this.listenerDPL(datePickerDato));
         this.add(datePickerDato, 1, 1);
         //
-        DatePicker datePickerStartDato = new DatePicker();
 
         //
-        DatePicker datePickerSlutDato = new DatePicker();
 
         datePickerStartDato.valueProperty().addListener((observable, oldValue, newValue) -> this.listenerDPR(datePickerStartDato,datePickerSlutDato));
         datePickerSlutDato.valueProperty().addListener((observable, oldValue, newValue) -> this.listenerDPR(datePickerStartDato,datePickerSlutDato));
@@ -112,7 +117,7 @@ public class StatistikTab extends GridPane {
     private void listenerDPL(DatePicker dp){
         if(dp.getValue()!=null){
             //TODO items
-            listViewOrdre.getItems().setAll();
+            listViewOrdre.getItems().setAll(Controller.hentOrdreDato(datePickerDato.getValue()));
 
             //TODO textField1 opdatering
 
@@ -122,7 +127,7 @@ public class StatistikTab extends GridPane {
     private void listenerDPR(DatePicker dp1,DatePicker dp2){
         if (dp1.getValue()!=null && dp2.getValue()!=null){
             //TODO items
-            listViewOrdreKlip.getItems().setAll();
+            listViewOrdreKlip.getItems().setAll(Controller.hentOrdrePeriode(datePickerStartDato.getValue(), datePickerSlutDato.getValue()));
 
             //TODO textField2 opdatering
         }
