@@ -88,12 +88,6 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
         pane.add(comboBoxProdukt, 1,1 );
 
         //
-        Button buttonTilfoej = new Button();
-        buttonTilfoej.setText("Tilføj");
-        buttonTilfoej.setOnAction(event -> this.tilfoejEkstraKulsyreKnap());
-        pane.add(buttonTilfoej,2 ,3 );
-
-        //
         textFieldAntal.setText("0");
         textFieldAntal.setEditable(false);
 
@@ -117,6 +111,13 @@ public class TilfoejEkstreKulsyreVinduet2 extends Stage {
 
         //
         pane.add(textFieldPris, 1, 3);
+
+        //
+        Button buttonTilfoej = new Button();
+        buttonTilfoej.setText("Tilfoej");
+        buttonTilfoej.setOnAction(event -> this.tilfoejEkstraKulsyreKnap());
+        pane.add(buttonTilfoej,2 ,3 );
+
     }
 
     private void tilfoejEkstraKulsyreKnap(){
