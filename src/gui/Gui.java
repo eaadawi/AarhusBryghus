@@ -42,7 +42,7 @@ public class Gui extends Application {
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
         // ------------------------------------------------------------------------------------
-        Tab produktGruppeTab = new Tab("ProduktGruppe");
+        Tab produktGruppeTab = new Tab("Administrere");
         tabPane.getTabs().add(produktGruppeTab);
 
         ProduktGruppeTab pgTab = new ProduktGruppeTab();
@@ -56,7 +56,7 @@ public class Gui extends Application {
         opretPrisliste.setContent(opTab);
         //------------------------------------------------------------------------------------
         Tab ordre = new Tab();
-        ordre.setText("Ordre");
+        ordre.setText("Opret Ordre");
         tabPane.getTabs().add(ordre);
 
         OrdreTab ordreTab = new OrdreTab();
@@ -69,6 +69,12 @@ public class Gui extends Application {
         KlippekortTab kkt = new KlippekortTab();
         klippekort.setContent(kkt);
         //------------------------------------------------------------------------------------
+        Tab statistik = new Tab("Statistik");
+        tabPane.getTabs().add(statistik);
+
+        StatistikTab statistikTab = new StatistikTab();
+        statistik.setContent(statistikTab);
+
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------
 
