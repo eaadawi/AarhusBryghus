@@ -1,9 +1,12 @@
 package model;
 
+
 import storage.Storage;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Udlejning extends Ordre {
@@ -15,10 +18,14 @@ public class Udlejning extends Ordre {
     private LocalDate kundeFoedselsdag;
     private String adresse;
     private boolean levering;
+    private boolean afregnet; // TODO Tilføj til deisgnklassediagram
+    private double afregnetBeloeb; // TODO Tilføj til deisgnklassediagram
+    private List<Ordrelinje> returFustager = new ArrayList<>(); // TODO Tilføj til deisgnklassediagram
 
     public Udlejning(LocalDate dato, int id) {
         super(dato, id);
         levering = false;
+        afregnet = false;
     }
 
     /**
@@ -91,6 +98,19 @@ public class Udlejning extends Ordre {
      */
     public String hentAdresse() {
         return adresse;
+    }
+
+    // TODO Tilføj til deisgnklassediagram
+    /**
+     * Retunere det afrengede beløb for en udlejning
+     */
+    public double hentAfregnetBeloeb() {
+        return afregnetBeloeb;
+    }
+
+    // TODO Tilføj til deisgnklassediagram
+    public boolean erAfregnet() {
+        return afregnet;
     }
 
     /**
@@ -180,5 +200,98 @@ public class Udlejning extends Ordre {
 
     public boolean harLevering() {
         return levering;
+    }
+
+    // TODO Tilføj til deisgnklassediagram
+    /**
+     * Tilføjer et pantprodukt til returFustager
+     */
+    public Ordrelinje opretReturFustage(int antal, PantProdukt pp, Prisliste pl) {
+        Ordrelinje o = new Ordrelinje(antal, pp, pl);
+        returFustager.add(o);
+        return o;
+    }
+
+    // TODO Tilføj til deisgnklassediagram
+    /**
+     * Pre: Ordrelinjen er i returFustager
+     * Fjerner en ordrelinje fra returFustager
+     */
+    public void fjernReturFustage(Ordrelinje ol) {
+        returFustager.remove(ol);
+    }
+
+    // TODO Tilføj til deisgnklassediagram
+    /**
+     * Udregner det beløb en kunde skal have tilbage ved aflevering af anlæg, samt tilhørende produkter
+     * fustager & kulsyrer.
+     */
+    public double afregn(boolean anlaegOk, int fustagePant, int kulsyrePant) {
+
+        if (!afregnet) {
+            double afregnetBeloeb = 0;
+            Prisliste prisliste = null;
+            for (Prisliste pl : Storage.hentInstans().hentPrislister()) {
+                if (pl.hentNavn().equals("Butik")) {
+                    prisliste = pl;
+                }
+            }
+            if(prisliste == null) throw new IllegalArgumentException("Der findes ingen prisliste med dette navn");
+
+            double pantReturFustage = 0;
+            for (Produkt p : prisliste.hentProdukter()) {
+                if (p.hentNavn().equals("Pant")) {
+                    if (p.hentProduktGruppe().hentNavn().equals("fustage")) {
+                        pantReturFustage = prisliste.hentPris(p);
+                    }
+                }
+            }
+            int i = 0;
+            while (i <= fustagePant) {
+                afregnetBeloeb += pantReturFustage;
+                i++;
+            }
+
+            double pantReturKulsyre = 0;
+            for (Produkt p : prisliste.hentProdukter()) {
+                if (p.hentNavn().equals("Pant")) {
+                    if (p.hentProduktGruppe().hentNavn().equals("Kulsyre")) {
+                        pantReturKulsyre = prisliste.hentPris(p);
+                    }
+                }
+            }
+            int j = 0;
+            while (j <= kulsyrePant) {
+                afregnetBeloeb += pantReturKulsyre;
+                j++;
+            }
+
+            for (Ordrelinje ol : returFustager) {
+                double olPris = ol.samletPris();
+                double behandligsGebyr = ol.hentAntal() * 50;
+                double pris = olPris - behandligsGebyr;
+                afregnetBeloeb += pris;
+                ol.hentProdukt().tilfoejAntalPaaLager(ol.hentAntal());
+            }
+
+            afregnet = true;
+            this.afregnetBeloeb = afregnetBeloeb;
+
+            if (anlaegOk) {
+                for(Ordrelinje ol : super.hentOrdrelinjer()) {
+                    if (ol.hentProdukt().hentProduktGruppe().hentNavn().equals("Anlæg")) {
+                        if (!ol.hentProdukt().hentNavn().equals("Krus")) {
+                            ol.hentProdukt().tilfoejAntalPaaLager(ol.hentAntal());
+                        }
+                    }
+                }
+            }
+
+            return afregnetBeloeb;
+
+        }
+        else {
+            return 0;
+        }
     }
 }
