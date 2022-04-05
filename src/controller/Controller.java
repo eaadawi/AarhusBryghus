@@ -305,6 +305,7 @@ public class Controller {
     }
 
     public static void initStorage() {
+        Storage.hentInstans().rydStorage();
         Klippekort.aendreKlippekortPris(130);
         Klippekort.aendreAntalKlip(4);
         // PRODUKTGRUPPER
