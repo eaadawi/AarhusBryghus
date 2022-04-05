@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class Klippekort {
     private static int antalKlip;
     private static double klippekortPris;
@@ -7,10 +9,12 @@ public class Klippekort {
     private final String kundeNavn;
     private final double pris;
     private int antalKlipTilbage;
+    private final LocalDate dato;
 
     public Klippekort(int id, String kundeNavn) {
         this.id = id;
         this.kundeNavn = kundeNavn;
+        this.dato = LocalDate.now();
         pris = klippekortPris;
         antalKlipTilbage = antalKlip;
     }
@@ -63,12 +67,16 @@ public class Klippekort {
         return antalKlipTilbage;
     }
 
+    public LocalDate hentDato() {
+        return dato;
+    }
+
     /**
      * Kaster en IllegalArgumentException hvis det givet antal er
      * højere ind antal klip tilbage på kortet
      */
     public void fjernKlip(int antal) {
-        if(antalKlipTilbage - antal < 0)
+        if (antalKlipTilbage - antal < 0)
             throw new IllegalArgumentException("Det er kun " + antalKlipTilbage + " klip tilbage på dette kort");
         antalKlipTilbage -= antal;
     }

@@ -7,7 +7,9 @@ import model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
+
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,7 +17,7 @@ class ControllerTest {
 
     @Test
     @Order(1)
-    void opretProduktgruppeTest(){
+    void opretProduktgruppeTest() {
 
         // Arrange
         String navn = "Produktgruppe Test";
@@ -134,6 +136,9 @@ class ControllerTest {
     @Order(8)
     void opretOrdreTest() {
 
+        // Arrange
+        Storage.hentInstans().rydStorage();
+
         // Act
         Ordre ordre = Controller.opretOrdre();
 
@@ -190,7 +195,7 @@ class ControllerTest {
         pl.tilfoejProdukt(p4, 30);
 
         // Act
-        Set<Produkt> set= Controller.hentFaellesProdukter(pg1, pl);
+        Set<Produkt> set = Controller.hentFaellesProdukter(pg1, pl);
 
         // Assert
         assertTrue(set.contains(p1));
@@ -260,11 +265,11 @@ class ControllerTest {
         // Arrange
         String pgNavn = "Test";
         ProduktGruppe produktGruppe = Controller.opretProduktGruppe(pgNavn);
-        produktGruppe.opretProdukt("Produkt 1" ,1);
-        produktGruppe.opretProdukt("Produkt 2" ,1);
-        produktGruppe.opretProdukt("Produkt 3" ,1);
-        produktGruppe.opretProdukt("Produkt 4" ,1);
-        produktGruppe.opretProdukt("Produkt 5" ,1);
+        produktGruppe.opretProdukt("Produkt 1", 1);
+        produktGruppe.opretProdukt("Produkt 2", 1);
+        produktGruppe.opretProdukt("Produkt 3", 1);
+        produktGruppe.opretProdukt("Produkt 4", 1);
+        produktGruppe.opretProdukt("Produkt 5", 1);
         produktGruppe.hentProdukter();
         String forventetProdukt = "Produkt 3";
 
@@ -419,5 +424,151 @@ class ControllerTest {
         assertTrue(klippekortSet.contains(klippekort2));
         assertFalse(klippekortSet.contains(klippekort3));
 
+    }
+
+    @Test
+    @Order(24)
+    void hentOrdreDato() {
+
+        // Arrange
+        LocalDate dato = LocalDate.now();
+        Ordre ordre1 = Controller.opretOrdre();
+        Ordre ordre2 = Controller.opretOrdre();
+        Ordre ordre3 = Controller.opretOrdre();
+
+        // Act
+        Set<Ordre> ordreSet = Controller.hentOrdreDato(dato);
+
+        // Assert
+        assertTrue(ordreSet.contains(ordre1));
+        assertTrue(ordreSet.contains(ordre2));
+        assertTrue(ordreSet.contains(ordre3));
+    }
+
+    @Test
+    @Order(25)
+    void udregnSamletOmsaetning() {
+
+        // Arrange
+        LocalDate dato = LocalDate.now();
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+        Ordre ordre = Controller.opretOrdre();
+        Produkt produkt1 = Controller.hentProduktFraNavn("Beklædning", "polo");
+        Produkt produkt2 = Controller.hentProduktFraNavn("Beklædning", "cap");
+        Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
+        ordre.opretOrdrelinje(1, produkt1, prisliste);
+        ordre.opretOrdrelinje(2, produkt2, prisliste);
+        double forventet = 160;
+
+        // Act
+        double pris = Controller.hentSamletOmsaetning(dato);
+
+        // Assert
+        assertEquals(pris, forventet);
+    }
+
+    @Test
+    @Order(26)
+    void hentOrdrePeriode() {
+        // Arrange
+        Ordre o1 = new Ordre(LocalDate.of(2022, 4, 4), 1);
+        Ordre o2 = new Ordre(LocalDate.of(2022, 5, 4), 2);
+        Ordre o3 = new Ordre(LocalDate.of(2022, 7, 4), 3);
+        Ordre o4 = new Ordre(LocalDate.of(2022, 8, 4), 4);
+
+        Storage.hentInstans().tilfoejOrdre(o1);
+        Storage.hentInstans().tilfoejOrdre(o2);
+        Storage.hentInstans().tilfoejOrdre(o3);
+        Storage.hentInstans().tilfoejOrdre(o4);
+
+        LocalDate startDato = LocalDate.of(2022, 5, 4);
+        LocalDate slutDato = LocalDate.of(2022, 7, 4);
+
+        // Act
+        Set<Ordre> ordreSet = Controller.hentOrdrePeriode(startDato, slutDato);
+
+        // Assert
+        assertFalse(ordreSet.contains(o1));
+        assertTrue(ordreSet.contains(o2));
+        assertTrue(ordreSet.contains(o3));
+        assertFalse(ordreSet.contains(o4));
+    }
+
+    @Test
+    @Order(27)
+    void hentOrdrePeriode_kasterFejl() {
+        // Arrange
+        LocalDate startDato = LocalDate.of(2022, 5, 4);
+        LocalDate slutDato = LocalDate.of(2022, 4, 4);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> Controller.hentOrdrePeriode(startDato, slutDato));
+        assertTrue(exception.getMessage().contains("startDato må ikke være før slutDato"));
+    }
+
+    @Test
+    @Order(28)
+    void udregnSamletForbrugteKlip() {
+        // Arrange
+        Ordre o1 = Controller.opretOrdre();
+        Ordre o2 = Controller.opretOrdre();
+        Ordre o3 = Controller.opretOrdre();
+        Set<Ordre> ordreSet = new HashSet<>(List.of(o1, o2, o3));
+        Prisliste pl = new Prisliste("Prisliste", Valuta.KLIP);
+        Produkt p = new Produkt("Øl", 100);
+        pl.tilfoejProdukt(p, 2);
+
+        o1.opretOrdrelinje(2, p, pl);
+        o1.opretOrdrelinje(3, p, pl);
+        o2.opretOrdrelinje(1, p, pl);
+        o3.opretOrdrelinje(2, p, pl);
+
+        int forventet = 16;
+
+        // Act
+        int resultat = Controller.udregnSamletForbrugteKlip(ordreSet);
+
+        // Assert
+        assertEquals(forventet, resultat);
+    }
+
+    @Test
+    @Order(29)
+    void muligeStoerrelser() {
+
+        // Arrange
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+
+        // Act
+        Set<Integer> stoerrelser = Controller.muligeStoerrelser();
+
+        // Assert
+        assertTrue(stoerrelser.contains(20));
+        assertTrue(stoerrelser.contains(25));
+        assertFalse(stoerrelser.contains(19));
+        assertFalse(stoerrelser.contains(0));
+        assertFalse(stoerrelser.contains(21));
+        assertFalse(stoerrelser.contains(26));
+        assertFalse(stoerrelser.contains(24));
+    }
+
+    @Test
+    @Order(30)
+    void udregnFustagePris() {
+
+        // Arrange
+        Storage.hentInstans().rydStorage();
+        Controller.initStorage();
+        int stoerrelse = 30;
+        Produkt fustage = Controller.hentProduktFraNavn("fustage", "Klosterbryg, 20 liter");
+        double forventet = 1162.5;
+
+        // Act
+        double pris = Controller.udregnFustagePris(stoerrelse, (PantProdukt) fustage);
+
+        // Assert
+        assertEquals(pris, forventet);
     }
 }

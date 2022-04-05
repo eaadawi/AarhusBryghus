@@ -25,8 +25,8 @@ public class Ordre {
      */
     public double totalPris() {
         double pris = 0;
-        for(Ordrelinje ol : ordrelinjer) {
-            if(ol.hentPrisliste().hentValuta() != Valuta.KLIP)
+        for (Ordrelinje ol : ordrelinjer) {
+            if (ol.hentPrisliste().hentValuta() != Valuta.KLIP)
                 pris += ol.samletPris();
         }
         String str = String.format("%.2f", pris);
@@ -39,8 +39,8 @@ public class Ordre {
      */
     public int klipPris() {
         int pris = 0;
-        for(Ordrelinje ol : ordrelinjer) {
-            if(ol.hentPrisliste().hentValuta() == Valuta.KLIP)
+        for (Ordrelinje ol : ordrelinjer) {
+            if (ol.hentPrisliste().hentValuta() == Valuta.KLIP)
                 pris += ol.samletPris();
         }
         return pris;
@@ -108,28 +108,31 @@ public class Ordre {
      * med de tilknyttede klippekort hvis der ikke er betalt allerede og sætter betaltMedKlip til true
      * Kaster en IllegalArgumentException hvis der ikke er nok klip tilsammen på de tilknyttede klippekort
      */
-    //TODO Lav test
     public void betalMedKlippekort() {
         int pris = klipPris();
         int antalKlip = 0;
-        for(Klippekort k : klippekortList) {
+        for (Klippekort k : klippekortList) {
             antalKlip += k.hentAntalKlipTilbage();
         }
-        if(pris > antalKlip)
+        if (pris > antalKlip)
             throw new IllegalArgumentException("Der er ikke nok klip");
 
         betaltMedKlip = true;
-        for(Klippekort k : klippekortList) {
-            while(pris > 0 && k.hentAntalKlipTilbage() > 0) {
+        for (Klippekort k : klippekortList) {
+            while (pris > 0 && k.hentAntalKlipTilbage() > 0) {
                 pris--;
                 k.fjernKlip(1);
             }
         }
     }
 
+    // TODO Opdateres til statistik
     @Override
     public String toString() {
-        return "Ordre nr " + id +' '+
-                "(" + dato +')';
+
+        return "Ordre nr " + id + ' ' +
+                "(" + dato + ')';
     }
+
+
 }
