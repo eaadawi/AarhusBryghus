@@ -7,6 +7,7 @@ import model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -16,7 +17,7 @@ class ControllerTest {
 
     @Test
     @Order(1)
-    void opretProduktgruppeTest(){
+    void opretProduktgruppeTest() {
 
         // Arrange
         String navn = "Produktgruppe Test";
@@ -194,7 +195,7 @@ class ControllerTest {
         pl.tilfoejProdukt(p4, 30);
 
         // Act
-        Set<Produkt> set= Controller.hentFaellesProdukter(pg1, pl);
+        Set<Produkt> set = Controller.hentFaellesProdukter(pg1, pl);
 
         // Assert
         assertTrue(set.contains(p1));
@@ -264,11 +265,11 @@ class ControllerTest {
         // Arrange
         String pgNavn = "Test";
         ProduktGruppe produktGruppe = Controller.opretProduktGruppe(pgNavn);
-        produktGruppe.opretProdukt("Produkt 1" ,1);
-        produktGruppe.opretProdukt("Produkt 2" ,1);
-        produktGruppe.opretProdukt("Produkt 3" ,1);
-        produktGruppe.opretProdukt("Produkt 4" ,1);
-        produktGruppe.opretProdukt("Produkt 5" ,1);
+        produktGruppe.opretProdukt("Produkt 1", 1);
+        produktGruppe.opretProdukt("Produkt 2", 1);
+        produktGruppe.opretProdukt("Produkt 3", 1);
+        produktGruppe.opretProdukt("Produkt 4", 1);
+        produktGruppe.opretProdukt("Produkt 5", 1);
         produktGruppe.hentProdukter();
         String forventetProdukt = "Produkt 3";
 
@@ -424,7 +425,7 @@ class ControllerTest {
         assertFalse(klippekortSet.contains(klippekort3));
 
     }
-  
+
     @Test
     @Order(24)
     void hentOrdreDato() {
@@ -456,7 +457,7 @@ class ControllerTest {
         Produkt produkt1 = Controller.hentProduktFraNavn("Beklædning", "polo");
         Produkt produkt2 = Controller.hentProduktFraNavn("Beklædning", "cap");
         Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
-        ordre.opretOrdrelinje(1,produkt1, prisliste);
+        ordre.opretOrdrelinje(1, produkt1, prisliste);
         ordre.opretOrdrelinje(2, produkt2, prisliste);
         double forventet = 160;
 
@@ -466,12 +467,12 @@ class ControllerTest {
         // Assert
         assertEquals(pris, forventet);
     }
-  
+
     @Test
     @Order(26)
     void hentOrdrePeriode() {
         // Arrange
-        Ordre o1 = new  Ordre(LocalDate.of(2022, 4, 4), 1);
+        Ordre o1 = new Ordre(LocalDate.of(2022, 4, 4), 1);
         Ordre o2 = new Ordre(LocalDate.of(2022, 5, 4), 2);
         Ordre o3 = new Ordre(LocalDate.of(2022, 7, 4), 3);
         Ordre o4 = new Ordre(LocalDate.of(2022, 8, 4), 4);
@@ -486,7 +487,6 @@ class ControllerTest {
 
         // Act
         Set<Ordre> ordreSet = Controller.hentOrdrePeriode(startDato, slutDato);
-        System.out.println(ordreSet);
 
         // Assert
         assertFalse(ordreSet.contains(o1));

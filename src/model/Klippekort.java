@@ -76,7 +76,7 @@ public class Klippekort {
      * højere ind antal klip tilbage på kortet
      */
     public void fjernKlip(int antal) {
-        if(antalKlipTilbage - antal < 0)
+        if (antalKlipTilbage - antal < 0)
             throw new IllegalArgumentException("Det er kun " + antalKlipTilbage + " klip tilbage på dette kort");
         antalKlipTilbage -= antal;
     }

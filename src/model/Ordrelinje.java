@@ -11,7 +11,7 @@ public class Ordrelinje {
      * Kaster en IllegalArgumentException hvis antal er under 0
      */
     public Ordrelinje(int antal, Produkt produkt, Prisliste prisliste) {
-        if(antal < 0)
+        if (antal < 0)
             throw new IllegalArgumentException("Antal må ikke være negativt");
 
         this.antal = antal;
@@ -41,6 +41,6 @@ public class Ordrelinje {
 
     @Override
     public String toString() {
-        return produkt +" (" +antal+")" ;
+        return produkt + " (" + antal + ")";
     }
 }

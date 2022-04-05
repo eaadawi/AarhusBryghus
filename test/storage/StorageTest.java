@@ -77,7 +77,7 @@ class StorageTest {
 
         // Arrange
         Storage testStorage = Storage.hentTestStorage();
-        Ordre ordre = new Ordre(LocalDate.of(2022,3,28), 1);
+        Ordre ordre = new Ordre(LocalDate.of(2022, 3, 28), 1);
 
         // Act
         testStorage.tilfoejOrdre(ordre);

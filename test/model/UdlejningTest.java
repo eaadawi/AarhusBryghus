@@ -15,13 +15,13 @@ class UdlejningTest {
     @Order(1)
     void constructor_med_tilfoej() {
         // Arrange
-        LocalDate dato = LocalDate.of(2022,3,29);
+        LocalDate dato = LocalDate.of(2022, 3, 29);
         int id = 1;
-        LocalDate startDato = LocalDate.of(2022,3,29);
-        LocalDate slutDato = LocalDate.of(2022,3,29);
+        LocalDate startDato = LocalDate.of(2022, 3, 29);
+        LocalDate slutDato = LocalDate.of(2022, 3, 29);
         String kundeNavn = "Kurt";
         String kundeTlfNr = "88888888";
-        LocalDate kundeFoedselsdag = LocalDate.of(2004,3,29);
+        LocalDate kundeFoedselsdag = LocalDate.of(2004, 3, 29);
         String adresse = "vej 3 8210";
 
         // Act
@@ -48,7 +48,7 @@ class UdlejningTest {
     @Order(2)
     void totalPrisMedPant_fustage() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
         Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
@@ -68,7 +68,7 @@ class UdlejningTest {
     @Order(3)
     void totalPrisMedPant_kulsyre() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
         Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
@@ -87,7 +87,7 @@ class UdlejningTest {
     @Order(4)
     void totalPrisMedPant_hane() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
         Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
@@ -106,7 +106,7 @@ class UdlejningTest {
     @Order(5)
     void totalPrisMedPant_samlet() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
         Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
@@ -132,10 +132,10 @@ class UdlejningTest {
     @Order(6)
     void tilfoejStartDato_kasterFejl() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
-        LocalDate slutDato = LocalDate.of(2022,4,30);
-        LocalDate startDato1 = LocalDate.of(2022,3,29);
-        LocalDate startDato2 = LocalDate.of(2022,5,1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
+        LocalDate slutDato = LocalDate.of(2022, 4, 30);
+        LocalDate startDato1 = LocalDate.of(2022, 3, 29);
+        LocalDate startDato2 = LocalDate.of(2022, 5, 1);
         u1.tilfoejSlutDato(slutDato);
 
         // Act & Assert
@@ -150,10 +150,10 @@ class UdlejningTest {
     @Order(7)
     void tilfoejSlutDato_kasterFejl() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
-        LocalDate startDato = LocalDate.of(2022,4,30);
-        LocalDate slutDato1 = LocalDate.of(2022,4,29);
-        LocalDate slutDato2 = LocalDate.of(2022,3,29);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
+        LocalDate startDato = LocalDate.of(2022, 4, 30);
+        LocalDate slutDato1 = LocalDate.of(2022, 4, 29);
+        LocalDate slutDato2 = LocalDate.of(2022, 3, 29);
         u1.tilfoejStartDato(startDato);
 
         // Act & Assert
@@ -168,8 +168,8 @@ class UdlejningTest {
     @Order(8)
     void tilfoejKundeFoedselsdag_kasterFejl() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
-        LocalDate foedselsdag = LocalDate.of(2004,5,1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
+        LocalDate foedselsdag = LocalDate.of(2004, 5, 1);
 
         // Act & Assert
         Exception exception = assertThrows(IllegalArgumentException.class, () -> u1.tilfoejKundeFoedselsdag(foedselsdag));
@@ -181,7 +181,7 @@ class UdlejningTest {
     @Order(9)
     void tilfoejLevering() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
         Controller.initStorage();
 
         // Act
@@ -195,7 +195,7 @@ class UdlejningTest {
     @Order(10)
     void tilfoejLevering_KasterFejlPrisliste() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
         Storage.hentInstans().rydStorage();
         Controller.initStorage();
         Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
@@ -210,12 +210,12 @@ class UdlejningTest {
     @Order(11)
     void tilfoejLevering_KasterFejlProduktGruppe() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
         Storage.hentInstans().rydStorage();
         Controller.initStorage();
         ProduktGruppe produktGruppe = null;
-        for(ProduktGruppe pg : Controller.hentProduktGrupper()) {
-            if(pg.hentNavn().equals("Anlæg"))
+        for (ProduktGruppe pg : Controller.hentProduktGrupper()) {
+            if (pg.hentNavn().equals("Anlæg"))
                 produktGruppe = pg;
         }
         Controller.fjernProduktGruppe(produktGruppe);
@@ -229,12 +229,12 @@ class UdlejningTest {
     @Order(12)
     void tilfoejLevering_KasterFejlProdukt() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
         Storage.hentInstans().rydStorage();
         Controller.initStorage();
         ProduktGruppe produktGruppe = null;
-        for(ProduktGruppe pg : Controller.hentProduktGrupper()) {
-            if(pg.hentNavn().equals("Anlæg"))
+        for (ProduktGruppe pg : Controller.hentProduktGrupper()) {
+            if (pg.hentNavn().equals("Anlæg"))
                 produktGruppe = pg;
         }
         if (produktGruppe != null)
@@ -250,7 +250,7 @@ class UdlejningTest {
     @Order(13)
     void fjernLevering() {
         // Arrange
-        Udlejning u1 = new Udlejning(LocalDate.of(2022,3,30), 1);
+        Udlejning u1 = new Udlejning(LocalDate.of(2022, 3, 30), 1);
         Storage.hentInstans().rydStorage();
         Controller.initStorage();
         u1.tilfoejLevering();
