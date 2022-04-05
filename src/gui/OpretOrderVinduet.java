@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.*;
 
+import javax.naming.InitialContext;
 import java.util.Optional;
 
 
@@ -380,17 +381,9 @@ class KlippekortVinduetBeloeb extends Stage{
     }
 
     private void buttonAfslutKnappeMetod(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Kvitering");
-        alert.setHeaderText("Orderskvitering");
-        alert.setContentText("Varerne der var bestilt");
+        KviteringVinduet dialog = new KviteringVinduet("Kvitering", ordre);
+        dialog.showAndWait();
 
-        StringBuilder sb = new StringBuilder();
-        for(Ordrelinje o : ordre.hentOrdrelinjer())
-            sb.append("\n"+o);
-        TextArea ta = new TextArea();
-        ta.setText(sb.toString());
-        alert.showAndWait();
         this.hide();
     }
 
@@ -408,5 +401,60 @@ class KlippekortVinduetBeloeb extends Stage{
 
     private void vinduetLukkesMetod(){
         Controller.fjernOrdre(ordre);
+    }
+}
+
+class KviteringVinduet extends Stage{
+
+    private Ordre ordre;
+    private TextArea textArea = new TextArea();
+
+    public KviteringVinduet(String title, Ordre ordre){
+        this.initStyle(StageStyle.UTILITY);
+        this.initModality(Modality.APPLICATION_MODAL);
+        this.setResizable(true);
+
+        //
+        this.ordre = ordre;
+        this.setTitle(title);
+        //
+        GridPane pane = new GridPane();
+        this.initContent(pane);
+
+        Scene scene = new Scene(pane);
+        this.setScene(scene);
+    }
+
+    private void initContent(GridPane pane){
+
+        pane.setPadding(new Insets(20));
+        pane.setHgap(20);
+        pane.setVgap(10);
+        pane.setGridLinesVisible(false);
+
+        //-------------------- Label ------------------------------
+        //
+        Label labelKvitering = new Label("Ordre købt:");
+
+        //-------------------- TextArea ------------------------------
+        //
+        textArea.setPrefSize(200, 300);
+        textArea.setEditable(false);
+        txAreaText();
+
+        //-------------------- Pane add ------------------------------
+        //
+        pane.add(labelKvitering, 0, 0);
+        pane.add(textArea, 0, 1);
+
+    }
+
+    private void txAreaText(){
+        StringBuilder sb = new StringBuilder();
+        for(Ordrelinje o : ordre.hentOrdrelinjer())
+            sb.append("\n"+o);
+        sb.append("\n\nI alt: "+ordre.totalPris());
+        TextArea ta = new TextArea();
+        textArea.setText(sb.toString());
     }
 }
