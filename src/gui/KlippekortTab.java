@@ -14,7 +14,7 @@ import model.Ordrelinje;
 public class KlippekortTab extends GridPane {
 
     private ListView<Klippekort> klippekortListView = new ListView<>();
-    private ListView<Klippekort> klippekortListViewValgte = new ListView<>();
+//    private ListView<Klippekort> klippekortListViewValgte = new ListView<>();
 
     private Button buttonOpretNyKlippekort = new Button("Opret Ny");
     private Button buttonSoeg = new Button("Søg");
@@ -44,8 +44,8 @@ public class KlippekortTab extends GridPane {
         Label labelEvt = new Label("evt");
 
         //Label label4
-        Label labelValgteKK = new Label("Valgte klippekort");
-        this.add(labelValgteKK, 2, 1);
+//        Label labelValgteKK = new Label("Valgte klippekort");
+//        this.add(labelValgteKK, 2, 1);
 
         //Label label5
         Label labelPris = new Label("Pris");
@@ -62,7 +62,7 @@ public class KlippekortTab extends GridPane {
 
         //LISTVIEW_2
         //klippekortListViewValgte.
-        klippekortListViewValgte.setPrefSize(200, 300);
+//        klippekortListViewValgte.setPrefSize(200, 300);
 
         //-------------------------BUTTON----------------------------------
 
@@ -76,14 +76,14 @@ public class KlippekortTab extends GridPane {
 
 
         //Button button2
-        buttonTilfoejKk.setOnAction(event -> this.buttonTilfoejKkKnapMetod());
-        buttonTilfoejKk.setMaxWidth(Double.MAX_VALUE);
-        buttonTilfoejKk.setMaxHeight(27);
+//        buttonTilfoejKk.setOnAction(event -> this.buttonTilfoejKkKnapMetod());
+//        buttonTilfoejKk.setMaxWidth(Double.MAX_VALUE);
+//        buttonTilfoejKk.setMaxHeight(27);
 
         //Button button3
-        buttonFjernKk.setOnAction(event -> this.buttonFjernKkMetod());
-        buttonFjernKk.setMaxWidth(Double.MAX_VALUE);
-        buttonFjernKk.setMaxHeight(27);
+//        buttonFjernKk.setOnAction(event -> this.buttonFjernKkMetod());
+//        buttonFjernKk.setMaxWidth(Double.MAX_VALUE);
+//        buttonFjernKk.setMaxHeight(27);
 
         //Button button4
         Button buttonAfslut = new Button("Afslut betaling");
@@ -111,9 +111,9 @@ public class KlippekortTab extends GridPane {
         hBox2.setSpacing(1);
 
         //VBox vBox2
-        VBox vBox2 = new VBox();
-        vBox2.getChildren().setAll(klippekortListViewValgte, hBox2);
-        this.add(vBox2, 2, 2, 1, 3);
+//        VBox vBox2 = new VBox();
+//        vBox2.getChildren().setAll(klippekortListViewValgte, hBox2);
+//        this.add(vBox2, 2, 2, 1, 3);
 
         //
         HBox hBoxSoeg = new HBox(labelEvt,buttonSoeg);
@@ -144,25 +144,20 @@ public class KlippekortTab extends GridPane {
         alert.setTitle("Kvitering");
         alert.setHeaderText("Orderskvitering");
         alert.setContentText("Varerne der var bestilt");
-
         StringBuilder sb = new StringBuilder();
-
         TextField tf = new TextField();
-
-
-
         alert.showAndWait();
     }
 
-    private void buttonTilfoejKkKnapMetod(){
-        klippekortListViewValgte.getItems().add(klippekortListView.getSelectionModel().getSelectedItem());
-    }
+//    private void buttonTilfoejKkKnapMetod(){
+//        klippekortListViewValgte.getItems().add(klippekortListView.getSelectionModel().getSelectedItem());
+//    }
 
     private void buttonSoegKnapMetod(){
         klippekortListView.getItems().setAll(Controller.soegKlippekort(textFieldKundenavn.getText()));
     }
 
-    private void buttonFjernKkMetod(){
-        klippekortListViewValgte.getItems().remove(klippekortListViewValgte.getSelectionModel().getSelectedItem());
-    }
+//    private void buttonFjernKkMetod(){
+//        klippekortListViewValgte.getItems().remove(klippekortListViewValgte.getSelectionModel().getSelectedItem());
+//    }
 }
