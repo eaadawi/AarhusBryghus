@@ -110,11 +110,12 @@ public class TilfoejFustageVinduet extends Stage {
             int stoerelse = ((PantProdukt) fustage).hentStoerrelse();
             if(stoerelse!=stoerelseNy){
                 ProduktGruppe pg =fustage.hentProduktGruppe();
+                Prisliste pl = Controller.hentPrislisteFraNavn("Brugerdefinerede fustager");
                 Produkt p = pg.opretProdukt(fustage.hentNavn() + "(" + stoerelseNy + "L)",
                         Integer.parseInt(textFieldAntal.getText()));
-                prisliste.tilfoejProdukt(p, Double.parseDouble(textFieldPris.getText()));
+                pl.tilfoejProdukt(p, Double.parseDouble(textFieldPris.getText()));
 
-                ordre.opretOrdrelinje(getIntFraTF(textFieldAntal), p, prisliste);
+                ordre.opretOrdrelinje(getIntFraTF(textFieldAntal), p, pl);
             }
         }else {
             ordre.opretOrdrelinje(getIntFraTF(textFieldAntal),
