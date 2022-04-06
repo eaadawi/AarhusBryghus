@@ -437,7 +437,7 @@ class ControllerTest {
         Ordre ordre3 = Controller.opretOrdre();
 
         // Act
-        Set<Ordre> ordreSet = Controller.hentOrdreDato(dato);
+        Set<Ordre> ordreSet = Controller.hentOrdrerDato(dato);
 
         // Assert
         assertTrue(ordreSet.contains(ordre1));

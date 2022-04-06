@@ -122,7 +122,7 @@ public class StatistikTab extends GridPane {
     private void listenerDPL(DatePicker dp){
         if(dp.getValue()!=null){
             //TODO items
-            listViewOrdre.getItems().setAll(Controller.hentOrdreDato(datePickerDato.getValue()));
+            listViewOrdre.getItems().setAll(Controller.hentOrdrerDato(datePickerDato.getValue()));
 
             //TODO textField1 opdatering
             opdateringIkkeKlip(textField1);

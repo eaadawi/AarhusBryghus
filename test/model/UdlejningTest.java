@@ -389,6 +389,7 @@ class UdlejningTest {
 
         // Assert
         assertEquals(forventet, aktuel);
+        assertTrue(udlejning.erAfregnet());
     }
 
     @Test
@@ -412,6 +413,7 @@ class UdlejningTest {
         // Assert
         assertEquals(forventet, aktuel);
         assertEquals(produkt.hentAntalPaaLager(), 100);
+        assertTrue(udlejning.erAfregnet());
     }
 
     @Test
@@ -435,6 +437,7 @@ class UdlejningTest {
         // Assert
         assertEquals(forventet, aktuel);
         assertEquals(produkt.hentAntalPaaLager(), 98);
+        assertTrue(udlejning.erAfregnet());
     }
 
     @Test
