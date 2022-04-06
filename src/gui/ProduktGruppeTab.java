@@ -282,6 +282,13 @@ public class ProduktGruppeTab extends GridPane {
             //vinduet lukkes
             alert.close();
         }
+
+        if(!produktGruppeListView.getItems().isEmpty())
+            produktGruppeListView.getSelectionModel().select(0);
+        else {
+            produktGruppeListView.getItems().clear();
+            produktListView.getItems().clear();
+        }
     }
 
     /**
@@ -356,6 +363,9 @@ public class ProduktGruppeTab extends GridPane {
         //som tilhoerer til valgte produktGruppe
         if(pg.hentProdukter().isEmpty()){
             produktListView.getItems().clear();
+        }else{
+            //valger den øverste element i listen automatisk
+            produktListView.getSelectionModel().select(0);
         }
 
     }

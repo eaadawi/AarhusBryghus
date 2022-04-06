@@ -12,10 +12,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.Ordre;
-import model.PantProdukt;
-import model.Prisliste;
-import model.Produkt;
+import model.*;
 
 
 public class TilfoejFustageVinduet extends Stage {
@@ -105,7 +102,24 @@ public class TilfoejFustageVinduet extends Stage {
     }
 
     private void tilfoejFustageKnapMetod() {
-        ordre.opretOrdrelinje(getIntFraTF(textFieldAntal), comboBoxType.getSelectionModel().getSelectedItem(), prisliste);
+
+        Produkt fustage = comboBoxType.getSelectionModel().getSelectedItem();
+        int stoerelseNy = comboBoxStoerelse.getValue();
+
+        if(fustage instanceof PantProdukt){
+            int stoerelse = ((PantProdukt) fustage).hentStoerrelse();
+            if(stoerelse!=stoerelseNy){
+                ProduktGruppe pg =fustage.hentProduktGruppe();
+                Produkt p = pg.opretProdukt(fustage.hentNavn() + "(" + stoerelseNy + "L)",
+                        Integer.parseInt(textFieldAntal.getText()));
+                prisliste.tilfoejProdukt(p, Double.parseDouble(textFieldPris.getText()));
+
+                ordre.opretOrdrelinje(getIntFraTF(textFieldAntal), p, prisliste);
+            }
+        }else {
+            ordre.opretOrdrelinje(getIntFraTF(textFieldAntal),
+                    comboBoxType.getSelectionModel().getSelectedItem(), prisliste);
+        }
         this.hide();
     }
 

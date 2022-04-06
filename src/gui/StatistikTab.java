@@ -12,6 +12,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Ordre;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class StatistikTab extends GridPane {
 
     private ListView<Ordre> listViewOrdre = new ListView();
@@ -83,9 +86,11 @@ public class StatistikTab extends GridPane {
         //-----------------------TextField--------------
 
         //TextField textField1
+        textField1.setEditable(false);
         this.add(textField1, 1,3);
 
         //TextField textField2
+        textField2.setEditable(false);
         this.add(textField2, 3,3);
 
         //-----------------------HBox------------------
@@ -120,6 +125,7 @@ public class StatistikTab extends GridPane {
             listViewOrdre.getItems().setAll(Controller.hentOrdreDato(datePickerDato.getValue()));
 
             //TODO textField1 opdatering
+            opdateringIkkeKlip(textField1);
 
         }
     }
@@ -132,7 +138,20 @@ public class StatistikTab extends GridPane {
 
 
             //TODO textField2 opdatering
+            opdateringKlip(listViewOrdreKlip, textField2);
 
         }
+    }
+
+    private void opdateringKlip(ListView<Ordre> ordreListView, TextField tf){
+        int tal = 0;
+        Set<Ordre> ordreSet = new HashSet<>(ordreListView.getItems());
+        tal =Controller.udregnSamletForbrugteKlip(ordreSet);
+        tf.setText(""+tal);
+    }
+
+    private void opdateringIkkeKlip(TextField tf){
+        double tal = Controller.hentSamletOmsaetning(datePickerDato.getValue());
+        tf.setText(""+tal);
     }
 }

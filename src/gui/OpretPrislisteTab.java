@@ -261,6 +261,13 @@ public class OpretPrislisteTab extends GridPane {
             //vinduet lukkes
             alert.close();
         }
+
+        if(prislisteListView.getItems().isEmpty()){
+            produktListView.getItems().clear();
+            produktListViewPris.getItems().clear();
+        }else {
+            prislisteListView.getSelectionModel().select(0);
+        }
     }
 
     /**

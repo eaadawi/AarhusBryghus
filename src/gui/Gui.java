@@ -56,7 +56,7 @@ public class Gui extends Application {
         opretPrisliste.setContent(opTab);
         //------------------------------------------------------------------------------------
         Tab ordre = new Tab();
-        ordre.setText("Opret Ordre");
+        ordre.setText("Opret Ordre/Administrerer udlejning");
         tabPane.getTabs().add(ordre);
 
         OrdreTab ordreTab = new OrdreTab();
