@@ -200,4 +200,17 @@ class OrdreTest {
         Exception exception = assertThrows(IllegalArgumentException.class, ordre::betalMedKlippekort);
         assertTrue(exception.getMessage().contains("Der er ikke nok klip"));
     }
+
+    @Test
+    void tilfoejTilTotalPris() {
+        // Arrange
+        Ordre ordre = new Ordre(LocalDate.now(), 1);
+        double beloeb = 7.95;
+
+        // Act
+        ordre.TilfoejTilTotalPris(beloeb);
+
+        // Assert
+        assertEquals(beloeb, ordre.totalPris());
+    }
 }
