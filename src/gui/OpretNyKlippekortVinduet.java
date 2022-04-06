@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -19,14 +20,18 @@ public class OpretNyKlippekortVinduet extends Stage {
 
     private Klippekort klippekort = null;
     private TextField textFieldKundenavn = new TextField();
-
-    OpretNyKlippekortVinduet(String title){
+    private ListView<Klippekort> klippekortListViewValgte = null;
+    private TextField tf = null;
+    private double samletKKP;
+    OpretNyKlippekortVinduet(String title, ListView<Klippekort> k, TextField t, double samletKKP){
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
         //
-
+        this.klippekortListViewValgte = k;
         this.setTitle(title);
+        this.tf = t;
+        this.samletKKP = samletKKP;
 
         GridPane pane = new GridPane();
         this.initContentPane(pane);
@@ -69,6 +74,11 @@ public class OpretNyKlippekortVinduet extends Stage {
 
     private void opretKnapMetod(){
         klippekort = Controller.opretKlippekort(textFieldKundenavn.getText());
+        klippekortListViewValgte.getItems().add(klippekort);
+        double pris = Double.parseDouble(tf.getText())+klippekort.hentPris();
+        samletKKP+=klippekort.hentPris();
+
+        tf.setText(""+pris);
         this.hide();
     }
 

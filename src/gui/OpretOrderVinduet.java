@@ -158,8 +158,8 @@ public class OpretOrderVinduet extends Stage {
         opdatereTF();
         //
         ordrelinjeListView.getItems().setAll(ordre.hentOrdrelinjer());
-            //valger den øverste element i listen
-        if(!ordrelinjeListView.getItems().isEmpty())
+        //valger den øverste element i listen
+        if (!ordrelinjeListView.getItems().isEmpty())
             ordrelinjeListView.getSelectionModel().select(0);
     }
 
@@ -241,7 +241,7 @@ class KlippekortVinduetBeloeb extends Stage {
     private Button buttonTilfoejKk = new Button("Tilføj");
     private Button buttonFjernKk = new Button("Fjern");
 
-
+    private double samletPrisForKoebteKlippekort;
     private TextField textFieldKundenavn = new TextField();
     private TextField textFieldPris = new TextField();
     private TextField textFieldKlppris = new TextField();
@@ -257,6 +257,7 @@ class KlippekortVinduetBeloeb extends Stage {
         //
         this.ordre = ordre;
         this.setTitle(title);
+        this.samletPrisForKoebteKlippekort = 0;
         //
         //
         GridPane pane = new GridPane();
@@ -306,7 +307,7 @@ class KlippekortVinduetBeloeb extends Stage {
         //LISTVIEW_1
         klippekortListView.setPrefSize(200, 300);
         klippekortListView.getItems().setAll(Controller.hentKlippekort());
-        if(!klippekortListView.getItems().isEmpty()){
+        if (!klippekortListView.getItems().isEmpty()) {
             klippekortListView.getSelectionModel().select(0);
         }
 
@@ -387,14 +388,18 @@ class KlippekortVinduetBeloeb extends Stage {
     }
 
     private void opretNyKkMetod() {
-        OpretNyKlippekortVinduet dialog = new OpretNyKlippekortVinduet("Oprettelse af et nyt klippekort");
+        OpretNyKlippekortVinduet dialog = new OpretNyKlippekortVinduet("Oprettelse af et nyt klippekort",
+                klippekortListViewValgte, textFieldPris, samletPrisForKoebteKlippekort);
         dialog.showAndWait();
         //henter de tidlige kort sammen med den som var lige oprettet
         klippekortListView.getItems().setAll(Controller.hentKlippekort());
     }
 
     private void buttonAfslutKnappeMetod() {
-        KviteringVinduet dialog = new KviteringVinduet("Kvitering", ordre);
+
+        double pris = (Double.parseDouble(textFieldPris.getText()));
+        KviteringVinduet dialog = new KviteringVinduet("Kvitering", ordre, pris);
+        System.out.println(textFieldPris.getText());
         try {
             ordre.betalMedKlippekort();
             dialog.showAndWait();
@@ -411,7 +416,7 @@ class KlippekortVinduetBeloeb extends Stage {
             klippekortListViewValgte.getItems().add(k);
             ordre.tilfoejKlippekort(k);
         }
-        if(!klippekortListViewValgte.getItems().isEmpty())
+        if (!klippekortListViewValgte.getItems().isEmpty())
             klippekortListViewValgte.getSelectionModel().select(0);
     }
 
@@ -427,14 +432,21 @@ class KlippekortVinduetBeloeb extends Stage {
     private void vinduetLukkesMetod() {
         Controller.fjernOrdre(ordre);
     }
+
+    public double getPris() {
+        return Double.parseDouble(textFieldPris.getText());
+    }
+
+
 }
 
 class KviteringVinduet extends Stage {
 
     private Ordre ordre;
     private TextArea textArea = new TextArea();
+    private double samletPris;
 
-    public KviteringVinduet(String title, Ordre ordre) {
+    public KviteringVinduet(String title, Ordre ordre, double pris) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -442,6 +454,7 @@ class KviteringVinduet extends Stage {
         //
         this.ordre = ordre;
         this.setTitle(title);
+        this.samletPris = pris;
         //
         GridPane pane = new GridPane();
         this.initContent(pane);
@@ -478,9 +491,10 @@ class KviteringVinduet extends Stage {
         StringBuilder sb = new StringBuilder();
         for (Ordrelinje o : ordre.hentOrdrelinjer())
             sb.append("\n" + o);
-        sb.append("\n\nI alt: " + ordre.totalPris());
-        //sb.append("\nI alt klips: "+ordre.hentAntalKlippepris);
-        TextArea ta = new TextArea();
+        sb.append("\n\nI alt: " + samletPris);
+
         textArea.setText(sb.toString());
     }
+
+
 }
