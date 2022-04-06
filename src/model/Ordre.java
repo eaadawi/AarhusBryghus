@@ -1,5 +1,6 @@
 package model;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ public class Ordre {
     private Betalinsgmetode betalinsgmetode;
     private final int id;
     private boolean betaltMedKlip;
+    private double totalPris;
 
     private final List<Ordrelinje> ordrelinjer = new ArrayList<>();
     private final List<Klippekort> klippekortList = new ArrayList<>();
@@ -24,14 +26,17 @@ public class Ordre {
      * Udregner den totale pris for de produkter som ikke skal betales med klip
      */
     public double totalPris() {
-        double pris = 0;
-        for (Ordrelinje ol : ordrelinjer) {
-            if (ol.hentPrisliste().hentValuta() != Valuta.KLIP)
-                pris += ol.samletPris();
+        if(totalPris == 0) {
+            double pris = 0;
+            for (Ordrelinje ol : ordrelinjer) {
+                if (ol.hentPrisliste().hentValuta() != Valuta.KLIP)
+                    pris += ol.samletPris();
+            }
+            String str = String.format("%.2f", pris);
+            pris = Double.parseDouble(str.replace(',', '.'));
+            totalPris = pris;
         }
-        String str = String.format("%.2f", pris);
-        pris = Double.parseDouble(str.replace(',', '.'));
-        return pris;
+        return totalPris;
     }
 
     /**
@@ -52,6 +57,10 @@ public class Ordre {
 
     public void tilfoejKlippekort(Klippekort klippekort) {
         this.klippekortList.add(klippekort);
+    }
+
+    public void TilfoejTilTotalPris(double beloeb) {
+        totalPris += beloeb;
     }
 
     public Ordrelinje opretOrdrelinje(int antal, Produkt produkt, Prisliste prisliste) {
