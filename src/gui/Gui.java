@@ -2,7 +2,9 @@ package gui;
 
 import controller.Controller;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -65,9 +67,9 @@ public class Gui extends Application {
         //------------------------------------------------------------------------------------
         Tab klippekort = new Tab("Klippekort");
         tabPane.getTabs().add(klippekort);
-
         KlippekortTab kkt = new KlippekortTab();
         klippekort.setContent(kkt);
+
         //------------------------------------------------------------------------------------
         Tab statistik = new Tab("Statistik");
         tabPane.getTabs().add(statistik);

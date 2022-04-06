@@ -81,6 +81,7 @@ public class OpretNyKlippekortVinduet extends Stage {
         double pris = Double.parseDouble(tf.getText())+klippekort.hentPris();
         samletKKP+=klippekort.hentPris();
         ordre.TilfoejTilTotalPris(klippekort.hentPris());
+        ordre.tilfoejKlippekort(klippekort);
         tf.setText(""+pris);
         this.hide();
     }

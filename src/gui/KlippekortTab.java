@@ -23,8 +23,8 @@ public class KlippekortTab extends GridPane {
 
 
     private TextField textFieldKundenavn = new TextField();
-    private TextField textFieldPris = new TextField();
-    private TextField textFieldKlppris = new TextField();
+    private TextField textFieldAntalStartKlip = new TextField();
+    private TextField textFieldKlippekortPris = new TextField();
 
     public KlippekortTab() {
         this.setPadding(new Insets(20));
@@ -48,12 +48,12 @@ public class KlippekortTab extends GridPane {
 //        this.add(labelValgteKK, 2, 1);
 
         //Label label5
-        Label labelPris = new Label("Pris");
-        this.add(labelPris, 3, 2);
+        Label labelAntalStartKlip = new Label("Antal start klip");
+        this.add(labelAntalStartKlip, 2, 2);
 
         //Label label6
-        Label labelKlippris = new Label("Klippris");
-        this.add(labelKlippris, 3, 3);
+        Label labelKlippekortPris = new Label("Klippekort pris");
+        this.add(labelKlippekortPris, 2, 3);
 
         //-------------------------LISTVIEW----------------------------------
         //LISTVIEW_1
@@ -86,9 +86,9 @@ public class KlippekortTab extends GridPane {
 //        buttonFjernKk.setMaxHeight(27);
 
         //Button button4
-        Button buttonAfslut = new Button("Afslut betaling");
-        buttonAfslut.setOnAction(event -> this.buttonAfslutKnappeMetod());
-        this.add(buttonAfslut, 4, 5);
+        Button buttonAfslut = new Button("Opdatere");
+        buttonAfslut.setOnAction(event -> this.buttonOpdatereMetod());
+        this.add(buttonAfslut, 4, 3);
 
 //-------------------------HBox-VBox---------------------------------
 
@@ -124,40 +124,28 @@ public class KlippekortTab extends GridPane {
 
         //
 
-        //TextField textFieldPris
-        this.add(textFieldPris, 4,2 );
-        //TextField textFieldPris
-        this.add(textFieldKlppris, 4, 3);
+        //TextField textFieldAntalStartKlip
+        textFieldAntalStartKlip.setText(""+Klippekort.hentAntalKlip());
+        this.add(textFieldAntalStartKlip, 3,2 );
+        //TextField textFieldAntalStartKlip
+        textFieldKlippekortPris.setText(""+Klippekort.hentKlippekortPris());
+        this.add(textFieldKlippekortPris, 3, 3);
 
 
     }
 
-//    private void opretNyKkMetod() {
-//        OpretNyKlippekortVinduet dialog = new OpretNyKlippekortVinduet("Oprettelse af et nyt klippekort");
-//        dialog.showAndWait();
-//        //henter de tidlige kort sammen med den som var lige oprettet
-//        klippekortListView.getItems().setAll(Controller.hentKlippekort());
-//    }
-
-    private void buttonAfslutKnappeMetod(){
+    private void buttonOpdatereMetod(){
+        Klippekort.aendreAntalKlip(Integer.parseInt(textFieldAntalStartKlip.getText()));
+        Klippekort.aendreKlippekortPris(Double.parseDouble(textFieldKlippekortPris.getText()));
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Kvitering");
-        alert.setHeaderText("Orderskvitering");
-        alert.setContentText("Varerne der var bestilt");
-        StringBuilder sb = new StringBuilder();
-        TextField tf = new TextField();
+        alert.setTitle("Opdatering af klippekort");
+        alert.setHeaderText("Klippekorterne var opdateret");
+        alert.setContentText("\nDen nye antal klip er : "+textFieldAntalStartKlip.getText()+"\nDen nye pris er : "+textFieldKlippekortPris.getText());
         alert.showAndWait();
     }
-
-//    private void buttonTilfoejKkKnapMetod(){
-//        klippekortListViewValgte.getItems().add(klippekortListView.getSelectionModel().getSelectedItem());
-//    }
 
     private void buttonSoegKnapMetod(){
         klippekortListView.getItems().setAll(Controller.soegKlippekort(textFieldKundenavn.getText()));
     }
 
-//    private void buttonFjernKkMetod(){
-//        klippekortListViewValgte.getItems().remove(klippekortListViewValgte.getSelectionModel().getSelectedItem());
-//    }
 }
