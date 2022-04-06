@@ -70,9 +70,9 @@ public class KlippekortTab extends GridPane {
         buttonSoeg.setOnAction(event -> this.buttonSoegKnapMetod());
 
         //Button button1
-        buttonOpretNyKlippekort.setMaxWidth(Double.MAX_VALUE);
-        buttonOpretNyKlippekort.setMaxHeight(27);
-        buttonOpretNyKlippekort.setOnAction(event -> this.opretNyKkMetod());
+//        buttonOpretNyKlippekort.setMaxWidth(Double.MAX_VALUE);
+//        buttonOpretNyKlippekort.setMaxHeight(27);
+//        buttonOpretNyKlippekort.setOnAction(event -> this.opretNyKkMetod());
 
 
         //Button button2
@@ -132,12 +132,12 @@ public class KlippekortTab extends GridPane {
 
     }
 
-    private void opretNyKkMetod() {
-        OpretNyKlippekortVinduet dialog = new OpretNyKlippekortVinduet("Oprettelse af et nyt klippekort");
-        dialog.showAndWait();
-        //henter de tidlige kort sammen med den som var lige oprettet
-        klippekortListView.getItems().setAll(Controller.hentKlippekort());
-    }
+//    private void opretNyKkMetod() {
+//        OpretNyKlippekortVinduet dialog = new OpretNyKlippekortVinduet("Oprettelse af et nyt klippekort");
+//        dialog.showAndWait();
+//        //henter de tidlige kort sammen med den som var lige oprettet
+//        klippekortListView.getItems().setAll(Controller.hentKlippekort());
+//    }
 
     private void buttonAfslutKnappeMetod(){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
