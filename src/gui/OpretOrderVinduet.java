@@ -454,6 +454,7 @@ class KviteringVinduet extends Stage{
         for(Ordrelinje o : ordre.hentOrdrelinjer())
             sb.append("\n"+o);
         sb.append("\n\nI alt: "+ordre.totalPris());
+        //sb.append("\nI alt klips: "+ordre.hentAntalKlippepris);
         TextArea ta = new TextArea();
         textArea.setText(sb.toString());
     }
