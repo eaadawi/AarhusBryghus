@@ -322,6 +322,7 @@ public class OpretPrislisteTab extends GridPane {
         produktListViewPris.getSelectionModel().select(index);
         produktListView.scrollTo(index);//finally
         produktListViewPris.scrollTo(index);//
+        button.setDisable(false);
 
     }
 
