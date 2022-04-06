@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -24,6 +25,7 @@ public class OpretOrderVinduet extends Stage {
     private final Prisliste prisliste;
 
     private ListView<Ordrelinje> ordrelinjeListView = new ListView<>();
+    private ComboBox<Betalinsgmetode> betalinsgmetodeComboBox = new ComboBox<>();
 
     private TextField textFieldDKK = new TextField();
     private TextField textFieldKlip = new TextField();
@@ -39,7 +41,7 @@ public class OpretOrderVinduet extends Stage {
         //
         this.setTitle(title);
         ordre = o;
-        prisliste =Controller.hentPrislisteFraNavn("Butik");
+        prisliste = Controller.hentPrislisteFraNavn("Butik");
         //
         GridPane pane = new GridPane();
         this.initContentPane(pane);
@@ -83,7 +85,6 @@ public class OpretOrderVinduet extends Stage {
         hBoxTFOrdre.getChildren().add(buttonFjernordre);
 
 
-
         //---------------COMBOBOX-------------------------------------
 
         //Label labelComboBox
@@ -92,7 +93,6 @@ public class OpretOrderVinduet extends Stage {
 
 
         //ComboBox<Ordre> ordreComboBox
-        ComboBox<Betalinsgmetode> betalinsgmetodeComboBox = new ComboBox<>();
         betalinsgmetodeComboBox.getItems().setAll(Betalinsgmetode.MOBILPAY, Betalinsgmetode.KORT, Betalinsgmetode.KONTANT, Betalinsgmetode.REGNING);
         betalinsgmetodeComboBox.getSelectionModel().select(0);
 
@@ -100,7 +100,6 @@ public class OpretOrderVinduet extends Stage {
         //Label labelPrisDKK
         Label labelPrisDKK = new Label();
         labelPrisDKK.setText("Pris i DKK");
-
 
 
         //Label labelPrisKlip
@@ -139,13 +138,14 @@ public class OpretOrderVinduet extends Stage {
         pane.add(textFieldKlip, 2, 3);
     }
 
+
     private void beloebKnapMetode() {
+        KlippekortVinduetBeloeb klippekortVinduetBeloeb = new KlippekortVinduetBeloeb("Klippekort vinduet", ordre);
+        klippekortVinduetBeloeb.showAndWait();
+
         textFieldKlip.clear();
         textFieldDKK.clear();
-
         this.hide();
-        KlippekortVinduetBeloeb klippekortVinduetBeloeb = new KlippekortVinduetBeloeb("Klippekort vinduet",ordre);
-        klippekortVinduetBeloeb.showAndWait();
     }
 
     /**
@@ -158,6 +158,9 @@ public class OpretOrderVinduet extends Stage {
         opdatereTF();
         //
         ordrelinjeListView.getItems().setAll(ordre.hentOrdrelinjer());
+            //valger den øverste element i listen
+        if(!ordrelinjeListView.getItems().isEmpty())
+            ordrelinjeListView.getSelectionModel().select(0);
     }
 
     private void opdatereTF() {
@@ -227,7 +230,7 @@ public class OpretOrderVinduet extends Stage {
  *
  */
 
-class KlippekortVinduetBeloeb extends Stage{
+class KlippekortVinduetBeloeb extends Stage {
 
     private final Ordre ordre;
     private ListView<Klippekort> klippekortListView = new ListView<>();
@@ -243,7 +246,9 @@ class KlippekortVinduetBeloeb extends Stage{
     private TextField textFieldPris = new TextField();
     private TextField textFieldKlppris = new TextField();
 
-    public KlippekortVinduetBeloeb(String title, Ordre ordre){
+    private Label labelFejlCatch = new Label();
+
+    public KlippekortVinduetBeloeb(String title, Ordre ordre) {
 
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
@@ -262,7 +267,7 @@ class KlippekortVinduetBeloeb extends Stage{
 
     }
 
-    private void initContentPane(GridPane pane){
+    private void initContentPane(GridPane pane) {
         pane.setPadding(new Insets(20));
         pane.setHgap(20);
         pane.setVgap(10);
@@ -292,10 +297,18 @@ class KlippekortVinduetBeloeb extends Stage{
         Label labelKlippris = new Label("Klippris");
         pane.add(labelKlippris, 3, 3);
 
+        //Label fejl
+
+        labelFejlCatch.setTextFill(Color.RED);
+        pane.add(labelFejlCatch, 3, 4, 2, 1);
+
         //-------------------------LISTVIEW----------------------------------
         //LISTVIEW_1
         klippekortListView.setPrefSize(200, 300);
         klippekortListView.getItems().setAll(Controller.hentKlippekort());
+        if(!klippekortListView.getItems().isEmpty()){
+            klippekortListView.getSelectionModel().select(0);
+        }
 
         //LISTVIEW_2
         //klippekortListViewValgte.
@@ -329,7 +342,7 @@ class KlippekortVinduetBeloeb extends Stage{
 //-------------------------HBox-VBox---------------------------------
 
         //
-        HBox hBox0 = new HBox(labelKundenavn,textFieldKundenavn);
+        HBox hBox0 = new HBox(labelKundenavn, textFieldKundenavn);
         hBox0.setSpacing(10);
         pane.add(hBox0, 0, 0);
 
@@ -352,7 +365,7 @@ class KlippekortVinduetBeloeb extends Stage{
         pane.add(vBox2, 2, 2, 1, 3);
 
         //
-        HBox hBoxSoeg = new HBox(labelEvt,buttonSoeg);
+        HBox hBoxSoeg = new HBox(labelEvt, buttonSoeg);
         hBoxSoeg.setSpacing(10);
         pane.add(hBoxSoeg, 2, 0);
 
@@ -361,10 +374,10 @@ class KlippekortVinduetBeloeb extends Stage{
         //
 
         //TextField textFieldPris
-        textFieldPris.setText(""+ordre.totalPris());
-        pane.add(textFieldPris, 4,2 );
+        textFieldPris.setText("" + ordre.totalPris());
+        pane.add(textFieldPris, 4, 2);
         //TextField textFieldPris
-        textFieldKlppris.setText(""+ordre.klipPris());
+        textFieldKlppris.setText("" + ordre.klipPris());
         pane.add(textFieldKlppris, 4, 3);
 
         //---------------------- pane tilfoej ---------------
@@ -380,40 +393,48 @@ class KlippekortVinduetBeloeb extends Stage{
         klippekortListView.getItems().setAll(Controller.hentKlippekort());
     }
 
-    private void buttonAfslutKnappeMetod(){
+    private void buttonAfslutKnappeMetod() {
         KviteringVinduet dialog = new KviteringVinduet("Kvitering", ordre);
+        try {
+            ordre.betalMedKlippekort();
+            dialog.showAndWait();
+            this.hide();
+        } catch (IllegalArgumentException e) {
+            labelFejlCatch.setText(e.getMessage());
+        }
 
-        ordre.betalMedKlippekort();
-        dialog.showAndWait();
-
-        this.hide();
     }
 
-    private void buttonTilfoejKkKnapMetod(){
-        klippekortListViewValgte.getItems().add(klippekortListView.getSelectionModel().getSelectedItem());
-        ordre.tilfoejKlippekort(klippekortListView.getSelectionModel().getSelectedItem());
+    private void buttonTilfoejKkKnapMetod() {
+        Klippekort k = klippekortListView.getSelectionModel().getSelectedItem();
+        if (!klippekortListViewValgte.getItems().contains(k)) {
+            klippekortListViewValgte.getItems().add(k);
+            ordre.tilfoejKlippekort(k);
+        }
+        if(!klippekortListViewValgte.getItems().isEmpty())
+            klippekortListViewValgte.getSelectionModel().select(0);
     }
 
-    private void buttonSoegKnapMetod(){
+    private void buttonSoegKnapMetod() {
         klippekortListView.getItems().setAll(Controller.soegKlippekort(textFieldKundenavn.getText()));
     }
 
-    private void buttonFjernKkMetod(){
+    private void buttonFjernKkMetod() {
         klippekortListViewValgte.getItems().remove(klippekortListViewValgte.getSelectionModel().getSelectedItem());
         ordre.fjernKlippekort(klippekortListViewValgte.getSelectionModel().getSelectedItem());
     }
 
-    private void vinduetLukkesMetod(){
+    private void vinduetLukkesMetod() {
         Controller.fjernOrdre(ordre);
     }
 }
 
-class KviteringVinduet extends Stage{
+class KviteringVinduet extends Stage {
 
     private Ordre ordre;
     private TextArea textArea = new TextArea();
 
-    public KviteringVinduet(String title, Ordre ordre){
+    public KviteringVinduet(String title, Ordre ordre) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -429,7 +450,7 @@ class KviteringVinduet extends Stage{
         this.setScene(scene);
     }
 
-    private void initContent(GridPane pane){
+    private void initContent(GridPane pane) {
 
         pane.setPadding(new Insets(20));
         pane.setHgap(20);
@@ -453,11 +474,11 @@ class KviteringVinduet extends Stage{
 
     }
 
-    private void txAreaText(){
+    private void txAreaText() {
         StringBuilder sb = new StringBuilder();
-        for(Ordrelinje o : ordre.hentOrdrelinjer())
-            sb.append("\n"+o);
-        sb.append("\n\nI alt: "+ordre.totalPris());
+        for (Ordrelinje o : ordre.hentOrdrelinjer())
+            sb.append("\n" + o);
+        sb.append("\n\nI alt: " + ordre.totalPris());
         //sb.append("\nI alt klips: "+ordre.hentAntalKlippepris);
         TextArea ta = new TextArea();
         textArea.setText(sb.toString());
