@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import storage.Storage;
 
+import javax.naming.ldap.Control;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -257,4 +259,233 @@ class UdlejningTest {
         assertEquals("", u1.hentAdresse());
     }
 
+    @Test
+    @Order(14)
+    void erAfregnet() {
+
+        // Arrange
+        Udlejning udlejning = Controller.opretUdlejning();
+        boolean forventet = false;
+
+        // Act
+        boolean aktuel = udlejning.erAfregnet();
+
+        // Assert
+        assertEquals(forventet, aktuel);
+    }
+
+    @Test
+    @Order(15)
+    void opretReturFustage() {
+
+        // Arrange
+        Udlejning udlejning = Controller.opretUdlejning();
+        int antal = 1;
+        PantProdukt pp = new PantProdukt("Test", 100, 25);
+        Prisliste prisliste = Controller.opretPrisliste("Test Prisliste", Valuta.DKK);
+        prisliste.tilfoejProdukt(pp, 775);
+
+        // Act
+        Ordrelinje ordrelinje = udlejning.opretReturFustage(antal, pp, prisliste);
+
+        // Assert
+        assertEquals(ordrelinje.hentProdukt(), pp);
+        assertEquals(ordrelinje.hentAntal(), antal);
+        assertEquals(ordrelinje.hentPrisliste(), prisliste);
+        assertTrue(udlejning.hentReturFustager().contains(ordrelinje));
+    }
+
+    @Test
+    @Order(16)
+    void fjernReturFustage() {
+
+        // Arrange
+        Udlejning udlejning = Controller.opretUdlejning();
+        int antal = 3;
+        PantProdukt pantProdukt = new PantProdukt("Test", 100, 25);
+        Prisliste prisliste = Controller.opretPrisliste("Test Prisliste", Valuta.DKK);
+        prisliste.tilfoejProdukt(pantProdukt, 100);
+        Ordrelinje ordrelinje = udlejning.opretReturFustage(antal, pantProdukt, prisliste);
+
+        // Act
+        udlejning.fjernReturFustage(ordrelinje);
+
+        // Assert
+        assertFalse(udlejning.hentReturFustager().contains(ordrelinje));
+    }
+
+    @Test
+    @Order(17)
+    void afregn_anlaegOk_kulsyreNul_returFustagerNul() {
+
+        // Arrange
+        Controller.initStorage();
+        boolean anlaegOk = true;
+        int fustagePant = 13;
+        int kulsyrePant = 0;
+        Udlejning udlejning = Controller.opretUdlejning();
+        ProduktGruppe produktGruppe = Controller.opretProduktGruppe("Test Produktgruppe");
+        PantProdukt pantProdukt = produktGruppe.opretPantProdukt("Test Fustage", 100, 25);
+        Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
+        prisliste.tilfoejProdukt(pantProdukt, 775);
+        udlejning.opretOrdrelinje(14,pantProdukt,prisliste);
+        double forventet = 2600;
+
+        // Act
+        double aktuel = udlejning.afregn(anlaegOk, fustagePant, kulsyrePant);
+
+        // Assert
+        assertEquals(forventet, aktuel);
+        assertTrue(udlejning.erAfregnet());
+    }
+
+    @Test
+    @Order(18)
+    void afregn_anlaegOK_fustagePantNul_returFustagerNul() {
+
+        // Arrange
+        Controller.initStorage();
+        boolean anlaegOk = true;
+        int fustagePant = 0;
+        int kulsyrePant = 10;
+        Udlejning udlejning = Controller.opretUdlejning();
+        ProduktGruppe produktGruppe = Controller.opretProduktGruppe("Test Produktgruppe");
+        PantProdukt pantProdukt = produktGruppe.opretPantProdukt("Test Kulsyre", 100, 8);
+        Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
+        prisliste.tilfoejProdukt(pantProdukt, 800);
+        udlejning.opretOrdrelinje(10, pantProdukt, prisliste);
+        double forventet = 10000;
+
+        // Act
+        double aktuel = udlejning.afregn(anlaegOk, fustagePant, kulsyrePant);
+
+        // Assert
+        assertEquals(forventet, aktuel);
+        assertTrue(udlejning.erAfregnet());
+    }
+
+    @Test
+    @Order(19)
+    void afregn_anlaegOK_kulsyrePantNul() {
+
+        // Arrange
+        Controller.initStorage();
+        boolean anlaegOk = true;
+        int fustagePant = 3;
+        int kulsyrePant = 0;
+        Udlejning udlejning = Controller.opretUdlejning();
+        ProduktGruppe produktGruppe = Controller.opretProduktGruppe("Test Produktgruppe");
+        PantProdukt fustage = produktGruppe.opretPantProdukt("Test fustage", 100, 25);
+        Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
+        prisliste.tilfoejProdukt(fustage, 500);
+        udlejning.opretOrdrelinje(5, fustage, prisliste);
+
+        udlejning.opretReturFustage(3, fustage ,prisliste);
+
+        double forventet = 1950;
+
+        // Act
+        double aktuel = udlejning.afregn(anlaegOk, fustagePant, kulsyrePant);
+
+        // Assert
+        assertEquals(forventet, aktuel);
+    }
+
+    @Test
+    @Order(20)
+    void afregn_anlaegOk() {
+
+        // Arrange
+        Controller.initStorage();
+        boolean anlaegOk = true;
+        int fustagePant = 0;
+        int kulsyrePant = 0;
+        Udlejning udlejning = Controller.opretUdlejning();
+        Produkt produkt = Controller.hentProduktFraNavn("Anlæg", "1-hane");
+        Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
+        udlejning.opretOrdrelinje(1, produkt, prisliste);
+        double forventet = 0;
+
+        // Act
+        double aktuel = udlejning.afregn(anlaegOk, fustagePant, kulsyrePant);
+
+        // Assert
+        assertEquals(forventet, aktuel);
+        assertEquals(produkt.hentAntalPaaLager(), 100);
+    }
+
+    @Test
+    @Order(21)
+    void afregn_anlaegIkkeOk() {
+
+        // Arrange
+        Controller.initStorage();
+        boolean anlaegOk = false;
+        int fustagePant = 0;
+        int kulsyrePant = 0;
+        Udlejning udlejning = Controller.opretUdlejning();
+        Produkt produkt = Controller.hentProduktFraNavn("Anlæg", "1-hane");
+        Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
+        udlejning.opretOrdrelinje(2, produkt, prisliste);
+        double forventet = 0;
+
+        // Act
+        double aktuel = udlejning.afregn(anlaegOk, fustagePant, kulsyrePant);
+
+        // Assert
+        assertEquals(forventet, aktuel);
+        assertEquals(produkt.hentAntalPaaLager(), 98);
+    }
+
+    @Test
+    @Order(22)
+    void afregn_kasterFejl_fustagePant() {
+
+        // Arrange
+        boolean anlaegOk = true;
+        int fustagePant = -1;
+        int kulsyrePant = 0;
+        Udlejning udlejning = Controller.opretUdlejning();
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> udlejning.afregn(anlaegOk, fustagePant, kulsyrePant));
+        assertTrue(exception.getMessage().contains("Du kan ikke returnere et negativt antal (Fustager)"));
+    }
+
+    @Test
+    @Order(23)
+    void afregn_kasterFejl_kulsyrePant() {
+
+        // Arrange
+        boolean anlaegOk = true;
+        int fustagePant = 0;
+        int kulsyrePant = -1;
+        Udlejning udlejning = Controller.opretUdlejning();
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> udlejning.afregn(anlaegOk, fustagePant, kulsyrePant));
+        assertTrue(exception.getMessage().contains("Du kan ikke returnere et negativt antal (Kulsyre)"));
+    }
+
+    @Test
+    @Order(24)
+    void afregn_kasterFejl_forkertPrisliste() {
+
+        // Arrange
+        Storage.hentInstans().rydStorage();
+        boolean anlaegOk = true;
+        int fustagePant = 1;
+        int kulsyrePant = 0;
+        Udlejning udlejning = Controller.opretUdlejning();
+        Prisliste prisliste = Controller.opretPrisliste("Forkert prisliste",Valuta.DKK);
+        ProduktGruppe produktGruppe = Controller.opretProduktGruppe("Test produtkgruppe");
+        Produkt produkt = produktGruppe.opretProdukt("Test Produkt", 100);
+        prisliste.tilfoejProdukt(produkt, 100);
+        udlejning.opretOrdrelinje(1, produkt, prisliste);
+
+        // Act & Assert
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> udlejning.afregn(anlaegOk, fustagePant, kulsyrePant));
+        assertTrue(exception.getMessage().contains("Prislisten findes ikke"));
+
+    }
 }
