@@ -13,17 +13,18 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.Klippekort;
+import model.Ordre;
 
 
 public class OpretNyKlippekortVinduet extends Stage {
 
-
+    private Ordre ordre;
     private Klippekort klippekort = null;
     private TextField textFieldKundenavn = new TextField();
     private ListView<Klippekort> klippekortListViewValgte = null;
     private TextField tf = null;
     private double samletKKP;
-    OpretNyKlippekortVinduet(String title, ListView<Klippekort> k, TextField t, double samletKKP){
+    OpretNyKlippekortVinduet(String title, ListView<Klippekort> k, TextField t, double samletKKP, Ordre ordre){
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -32,7 +33,9 @@ public class OpretNyKlippekortVinduet extends Stage {
         this.setTitle(title);
         this.tf = t;
         this.samletKKP = samletKKP;
+        this.ordre = ordre;
 
+        //
         GridPane pane = new GridPane();
         this.initContentPane(pane);
 
@@ -77,7 +80,7 @@ public class OpretNyKlippekortVinduet extends Stage {
         klippekortListViewValgte.getItems().add(klippekort);
         double pris = Double.parseDouble(tf.getText())+klippekort.hentPris();
         samletKKP+=klippekort.hentPris();
-
+        ordre.TilfoejTilTotalPris(klippekort.hentPris());
         tf.setText(""+pris);
         this.hide();
     }

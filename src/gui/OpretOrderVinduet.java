@@ -389,7 +389,7 @@ class KlippekortVinduetBeloeb extends Stage {
 
     private void opretNyKkMetod() {
         OpretNyKlippekortVinduet dialog = new OpretNyKlippekortVinduet("Oprettelse af et nyt klippekort",
-                klippekortListViewValgte, textFieldPris, samletPrisForKoebteKlippekort);
+                klippekortListViewValgte, textFieldPris, samletPrisForKoebteKlippekort,ordre);
         dialog.showAndWait();
         //henter de tidlige kort sammen med den som var lige oprettet
         klippekortListView.getItems().setAll(Controller.hentKlippekort());
