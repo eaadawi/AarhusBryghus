@@ -382,6 +382,8 @@ class KlippekortVinduetBeloeb extends Stage{
 
     private void buttonAfslutKnappeMetod(){
         KviteringVinduet dialog = new KviteringVinduet("Kvitering", ordre);
+
+        ordre.betalMedKlippekort();
         dialog.showAndWait();
 
         this.hide();
@@ -389,6 +391,7 @@ class KlippekortVinduetBeloeb extends Stage{
 
     private void buttonTilfoejKkKnapMetod(){
         klippekortListViewValgte.getItems().add(klippekortListView.getSelectionModel().getSelectedItem());
+        ordre.tilfoejKlippekort(klippekortListView.getSelectionModel().getSelectedItem());
     }
 
     private void buttonSoegKnapMetod(){
@@ -397,6 +400,7 @@ class KlippekortVinduetBeloeb extends Stage{
 
     private void buttonFjernKkMetod(){
         klippekortListViewValgte.getItems().remove(klippekortListViewValgte.getSelectionModel().getSelectedItem());
+        ordre.fjernKlippekort(klippekortListViewValgte.getSelectionModel().getSelectedItem());
     }
 
     private void vinduetLukkesMetod(){
