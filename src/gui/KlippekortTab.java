@@ -93,7 +93,7 @@ public class KlippekortTab extends GridPane {
 //-------------------------HBox-VBox---------------------------------
 
         //
-        HBox hBox0 = new HBox(labelKundenavn,textFieldKundenavn);
+        HBox hBox0 = new HBox(labelKundenavn, textFieldKundenavn);
         hBox0.setSpacing(10);
         this.add(hBox0, 0, 0);
 
@@ -116,7 +116,7 @@ public class KlippekortTab extends GridPane {
 //        this.add(vBox2, 2, 2, 1, 3);
 
         //
-        HBox hBoxSoeg = new HBox(labelEvt,buttonSoeg);
+        HBox hBoxSoeg = new HBox(labelEvt, buttonSoeg);
         hBoxSoeg.setSpacing(10);
         this.add(hBoxSoeg, 2, 0);
 
@@ -125,26 +125,34 @@ public class KlippekortTab extends GridPane {
         //
 
         //TextField textFieldAntalStartKlip
-        textFieldAntalStartKlip.setText(""+Klippekort.hentAntalKlip());
-        this.add(textFieldAntalStartKlip, 3,2 );
+        textFieldAntalStartKlip.setPromptText("" + Klippekort.hentAntalKlip());
+        this.add(textFieldAntalStartKlip, 3, 2);
         //TextField textFieldAntalStartKlip
-        textFieldKlippekortPris.setText(""+Klippekort.hentKlippekortPris());
+        textFieldKlippekortPris.setPromptText("" + Klippekort.hentKlippekortPris());
         this.add(textFieldKlippekortPris, 3, 3);
 
 
     }
 
-    private void buttonOpdatereMetod(){
-        Klippekort.aendreAntalKlip(Integer.parseInt(textFieldAntalStartKlip.getText()));
-        Klippekort.aendreKlippekortPris(Double.parseDouble(textFieldKlippekortPris.getText()));
+    private void buttonOpdatereMetod() {
+        if (!textFieldKlippekortPris.getText().isEmpty())
+            Klippekort.aendreKlippekortPris(Double.parseDouble(textFieldKlippekortPris.getText()));
+
+        if (!textFieldAntalStartKlip.getText().isEmpty())
+            Klippekort.aendreAntalKlip(Integer.parseInt(textFieldAntalStartKlip.getText()));
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Opdatering af klippekort");
         alert.setHeaderText("Klippekorterne var opdateret");
-        alert.setContentText("\nDen nye antal klip er : "+textFieldAntalStartKlip.getText()+"\nDen nye pris er : "+textFieldKlippekortPris.getText());
+        alert.setContentText("\nDen nye antal klip er : " + textFieldAntalStartKlip.getText() + "\nDen nye pris er : " + textFieldKlippekortPris.getText());
         alert.showAndWait();
+        textFieldAntalStartKlip.clear();
+        textFieldKlippekortPris.clear();
+        textFieldAntalStartKlip.setPromptText("" + Klippekort.hentAntalKlip());
+        textFieldKlippekortPris.setPromptText("" + Klippekort.hentKlippekortPris());
     }
 
-    private void buttonSoegKnapMetod(){
+    private void buttonSoegKnapMetod() {
         klippekortListView.getItems().setAll(Controller.soegKlippekort(textFieldKundenavn.getText()));
     }
 
