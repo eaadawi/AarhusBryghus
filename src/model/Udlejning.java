@@ -101,14 +101,6 @@ public class Udlejning extends Ordre {
     }
 
     // TODO Tilføj til deisgnklassediagram
-    /**
-     * Retunere det afrengede beløb for en udlejning
-     */
-    public double hentAfregnetBeloeb() {
-        return afregnetBeloeb;
-    }
-
-    // TODO Tilføj til deisgnklassediagram
     public boolean erAfregnet() {
         return afregnet;
     }
@@ -221,6 +213,10 @@ public class Udlejning extends Ordre {
         returFustager.remove(ol);
     }
 
+    public List<Ordrelinje> hentReturFustager() {
+        return new ArrayList<>(returFustager);
+    }
+
     // TODO Tilføj til deisgnklassediagram
     /**
      * Udregner det beløb en kunde skal have tilbage ved aflevering af anlæg, samt tilhørende produkter
@@ -228,54 +224,66 @@ public class Udlejning extends Ordre {
      */
     public double afregn(boolean anlaegOk, int fustagePant, int kulsyrePant) {
 
-        if (!afregnet) {
-            double afregnetBeloeb = 0;
-            Prisliste prisliste = null;
-            for (Prisliste pl : Storage.hentInstans().hentPrislister()) {
-                if (pl.hentNavn().equals("Butik")) {
-                    prisliste = pl;
-                }
-            }
-            if(prisliste == null) throw new IllegalArgumentException("Der findes ingen prisliste med dette navn");
+        if (fustagePant < 0) {
+            throw new IllegalArgumentException("Du kan ikke returnere et negativt antal (Fustager)");
+        }
 
-            double pantReturFustage = 0;
-            for (Produkt p : prisliste.hentProdukter()) {
-                if (p.hentNavn().equals("Pant")) {
-                    if (p.hentProduktGruppe().hentNavn().equals("fustage")) {
-                        pantReturFustage = prisliste.hentPris(p);
+        if (kulsyrePant < 0) {
+            throw new IllegalArgumentException("Du kan ikke returnere et negativt antal (Kulsyre)");
+        }
+
+        if (!afregnet ) {
+            if (fustagePant != 0 || kulsyrePant != 0) {
+
+                double afregnetBeloeb = 0;
+                Prisliste prisliste = null;
+                for (Prisliste pl : Storage.hentInstans().hentPrislister()) {
+                    if (pl.hentNavn().equals("Butik")) {
+                        prisliste = pl;
                     }
                 }
-            }
-            int i = 0;
-            while (i <= fustagePant) {
-                afregnetBeloeb += pantReturFustage;
-                i++;
-            }
+                if (prisliste == null) throw new IllegalArgumentException("Prislisten findes ikke");
 
-            double pantReturKulsyre = 0;
-            for (Produkt p : prisliste.hentProdukter()) {
-                if (p.hentNavn().equals("Pant")) {
-                    if (p.hentProduktGruppe().hentNavn().equals("Kulsyre")) {
-                        pantReturKulsyre = prisliste.hentPris(p);
+                double pantReturFustage = 0;
+                for (Produkt p : prisliste.hentProdukter()) {
+                    if (p.hentNavn().equals("Pant")) {
+                        if (p.hentProduktGruppe().hentNavn().equals("fustage")) {
+                            pantReturFustage = prisliste.hentPris(p);
+                        }
                     }
                 }
-            }
-            int j = 0;
-            while (j <= kulsyrePant) {
-                afregnetBeloeb += pantReturKulsyre;
-                j++;
-            }
+                int i = 0;
+                while (i < fustagePant) {
+                    afregnetBeloeb += pantReturFustage;
+                    i++;
+                }
 
-            for (Ordrelinje ol : returFustager) {
-                double olPris = ol.samletPris();
-                double behandligsGebyr = ol.hentAntal() * 50;
-                double pris = olPris - behandligsGebyr;
-                afregnetBeloeb += pris;
-                ol.hentProdukt().tilfoejAntalPaaLager(ol.hentAntal());
+                double pantReturKulsyre = 0;
+                for (Produkt p : prisliste.hentProdukter()) {
+                    if (p.hentNavn().equals("Pant")) {
+                        if (p.hentProduktGruppe().hentNavn().equals("Kulsyre")) {
+                            pantReturKulsyre = prisliste.hentPris(p);
+                        }
+                    }
+                }
+                int j = 0;
+                while (j < kulsyrePant) {
+                    afregnetBeloeb += pantReturKulsyre;
+                    j++;
+                }
+
+                for (Ordrelinje ol : returFustager) {
+                    double olPris = ol.samletPris();
+                    double behandligsGebyr = ol.hentAntal() * 50;
+                    double pris = olPris - behandligsGebyr;
+                    afregnetBeloeb += pris;
+                    ol.hentProdukt().tilfoejAntalPaaLager(ol.hentAntal());
+                }
+
+                this.afregnetBeloeb = afregnetBeloeb;
             }
 
             afregnet = true;
-            this.afregnetBeloeb = afregnetBeloeb;
 
             if (anlaegOk) {
                 for(Ordrelinje ol : super.hentOrdrelinjer()) {
@@ -286,12 +294,7 @@ public class Udlejning extends Ordre {
                     }
                 }
             }
-
-            return afregnetBeloeb;
-
         }
-        else {
-            return 0;
-        }
+        return this.afregnetBeloeb;
     }
 }
