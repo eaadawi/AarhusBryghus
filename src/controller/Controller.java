@@ -242,7 +242,7 @@ public class Controller {
     /**
      * Henter og retunere en liste med ordre på en given dato
      */
-    public static Set<Ordre> hentOrdreDato(LocalDate dato) {
+    public static Set<Ordre> hentOrdrerDato(LocalDate dato) {
 
         Set<Ordre> ordrer = new HashSet<>();
         String type = "o";
@@ -261,7 +261,7 @@ public class Controller {
     public static double hentSamletOmsaetning(LocalDate dato) {
 
         double samletOmsaetning = 0;
-        Set<Ordre> ordrer = hentOrdreDato(dato);
+        Set<Ordre> ordrer = hentOrdrerDato(dato);
         for (Ordre o : ordrer) {
             samletOmsaetning += o.totalPris();
         }

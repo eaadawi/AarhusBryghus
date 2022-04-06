@@ -100,7 +100,6 @@ public class Udlejning extends Ordre {
         return adresse;
     }
 
-    // TODO Tilføj til deisgnklassediagram
     public boolean erAfregnet() {
         return afregnet;
     }
@@ -194,7 +193,6 @@ public class Udlejning extends Ordre {
         return levering;
     }
 
-    // TODO Tilføj til deisgnklassediagram
     /**
      * Tilføjer et pantprodukt til returFustager
      */
@@ -204,7 +202,6 @@ public class Udlejning extends Ordre {
         return o;
     }
 
-    // TODO Tilføj til deisgnklassediagram
     /**
      * Pre: Ordrelinjen er i returFustager
      * Fjerner en ordrelinje fra returFustager
@@ -217,7 +214,6 @@ public class Udlejning extends Ordre {
         return new ArrayList<>(returFustager);
     }
 
-    // TODO Tilføj til deisgnklassediagram
     /**
      * Udregner det beløb en kunde skal have tilbage ved aflevering af anlæg, samt tilhørende produkter
      * fustager & kulsyrer.
