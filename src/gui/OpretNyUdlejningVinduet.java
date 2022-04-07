@@ -126,6 +126,7 @@ public class OpretNyUdlejningVinduet extends Stage {
         startDatoDatePicker.setEditable(false);
         pane.add(startDatoDatePicker, 1, 0);
         //
+        slutDatoDatePicker.setValue(LocalDate.now());
         slutDatoDatePicker.setEditable(false);
         pane.add(slutDatoDatePicker, 1, 1);
 
