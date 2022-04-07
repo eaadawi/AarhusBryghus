@@ -196,8 +196,8 @@ public class Udlejning extends Ordre {
     /**
      * Tilføjer et pantprodukt til returFustager
      */
-    public Ordrelinje opretReturFustage(int antal, PantProdukt pp, Prisliste pl) {
-        Ordrelinje o = new Ordrelinje(antal, pp, pl);
+    public Ordrelinje opretReturFustage(int antal, Produkt p, Prisliste pl) {
+        Ordrelinje o = new Ordrelinje(antal, p, pl);
         returFustager.add(o);
         return o;
     }
