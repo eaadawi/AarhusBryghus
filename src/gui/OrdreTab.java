@@ -118,6 +118,7 @@ public class OrdreTab extends GridPane {
             dialog.showAndWait();
         }
 
+            udlejningListView.getItems().setAll(Controller.hentOdreAfType("u"));
     }
 }
 
@@ -243,6 +244,7 @@ class AfrejnUdlejningVinduet extends Stage {
         alert.setContentText("Content text");
 
         alert.showAndWait();
+        this.hide();
     }
 }
 
