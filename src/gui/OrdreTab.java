@@ -275,7 +275,9 @@ class LilleFustageVinduet extends Stage {
 
         System.out.println(pl);
         System.out.println(p);
-        if(ordre instanceof Udlejning) {
+        if(p instanceof PantProdukt) System.out.println("pantprodukt");
+
+        if(ordre instanceof Udlejning && p instanceof PantProdukt) {
             Ordrelinje ol = ((Udlejning) ordre).opretReturFustage(antal, (PantProdukt) p, pl);
             fustager.getItems().add(ol);
         }
