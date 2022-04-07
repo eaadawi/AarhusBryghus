@@ -26,7 +26,7 @@ public class Ordre {
      * Udregner den totale pris for de produkter som ikke skal betales med klip
      */
     public double totalPris() {
-        if(totalPris == 0) {
+        if (totalPris == 0) {
             double pris = 0;
             for (Ordrelinje ol : ordrelinjer) {
                 if (ol.hentPrisliste().hentValuta() != Valuta.KLIP)

@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import storage.Storage;
 
-import javax.naming.ldap.Control;
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -328,7 +326,7 @@ class UdlejningTest {
         PantProdukt pantProdukt = produktGruppe.opretPantProdukt("Test Fustage", 100, 25);
         Prisliste prisliste = Controller.hentPrislisteFraNavn("Butik");
         prisliste.tilfoejProdukt(pantProdukt, 775);
-        udlejning.opretOrdrelinje(14,pantProdukt,prisliste);
+        udlejning.opretOrdrelinje(14, pantProdukt, prisliste);
         double forventet = 2600;
 
         // Act
@@ -380,7 +378,7 @@ class UdlejningTest {
         prisliste.tilfoejProdukt(fustage, 500);
         udlejning.opretOrdrelinje(5, fustage, prisliste);
 
-        udlejning.opretReturFustage(3, fustage ,prisliste);
+        udlejning.opretReturFustage(3, fustage, prisliste);
 
         double forventet = 1950;
 
@@ -480,7 +478,7 @@ class UdlejningTest {
         int fustagePant = 1;
         int kulsyrePant = 0;
         Udlejning udlejning = Controller.opretUdlejning();
-        Prisliste prisliste = Controller.opretPrisliste("Forkert prisliste",Valuta.DKK);
+        Prisliste prisliste = Controller.opretPrisliste("Forkert prisliste", Valuta.DKK);
         ProduktGruppe produktGruppe = Controller.opretProduktGruppe("Test produtkgruppe");
         Produkt produkt = produktGruppe.opretProdukt("Test Produkt", 100);
         prisliste.tilfoejProdukt(produkt, 100);
