@@ -18,9 +18,9 @@ public class Udlejning extends Ordre {
     private LocalDate kundeFoedselsdag;
     private String adresse;
     private boolean levering;
-    private boolean afregnet; // TODO Tilføj til deisgnklassediagram
-    private double afregnetBeloeb; // TODO Tilføj til deisgnklassediagram
-    private List<Ordrelinje> returFustager = new ArrayList<>(); // TODO Tilføj til deisgnklassediagram
+    private boolean afregnet;
+    private double afregnetBeloeb;
+    private final List<Ordrelinje> returFustager = new ArrayList<>();
 
     public Udlejning(LocalDate dato, int id) {
         super(dato, id);
@@ -228,7 +228,7 @@ public class Udlejning extends Ordre {
             throw new IllegalArgumentException("Du kan ikke returnere et negativt antal (Kulsyre)");
         }
 
-        if (!afregnet ) {
+        if (!afregnet) {
             if (fustagePant != 0 || kulsyrePant != 0) {
 
                 double afregnetBeloeb = 0;
@@ -282,7 +282,7 @@ public class Udlejning extends Ordre {
             afregnet = true;
 
             if (anlaegOk) {
-                for(Ordrelinje ol : super.hentOrdrelinjer()) {
+                for (Ordrelinje ol : super.hentOrdrelinjer()) {
                     if (ol.hentProdukt().hentProduktGruppe().hentNavn().equals("Anlæg")) {
                         if (!ol.hentProdukt().hentNavn().equals("Krus")) {
                             ol.hentProdukt().tilfoejAntalPaaLager(ol.hentAntal());

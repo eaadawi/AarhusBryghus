@@ -313,7 +313,7 @@ public class Controller {
     public static void initStorage() {
 
         storage.rydStorage();
-      
+
         // INIT Klippekort
         Klippekort.aendreKlippekortPris(130);
         Klippekort.aendreAntalKlip(4);
