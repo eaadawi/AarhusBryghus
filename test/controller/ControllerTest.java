@@ -2,11 +2,14 @@ package controller;
 
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import model.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import storage.Storage;
+import storage.StorageI;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 class ControllerTest {
+
 
     @Test
     @Order(1)
@@ -409,21 +413,36 @@ class ControllerTest {
     void soegKlipppekort() {
 
         // Arrange
+        StorageI mockStorage = mock(StorageI.class);
+        Klippekort mockK1 = mock(Klippekort.class);
+        Klippekort mockK2 = mock(Klippekort.class);
+        Klippekort mockK3 = mock(Klippekort.class);
+
         String navn1 = "Anders Andersen";
         String navn2 = "Hans Hansen";
-        String input = "Anders Andersen";
-        Klippekort klippekort1 = Controller.opretKlippekort(navn1);
-        Klippekort klippekort2 = Controller.opretKlippekort(navn1);
-        Klippekort klippekort3 = Controller.opretKlippekort(navn2);
+        String navn3 = "Anders Andersen";
+
+        Controller.aendreStorage(mockStorage);
+        when(mockK1.hentKundeNavn()).thenReturn(navn1);
+        when(mockK2.hentKundeNavn()).thenReturn(navn2);
+        when(mockK3.hentKundeNavn()).thenReturn(navn3);
+
+        Set<Klippekort> klippekortSet = new HashSet<>();
+        klippekortSet.add(mockK1);
+        klippekortSet.add(mockK2);
+        klippekortSet.add(mockK3);
+
+        when(mockStorage.hentKlippekort()).thenReturn(klippekortSet);
 
         // Act
-        Set<Klippekort> klippekortSet = Controller.soegKlippekort(input);
+        Set<Klippekort> result = Controller.soegKlippekort(navn1);
 
         // Assert
-        assertTrue(klippekortSet.contains(klippekort1));
-        assertTrue(klippekortSet.contains(klippekort2));
-        assertFalse(klippekortSet.contains(klippekort3));
+        assertTrue(result.contains(mockK1));
+        assertFalse(result.contains(mockK2));
+        assertTrue(result.contains(mockK3));
 
+        Controller.aendreStorage(Storage.hentInstans());
     }
 
     @Test

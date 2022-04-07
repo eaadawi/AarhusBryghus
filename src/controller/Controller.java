@@ -8,7 +8,11 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class Controller {
-    private static final StorageI storage = Storage.hentInstans();
+    private static StorageI storage = Storage.hentInstans();
+
+    public static void aendreStorage(StorageI storage) {
+        Controller.storage = storage;
+    }
 
     /**
      * Opretter og returnere produktGruppe med given navn og tiljoeje den ind i storrage
