@@ -8,12 +8,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.*;
 import org.mockito.internal.matchers.Or;
 
+import javax.xml.stream.FactoryConfigurationError;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -75,7 +77,6 @@ public class OrdreTab extends GridPane {
         afrejnUdlejning.setOnAction(event -> this.afrejnUdlejningKnapMetod());
 
 
-
         //VBox
         VBox vBox = new VBox();
         vBox.getChildren().add(opretOrder);
@@ -105,14 +106,14 @@ public class OrdreTab extends GridPane {
         //
         udlejningListView.getItems().setAll(Controller.hentOdreAfType("u"));
 
-        if(!udlejningListView.getItems().isEmpty())
+        if (!udlejningListView.getItems().isEmpty())
             udlejningListView.getSelectionModel().select(0);
     }
 
     private void afrejnUdlejningKnapMetod() {
         Ordre o = udlejningListView.getSelectionModel().getSelectedItem();
         //TODO metod knap
-        if(o != null) {
+        if (o != null) {
             AfrejnUdlejningVinduet dialog = new AfrejnUdlejningVinduet("Afregn udlejning", o);
             dialog.showAndWait();
         }
@@ -129,7 +130,7 @@ class AfrejnUdlejningVinduet extends Stage {
     private Button buttonAfregnPris = new Button("Afregn pris");
     private CheckBox checkBox = new CheckBox();
     private ListView<Ordrelinje> listViewFustage = new ListView<>();
-
+    private Label labelFejl = new Label();
     public AfrejnUdlejningVinduet(String title, Ordre ordre) {
 
         this.initStyle(StageStyle.UTILITY);
@@ -180,6 +181,7 @@ class AfrejnUdlejningVinduet extends Stage {
         pane.add(labelFustagePant, 0, 1);
         pane.add(labelKulsyrePant, 0, 2);
         pane.add(labelAfregnPris, 2, 6);
+        pane.add(labelFejl, 2, 3,2,1);
         //
         pane.add(buttonFustage, 0, 3);
         pane.add(buttonRyd, 0, 5);
@@ -195,31 +197,49 @@ class AfrejnUdlejningVinduet extends Stage {
     }
 
     private void buttonFustageKnapMetod() {
-        LilleFustageVinduet dialog = new LilleFustageVinduet(ordre,listViewFustage);
+        LilleFustageVinduet dialog = new LilleFustageVinduet(ordre, listViewFustage,labelFejl);
         dialog.showAndWait();
 
     }
 
-    private void buttonRydKnapMetod(){
+    private void buttonRydKnapMetod() {
+        textFieldFustage.clear();
+        textFieldKulsyre.clear();
         listViewFustage.getItems().clear();
     }
 
-    private void hentFustager(){
+    private void hentFustager() {
         List<Ordrelinje> ol = ordre.hentOrdrelinjer();
         ol.removeIf(o -> !o.hentProdukt().hentProduktGruppe().equals("fustage"));
         listViewFustage.getItems().setAll(ol);
     }
 
-    private void buttonAfregnPrisKnapMetod(){
+    private void buttonAfregnPrisKnapMetod() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         alert.setTitle("Titel");
         double pris = 0;
-        if(ordre instanceof Udlejning) {
-            pris += ((Udlejning) ordre).afregn(checkBox.isSelected(),
-                    Integer.parseInt(textFieldFustage.getText()), Integer.parseInt(textFieldKulsyre.getText()));
+
+        int fustagepant = 0;
+        if (textFieldFustage.getText().trim().length() > 0) {
+            fustagepant = Integer.parseInt(textFieldFustage.getText());
+        } else {
+            textFieldFustage.setText("0");
         }
-        alert.setHeaderText("Udlejnings pris: "+pris);
+        int kulsyrepant = 0;
+        if (textFieldKulsyre.getText().trim().length() > 0) {
+            kulsyrepant = Integer.parseInt(textFieldKulsyre.getText());
+        } else {
+            textFieldKulsyre.setText("0");
+        }
+
+        if (ordre instanceof Udlejning) {
+            System.out.println(fustagepant + " " + kulsyrepant);
+            pris = ((Udlejning) ordre).afregn(checkBox.isSelected(),
+                    fustagepant, kulsyrepant);
+            System.out.println(pris);
+        }
+        alert.setHeaderText("Udlejnings pris: " + pris);
         alert.setContentText("Content text");
 
         alert.showAndWait();
@@ -231,14 +251,15 @@ class LilleFustageVinduet extends Stage {
     private ListView<Ordrelinje> fustager;
     private ComboBox<Ordrelinje> produktComboBox = new ComboBox<>();
     private TextField textFieldAntal = new TextField();
-
-    public LilleFustageVinduet(Ordre ordre,ListView<Ordrelinje> fustagerListView) {
+    private Label labelFejl;
+    public LilleFustageVinduet(Ordre ordre, ListView<Ordrelinje> fustagerListView,Label labelFejl) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(false);
 
         this.ordre = ordre;
         fustager = fustagerListView;
+        this.labelFejl = labelFejl;
 
         GridPane pane = new GridPane();
         this.initContentPane(pane);
@@ -254,37 +275,79 @@ class LilleFustageVinduet extends Stage {
         pane.setVgap(10);
         pane.setGridLinesVisible(false);
 
+        //-------------------- Label -------------------------
+        labelFejl.setTextFill(Color.RED);
+
         //-------------------- Button -------------------------
         Button buttonTilfoej = new Button("Tilføj");
         buttonTilfoej.setOnAction(event -> this.buttonTilfoejKnapMetod());
         //-------------------- ComboBox -------------------------
         hentFustager();
         //-------------------- Tilfoej -------------------------
-        pane.add(produktComboBox, 0, 0,2,1);
-        pane.add(new Label("Antal"), 0,1 );
+        pane.add(produktComboBox, 0, 0, 2, 1);
+        pane.add(new Label("Antal"), 0, 1);
         pane.add(textFieldAntal, 1, 1);
         pane.add(buttonTilfoej, 1, 3);
 
 
     }
 
-    private void buttonTilfoejKnapMetod(){
+    private void buttonTilfoejKnapMetod() {
         int antal = Integer.parseInt(textFieldAntal.getText());
         Produkt p = produktComboBox.getSelectionModel().getSelectedItem().hentProdukt();
         Prisliste pl = produktComboBox.getSelectionModel().getSelectedItem().hentPrisliste();
 
-        System.out.println(pl);
-        System.out.println(p);
-        if(p instanceof PantProdukt) System.out.println("pantprodukt");
-
-        if(ordre instanceof Udlejning && p instanceof PantProdukt) {
-            Ordrelinje ol = ((Udlejning) ordre).opretReturFustage(antal, (PantProdukt) p, pl);
-            fustager.getItems().add(ol);
+        if (ordre instanceof Udlejning) {
+            Ordrelinje ol = ((Udlejning) ordre).opretReturFustage(antal, p, pl);
+            if (!erFundet() && tjekAntal()) {
+                fustager.getItems().add(ol);
+            }
         }
         this.hide();
     }
 
-    private void hentFustager(){
+    private boolean erFundet() {
+
+        for (Ordrelinje ol : fustager.getItems()) {
+            if (ol.hentProdukt().equals(produktComboBox.getSelectionModel().getSelectedItem().hentProdukt())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean tjekAntal() {
+        boolean result = false;
+        Produkt p = produktComboBox.getSelectionModel().getSelectedItem().hentProdukt();
+        Prisliste pl = produktComboBox.getSelectionModel().getSelectedItem().hentPrisliste();
+        int index = 0;
+        boolean soege = true;
+        Ordrelinje ol = null;
+        while (soege && index < ordre.hentOrdrelinjer().size()) {
+            if (ordre.hentOrdrelinjer().get(index).hentProdukt().equals(p)) {
+                soege = false;
+                ol = ordre.hentOrdrelinjer().get(index);
+            }
+            index++;
+        }
+        int antalUdlejning = ol.hentAntal();
+        int antalReturn = Integer.parseInt(textFieldAntal.getText());
+        try {
+
+            if (antalUdlejning < antalReturn || antalReturn < 0) {
+                throw new RuntimeException("Antal passer ikke");
+
+            } else {
+                result = true;
+            }
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            labelFejl.setText(e.getMessage());
+        }
+        return result;
+    }
+
+    private void hentFustager() {
         List<Ordrelinje> ol = new ArrayList<>(ordre.hentOrdrelinjer());
         ol.removeIf(o -> !o.hentProdukt().hentProduktGruppe().hentNavn().equals("fustage"));
         produktComboBox.getItems().setAll(ol);
