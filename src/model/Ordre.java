@@ -139,7 +139,7 @@ public class Ordre {
     @Override
     public String toString() {
 
-        return "Ordre nr " + id + ' ' +
+        return "Ordre id:" + id + ' ' +
                 "(" + dato + ')';
     }
 
