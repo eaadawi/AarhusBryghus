@@ -2,6 +2,7 @@ package storage;
 
 import controller.Controller;
 import model.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
@@ -11,11 +12,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class StorageTest {
 
+    private StorageI testStorage;
+
+    @BeforeEach
+    void init() {
+        testStorage = Storage.hentTestStorage();
+    }
+
+
     @Test
     @Order(1)
     void tilfoejProduktGruppe() {
         // Arrange
-        Storage testStorage = Storage.hentTestStorage();
         ProduktGruppe produktGruppe = new ProduktGruppe("Flaskeøl");
 
         // Act
@@ -29,7 +37,6 @@ class StorageTest {
     @Order(2)
     void fjernProduktGruppe() {
         // Arrange
-        Storage testStorage = Storage.hentTestStorage();
         ProduktGruppe produktGruppe = new ProduktGruppe("Flaskeøl");
         testStorage.tiljoejProduktGruppe(produktGruppe);
 
@@ -45,7 +52,6 @@ class StorageTest {
     void tilfoejPrislisteTest() {
 
         // Arrange
-        Storage testStorage = Storage.hentTestStorage();
         Prisliste pl = new Prisliste("Prisliste test", Valuta.DKK);
 
         // Act
@@ -60,7 +66,6 @@ class StorageTest {
     void fjernPrislisteTest() {
 
         // Arrange
-        Storage testStorage = Storage.hentTestStorage();
         Prisliste pl = new Prisliste("Prisliste test", Valuta.KLIP);
         testStorage.tilfoejPrisliste(pl);
 
@@ -76,7 +81,6 @@ class StorageTest {
     void tilfoejOrdreTest() {
 
         // Arrange
-        Storage testStorage = Storage.hentTestStorage();
         Ordre ordre = new Ordre(LocalDate.of(2022, 3, 28), 1);
 
         // Act
@@ -92,7 +96,6 @@ class StorageTest {
     void fjernOrdreTest() {
 
         // Arrange
-        Storage testStorage = Storage.hentTestStorage();
         Ordre ordre = new Ordre(LocalDate.of(2022, 3, 28), 1);
         testStorage.tilfoejOrdre(ordre);
 
@@ -124,7 +127,6 @@ class StorageTest {
     void tilfoejKlippekort() {
         // Arrange
         Klippekort klippekort = new Klippekort(1, "Bo Ibsen");
-        Storage testStorage = Storage.hentTestStorage();
 
         // Act
         testStorage.tilfoejKlippekort(klippekort);
@@ -138,7 +140,6 @@ class StorageTest {
     void fjernKlippekort() {
         // Arrange
         Klippekort klippekort = new Klippekort(1, "Bo Ibsen");
-        Storage testStorage = Storage.hentTestStorage();
         testStorage.tilfoejKlippekort(klippekort);
 
         // Act
