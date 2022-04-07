@@ -293,4 +293,14 @@ public class Udlejning extends Ordre {
         }
         return this.afregnetBeloeb;
     }
+
+    @Override
+    public String toString() {
+        if(afregnet) {
+            return "Udlejning id:" + super.hentId() + ' ' +
+                    "(" + super.hentDato() + ')' + " AFREGNET";
+        }
+        return "Udlejning id:" + super.hentId() + ' ' +
+                "(" + super.hentDato() + ')';
+    }
 }
