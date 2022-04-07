@@ -8,7 +8,7 @@ import model.ProduktGruppe;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Storage {
+public class Storage implements StorageI {
 
     private volatile static Storage uniqueInstans = new Storage();
 
@@ -17,33 +17,37 @@ public class Storage {
     private final Set<Ordre> ordreSet = new HashSet<>();
     private final Set<Klippekort> klippekortSet = new HashSet<>();
 
-    public static Storage hentInstans() {
-        if (uniqueInstans == null) {
+    static public Storage hentInstans() {
+        if (Storage.uniqueInstans == null) {
             synchronized (Storage.class) {
-                if (uniqueInstans == null) {
-                    uniqueInstans = new Storage();
+                if (Storage.uniqueInstans == null) {
+                    Storage.uniqueInstans = new Storage();
                 }
             }
         }
-        return uniqueInstans;
+        return Storage.uniqueInstans;
     }
 
-    public static Storage hentTestStorage() {
+    static public Storage hentTestStorage() {
         return new Storage();
     }
 
+    @Override
     public void tiljoejProduktGruppe(ProduktGruppe produktGruppe) {
         produktGruppeSet.add(produktGruppe);
     }
 
+    @Override
     public void tilfoejPrisliste(Prisliste prisliste) {
         prislisteSet.add(prisliste);
     }
 
+    @Override
     public void tilfoejOrdre(Ordre ordre) {
         ordreSet.add(ordre);
     }
 
+    @Override
     public void tilfoejKlippekort(Klippekort klippekort) {
         klippekortSet.add(klippekort);
     }
@@ -51,6 +55,7 @@ public class Storage {
     /**
      * Pre: produktGruppe er ind i settet
      */
+    @Override
     public void fjernjProduktGruppe(ProduktGruppe produktGruppe) {
         produktGruppeSet.remove(produktGruppe);
     }
@@ -58,6 +63,7 @@ public class Storage {
     /**
      * Pre: Prislisten er i settet prislisteSet
      */
+    @Override
     public void fjernPrisliste(Prisliste prisliste) {
         prislisteSet.remove(prisliste);
     }
@@ -65,6 +71,7 @@ public class Storage {
     /**
      * Pre: Ordre er i settet ordreSet
      */
+    @Override
     public void fjernOrdre(Ordre ordre) {
         ordreSet.remove(ordre);
     }
@@ -72,6 +79,7 @@ public class Storage {
     /**
      * Pre: Klippekort er i settet klippekortSet
      */
+    @Override
     public void fjernKlippekort(Klippekort klippekort) {
         klippekortSet.remove(klippekort);
     }
@@ -79,6 +87,7 @@ public class Storage {
     /**
      * Henter en kopi af produktGruppeSet
      */
+    @Override
     public Set<ProduktGruppe> hentProduktGrupper() {
         return new HashSet<>(produktGruppeSet);
     }
@@ -86,6 +95,7 @@ public class Storage {
     /**
      * Henter en kopi af prislisteSet
      */
+    @Override
     public Set<Prisliste> hentPrislister() {
         return new HashSet<>(prislisteSet);
     }
@@ -93,6 +103,7 @@ public class Storage {
     /**
      * Henter en kopi af ordreSet
      */
+    @Override
     public Set<Ordre> hentOrdrer() {
         return new HashSet<>(ordreSet);
     }
@@ -100,6 +111,7 @@ public class Storage {
     /**
      * Henter en kopi af klippekortSet
      */
+    @Override
     public Set<Klippekort> hentKlippekort() {
         return new HashSet<>(klippekortSet);
     }
@@ -107,6 +119,7 @@ public class Storage {
     /**
      * nulsætter alt data i storage
      */
+    @Override
     public void rydStorage() {
         prislisteSet.clear();
         produktGruppeSet.clear();

@@ -2,11 +2,13 @@ package controller;
 
 import model.*;
 import storage.Storage;
+import storage.StorageI;
 
 import java.time.LocalDate;
 import java.util.*;
 
 public class Controller {
+    public  static StorageI storage = Storage.hentInstans();
 
     /**
      * Opretter og returnere produktGruppe med given navn og tiljoeje den ind i storrage
@@ -14,7 +16,7 @@ public class Controller {
 
     public static ProduktGruppe opretProduktGruppe(String navn) {
         ProduktGruppe pg = new ProduktGruppe(navn);
-        Storage.hentInstans().tiljoejProduktGruppe(pg);
+        storage.tiljoejProduktGruppe(pg);
         return pg;
     }
 
@@ -23,7 +25,7 @@ public class Controller {
      */
     public static Prisliste opretPrisliste(String navn, Valuta valuta) {
         Prisliste pl = new Prisliste(navn, valuta);
-        Storage.hentInstans().tilfoejPrisliste(pl);
+        storage.tilfoejPrisliste(pl);
         return pl;
     }
 
@@ -32,9 +34,9 @@ public class Controller {
      */
     public static Ordre opretOrdre() {
         LocalDate dato = LocalDate.now();
-        int id = Storage.hentInstans().hentOrdrer().size() + 1;
+        int id = storage.hentOrdrer().size() + 1;
         Ordre ordre = new Ordre(dato, id);
-        Storage.hentInstans().tilfoejOrdre(ordre);
+        storage.tilfoejOrdre(ordre);
         return ordre;
     }
 
@@ -43,9 +45,9 @@ public class Controller {
      */
     public static Udlejning opretUdlejning() {
         LocalDate dato = LocalDate.now();
-        int id = Storage.hentInstans().hentOrdrer().size() + 1;
+        int id = storage.hentOrdrer().size() + 1;
         Udlejning udlejning = new Udlejning(dato, id);
-        Storage.hentInstans().tilfoejOrdre(udlejning);
+        storage.tilfoejOrdre(udlejning);
         return udlejning;
     }
 
@@ -54,9 +56,9 @@ public class Controller {
      */
 
     public static Klippekort opretKlippekort(String kundeNavn) {
-        int id = Storage.hentInstans().hentKlippekort().size() + 1;
+        int id = storage.hentKlippekort().size() + 1;
         Klippekort klippekort = new Klippekort(id, kundeNavn);
-        Storage.hentInstans().tilfoejKlippekort(klippekort);
+        storage.tilfoejKlippekort(klippekort);
         return klippekort;
     }
 
@@ -71,49 +73,49 @@ public class Controller {
      * Fjerner produktGruppe fra Storage
      */
     public static void fjernProduktGruppe(ProduktGruppe produktGruppe) {
-        Storage.hentInstans().fjernjProduktGruppe(produktGruppe);
+        storage.fjernjProduktGruppe(produktGruppe);
     }
 
     /**
      * Fjerner prisliste fra Storage
      */
     public static void fjernPrisliste(Prisliste prisliste) {
-        Storage.hentInstans().fjernPrisliste(prisliste);
+        storage.fjernPrisliste(prisliste);
     }
 
     /**
      * Fjerner ordre fra storage
      */
     public static void fjernOrdre(Ordre ordre) {
-        Storage.hentInstans().fjernOrdre(ordre);
+        storage.fjernOrdre(ordre);
     }
 
     /**
      * Fjerner klippekort fra storage
      */
     public static void fjernKlippekort(Klippekort klippekort) {
-        Storage.hentInstans().fjernKlippekort(klippekort);
+        storage.fjernKlippekort(klippekort);
     }
 
     /**
      * Henter set af produktGruppe fra storage
      */
     public static Set<ProduktGruppe> hentProduktGrupper() {
-        return Storage.hentInstans().hentProduktGrupper();
+        return storage.hentProduktGrupper();
     }
 
     /**
      * Henter set af prisliste fra Storage
      */
     public static Set<Prisliste> hentPrislister() {
-        return Storage.hentInstans().hentPrislister();
+        return storage.hentPrislister();
     }
 
     /**
      * Henter set af ordre fra Storage
      */
     public static Set<Ordre> hentOrdrer() {
-        return Storage.hentInstans().hentOrdrer();
+        return storage.hentOrdrer();
     }
 
 
@@ -121,7 +123,7 @@ public class Controller {
      * Henter set af klippekort fra Storage
      */
     public static Set<Klippekort> hentKlippekort() {
-        return Storage.hentInstans().hentKlippekort();
+        return storage.hentKlippekort();
     }
 
     /**
@@ -183,12 +185,12 @@ public class Controller {
     public static Set<Ordre> hentOdreAfType(String type) {
         Set<Ordre> ordre = new HashSet<>();
         if (type.equals("o")) {
-            for (Ordre o : Storage.hentInstans().hentOrdrer()) {
+            for (Ordre o : storage.hentOrdrer()) {
                 if (!(o instanceof Udlejning))
                     ordre.add(o);
             }
         } else if (type.equals("u")) {
-            for (Ordre o : Storage.hentInstans().hentOrdrer()) {
+            for (Ordre o : storage.hentOrdrer()) {
                 if (o instanceof Udlejning)
                     ordre.add(o);
             }
@@ -203,7 +205,7 @@ public class Controller {
         Set<Klippekort> klippekort = new HashSet<>();
         CharSequence inputCharSequence = input.toLowerCase(Locale.ROOT).trim();
 
-        for (Klippekort k : Storage.hentInstans().hentKlippekort()) {
+        for (Klippekort k : storage.hentKlippekort()) {
             String navn = k.hentKundeNavn().toLowerCase(Locale.ROOT);
             if (navn.contains(inputCharSequence))
                 klippekort.add(k);
@@ -306,7 +308,7 @@ public class Controller {
 
     public static void initStorage() {
 
-        Storage.hentInstans().rydStorage();
+        storage.rydStorage();
       
         // INIT Klippekort
         Klippekort.aendreKlippekortPris(130);
@@ -590,20 +592,20 @@ public class Controller {
         fredagsbarKlip.tilfoejProdukt(p18g2, 1);
 
         // PRISLISTE - Brugerdefineret
-        Prisliste brugerdefineredeFustager = Controller.opretPrisliste("Brugerdefinerede fustager", Valuta.DKK);
+        Controller.opretPrisliste("Brugerdefinerede fustager", Valuta.DKK);
 
 
         // KLIPPEKORT
-        Klippekort klippekort1 = Controller.opretKlippekort("Anders Andersen");
-        Klippekort klippekort2 = Controller.opretKlippekort("Hans Hansen");
-        Klippekort klippekort3 = Controller.opretKlippekort("Jane Jensen");
-        Klippekort klippekort4 = Controller.opretKlippekort("Anders Andersen");
-        Klippekort klippekort5 = Controller.opretKlippekort("Mette Frederiksen");
-        Klippekort klippekort6 = Controller.opretKlippekort("Lars Løkke");
-        Klippekort klippekort7 = Controller.opretKlippekort("Søren Pape");
-        Klippekort klippekort8 = Controller.opretKlippekort("Sofie Carsten Nielsen");
-        Klippekort klippekort9 = Controller.opretKlippekort("Alex Vanopslagh");
-        Klippekort klippekort10 = Controller.opretKlippekort("Mai Villadsen");
+        Controller.opretKlippekort("Anders Andersen");
+        Controller.opretKlippekort("Hans Hansen");
+        Controller.opretKlippekort("Jane Jensen");
+        Controller.opretKlippekort("Anders Andersen");
+        Controller.opretKlippekort("Mette Frederiksen");
+        Controller.opretKlippekort("Lars Løkke");
+        Controller.opretKlippekort("Søren Pape");
+        Controller.opretKlippekort("Sofie Carsten Nielsen");
+        Controller.opretKlippekort("Alex Vanopslagh");
+        Controller.opretKlippekort("Mai Villadsen");
     }
 
 }
