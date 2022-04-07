@@ -284,7 +284,6 @@ class KlippekortVinduetBeloeb extends Stage {
         pane.add(labelKlippekort, 0, 1);
 
         //Label label3
-        Label labelEvt = new Label("evt");
 
         //Label label4
         Label labelValgteKK = new Label("Valgte klippekort");
@@ -366,7 +365,7 @@ class KlippekortVinduetBeloeb extends Stage {
         pane.add(vBox2, 2, 2, 1, 3);
 
         //
-        HBox hBoxSoeg = new HBox(labelEvt, buttonSoeg);
+        HBox hBoxSoeg = new HBox(buttonSoeg);
         hBoxSoeg.setSpacing(10);
         pane.add(hBoxSoeg, 2, 0);
 

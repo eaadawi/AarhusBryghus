@@ -116,6 +116,9 @@ public class TilfoejFustageVinduet extends Stage {
                 pl.tilfoejProdukt(p, Double.parseDouble(textFieldPris.getText()));
 
                 ordre.opretOrdrelinje(getIntFraTF(textFieldAntal), p, pl);
+            }else {
+                Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
+                ordre.opretOrdrelinje(getIntFraTF(textFieldAntal), fustage, pl);
             }
         }else {
             ordre.opretOrdrelinje(getIntFraTF(textFieldAntal),
