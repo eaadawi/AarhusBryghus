@@ -320,8 +320,39 @@ public class OpretPrislisteTab extends GridPane {
     }
 
     private void fjernProdukt(Prisliste pl, Produkt p) {
-        pl.fjernProdukt(p);
-        hentOgVisProdukter(pl);
+
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+
+        //navn på alert vinduet
+        alert.setTitle("Bekræftelse vinduet");
+
+        //anden linje text
+        alert.setHeaderText("Ønsker at slette produkt?");
+        //tredje linje text
+        alert.setContentText("Er du sikkert på at produkten skal slettes?");
+
+        //oprettes reaktion på knappe truk
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+
+
+            pl.fjernProdukt(p);
+            hentOgVisProdukter(pl);
+
+        } else {
+            //vinduet lukkes
+            alert.close();
+        }
+
+        if(prislisteListView.getItems().isEmpty()){
+            produktListView.getItems().clear();
+            produktListViewPris.getItems().clear();
+        }else {
+            prislisteListView.getSelectionModel().select(0);
+        }
+
+
     }
 
     private void selectedProduktChanged(Button button){
