@@ -1,6 +1,5 @@
 package gui;
 
-import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
@@ -8,45 +7,40 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.*;
-
+import model.Ordre;
+import model.Ordrelinje;
+import model.Prisliste;
+import model.Udlejning;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 
 public class OpretNyUdlejningVinduet extends Stage {
 
-    private Udlejning udlejning;
-    private Prisliste prisliste;
+    private final Udlejning udlejning;
+    private final Prisliste prisliste;
 
-    private DatePicker startDatoDatePicker = new DatePicker();
-    private DatePicker slutDatoDatePicker = new DatePicker();
-    private TextField foedseldsdagTextField = new TextField();
-    private TextField telefonNrTextField = new TextField();
-    private TextField navnTextField = new TextField();
+    private final DatePicker startDatoDatePicker = new DatePicker();
+    private final DatePicker slutDatoDatePicker = new DatePicker();
+    private final TextField foedseldsdagTextField = new TextField();
+    private final TextField telefonNrTextField = new TextField();
+    private final TextField navnTextField = new TextField();
 
-    private TextField textFieldAdresse = new TextField();
-    private CheckBox checkBoxLevering = new CheckBox();
+    private final TextField textFieldAdresse = new TextField();
+    private final CheckBox checkBoxLevering = new CheckBox();
 
-    private TextField textSamletPrisEKS = new TextField();
-    private TextField textSamletPris = new TextField();
-    private TextField textFieldKrus = new TextField();
+    private final TextField textSamletPrisEKS = new TextField();
+    private final TextField textSamletPris = new TextField();
 
-    private Button buttonTilfoejAnlaeg = new Button("Tilføj anlæg");
-    private Button buttonTilfoejFustage = new Button("Tilføj fustage");
-    private Button buttonTilfoejKulsyre = new Button("Tilføj kulsyre");
-    private Button buttonTilfoejKrus = new Button("Tilføj krus");
-    private Button buttonFjernOL = new Button("Fjern linje");
+    private final Button buttonTilfoejAnlaeg = new Button("Tilføj anlæg");
+    private final Button buttonTilfoejFustage = new Button("Tilføj fustage");
+    private final Button buttonTilfoejKulsyre = new Button("Tilføj kulsyre");
+    private final Button buttonTilfoejKrus = new Button("Tilføj krus");
+    private final Button buttonFjernOL = new Button("Fjern linje");
 
-    private ListView<Ordrelinje> ordrelinjeListView = new ListView<>();
+    private final ListView<Ordrelinje> ordrelinjeListView = new ListView<>();
 
     public OpretNyUdlejningVinduet(String title) {
         this.initStyle(StageStyle.UTILITY);
@@ -185,7 +179,7 @@ public class OpretNyUdlejningVinduet extends Stage {
         buttonTilfoejKrus.setMaxWidth(Double.MAX_VALUE);
 
         //Button buttonFjernOL
-        buttonFjernOL.setOnAction(event -> this.buttonFjernOLKnapMetod(ordrelinjeListView.getSelectionModel().getSelectedItem()));
+        buttonFjernOL.setOnAction(event -> this.buttonFjernOLKnapMetod());
         buttonFjernOL.setMaxWidth(Double.MAX_VALUE);
         //Button buttonTilfoejUdlejning
         Button buttonTilfoejUdlejning = new Button();
@@ -197,7 +191,7 @@ public class OpretNyUdlejningVinduet extends Stage {
         //----------------------- ListView ----------------------
         //
         ordrelinjeListView.setPrefSize(200, 200);
-        pane.add(ordrelinjeListView, 3, 3,1,5);
+        pane.add(ordrelinjeListView, 3, 3, 1, 5);
 
         //-----------------------COL4_TF_OG_LABEL----------------------
 
@@ -206,23 +200,6 @@ public class OpretNyUdlejningVinduet extends Stage {
         checkBoxLevering.selectedProperty().addListener(listenerChB);
 
     }
-
-
-    private void tilfoejFustageMetodeKnap() {
-        TilfoejFustageVinduet dialog = new TilfoejFustageVinduet("Tilføj fustage vinduet", udlejning, prisliste);
-        dialog.showAndWait();
-
-
-    }
-
-
-    private void buttonEkstraKulsyreMetodeKnap() {
-        TilfoejEkstreKulsyreVinduet2 dialog = new TilfoejEkstreKulsyreVinduet2("Tilføj ekstra kulsyre vinduet", udlejning, prisliste);
-        dialog.showAndWait();
-
-
-    }
-
 
     private void chBListenerMetod() {
         if (checkBoxLevering.isSelected()) {
@@ -276,7 +253,7 @@ public class OpretNyUdlejningVinduet extends Stage {
         opdaterListView();
     }
 
-    private void buttonFjernOLKnapMetod(Ordrelinje ol) {
+    private void buttonFjernOLKnapMetod() {
         udlejning.fjernOrdrelinje(ordrelinjeListView.getSelectionModel().getSelectedItem());
         opdaterListView();
     }
@@ -286,12 +263,12 @@ public class OpretNyUdlejningVinduet extends Stage {
         ordrelinjeListView.getItems().setAll(udlejning.hentOrdrelinjer());
     }
 
-    private void opdaterPriser(){
-        textSamletPris.setText(""+udlejning.totalPrisMedPant());
-        textSamletPrisEKS.setText(""+udlejning.totalPris());
+    private void opdaterPriser() {
+        textSamletPris.setText("" + udlejning.totalPrisMedPant());
+        textSamletPrisEKS.setText("" + udlejning.totalPris());
     }
 
-    private void vinduetLukkesMetod(){
+    private void vinduetLukkesMetod() {
         Controller.fjernOrdre(udlejning);
     }
 
@@ -299,9 +276,9 @@ public class OpretNyUdlejningVinduet extends Stage {
 
 class TilfoejEkstraKrus extends Stage {
 
-    private Ordre ordre;
-    private Prisliste prisliste;
-    private TextField textFieldAntal = new TextField();
+    private final Ordre ordre;
+    private final Prisliste prisliste;
+    private final TextField textFieldAntal = new TextField();
 
     public TilfoejEkstraKrus(String title, Ordre ordre, Prisliste pl) {
         this.initStyle(StageStyle.UTILITY);

@@ -1,20 +1,14 @@
 package gui;
 
-import com.sun.javafx.binding.StringFormatter;
-import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import model.Produkt;
 import model.ProduktGruppe;
-import storage.Storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +23,9 @@ public class ProduktGruppeTab extends GridPane {
 
 
     //disable knapper
-    private final Button fjernProduktGruppeKnappe= new Button();
+    private final Button fjernProduktGruppeKnappe = new Button();
     private final Button tiljoejProduktKnappe = new Button();
     private final Button fjernProduktKnappe = new Button();
-
-
 
 
     public ProduktGruppeTab() {
@@ -66,7 +58,7 @@ public class ProduktGruppeTab extends GridPane {
         hentOgVisProduktGrupper(produktGruppeListView);
 
         //tilfoejes listener til produktGruppeListView
-        ChangeListener<ProduktGruppe> listener = (ov, o, n) -> this.selectedProduktGruppeChanged(fjernProduktGruppeKnappe,tiljoejProduktKnappe);
+        ChangeListener<ProduktGruppe> listener = (ov, o, n) -> this.selectedProduktGruppeChanged(fjernProduktGruppeKnappe, tiljoejProduktKnappe);
         produktGruppeListView.getSelectionModel().selectedItemProperty().addListener(listener);
 
         //Knappe tilfoej til ProduktGruppe oprettes
@@ -208,10 +200,10 @@ public class ProduktGruppeTab extends GridPane {
 
 
     private void opretProduktGruppe() {
-        ProduktGruppeOpret dialog = new ProduktGruppeOpret("Opret Produkt gruppe", null);
+        ProduktGruppeOpret dialog = new ProduktGruppeOpret("Opret Produkt gruppe");
         dialog.showAndWait();
 
-        // Wait for the modal dialog to close
+        // Venter for at modal dialog bliver lukket
 
         //hentes produkgGrupper fra Controller
         produktGruppeListView.getItems().setAll(Controller.hentProduktGrupper());
@@ -223,12 +215,12 @@ public class ProduktGruppeTab extends GridPane {
     /**
      * Metode viser de produkter som er tilhoerer til valgte produktGrupper
      */
-    private void selectedProduktGruppeChanged(Button b1,Button b2) {
-        opdatereProdukterListView(b1,b2);
+    private void selectedProduktGruppeChanged(Button b1, Button b2) {
+        opdatereProdukterListView(b1, b2);
     }
 
 
-    private void opdatereProdukterListView(Button b1,Button b2) {
+    private void opdatereProdukterListView(Button b1, Button b2) {
 
         //disable knapper bliver brugelige
         b1.setDisable(false);
@@ -241,11 +233,7 @@ public class ProduktGruppeTab extends GridPane {
         if (pg != null) {
 
             //oprettes list for at samle produkter
-            List<Produkt> produktList = new ArrayList<>();
-
-            for (Produkt p : pg.hentProdukter()) {
-                produktList.add(p);
-            }
+            List<Produkt> produktList = new ArrayList<>(pg.hentProdukter());
 
             // produktListView opdateres med de produkter som passer til den valgte produktGruppe
             produktListView.getItems().setAll(produktList);
@@ -283,7 +271,7 @@ public class ProduktGruppeTab extends GridPane {
             alert.close();
         }
 
-        if(!produktGruppeListView.getItems().isEmpty())
+        if (!produktGruppeListView.getItems().isEmpty())
             produktGruppeListView.getSelectionModel().select(0);
         else {
             produktGruppeListView.getItems().clear();
@@ -305,7 +293,7 @@ public class ProduktGruppeTab extends GridPane {
      */
 
     private void opretProdukt(ProduktGruppe pg) {
-        ProduktOpretVinduet dialog = new ProduktOpretVinduet("Opret Produkt", null, pg);
+        ProduktOpretVinduet dialog = new ProduktOpretVinduet("Opret Produkt", pg);
         dialog.showAndWait();
         hentOgVisProdukter(produktGruppeListView);
     }
@@ -361,9 +349,9 @@ public class ProduktGruppeTab extends GridPane {
 
         // nulstiller produktListView hvis der er ingen produkter
         //som tilhoerer til valgte produktGruppe
-        if(pg.hentProdukter().isEmpty()){
+        if (pg.hentProdukter().isEmpty()) {
             produktListView.getItems().clear();
-        }else{
+        } else {
             //valger den øverste element i listen automatisk
             produktListView.getSelectionModel().select(0);
         }
@@ -383,13 +371,13 @@ public class ProduktGruppeTab extends GridPane {
      */
     private void opdatereTextArea() {
         //henter info af valgte produkt
-        if(produktListView.getSelectionModel().getSelectedItem()!=null) {
+        if (produktListView.getSelectionModel().getSelectedItem() != null) {
             String navn = produktListView.getSelectionModel().getSelectedItem().hentNavn();
             int antalPaaLager = produktListView.getSelectionModel().getSelectedItem().hentAntalPaaLager();
 
             //printer info ind i tekst area
             txaProduktIndhold.setText(navn + " / " + antalPaaLager + " stk.");
-        }else{
+        } else {
             txaProduktIndhold.clear();
         }
     }
@@ -398,35 +386,35 @@ public class ProduktGruppeTab extends GridPane {
      * Metoden der tolfoeje antal til produkt antal paa lageren
      */
     private void tilfoejAntal() {
-        int fjernAntal=0;
-        if(textFieldProduktAntal.getText().length()>0) {
+        int fjernAntal = 0;
+        if (textFieldProduktAntal.getText().length() > 0) {
             fjernAntal = Integer.parseInt(textFieldProduktAntal.getText());
         }
 
         Produkt p = produktListView.getSelectionModel().getSelectedItem();
-        if(fjernAntal>0) {
+        if (fjernAntal > 0) {
             //antal tilfoejes
             p.tilfoejAntalPaaLager(Integer.parseInt(textFieldProduktAntal.getText()));
 
             //txaProduktIndhold opdateres efter tilfoejelse
             opdatereTextArea();
             textFieldProduktAntal.clear();
-        }else{
+        } else {
             this.fejlAntalTilfoejes();
         }
     }
 
     private void fjernAntal() {
-        int fjernAntal=0;
-        if(textFieldProduktAntal.getText().length()>0) {
+        int fjernAntal = 0;
+        if (textFieldProduktAntal.getText().length() > 0) {
             fjernAntal = Integer.parseInt(textFieldProduktAntal.getText());
         }
         Produkt p = produktListView.getSelectionModel().getSelectedItem();
-        if (fjernAntal>0 &&p.hentAntalPaaLager() >= fjernAntal) {
+        if (fjernAntal > 0 && p.hentAntalPaaLager() >= fjernAntal) {
             p.fjernAntalPaaLager(fjernAntal);
             opdatereTextArea();
             textFieldProduktAntal.clear();
-        }else{
+        } else {
             //viser besked om antal passer ikke med ønskede antal der skal fjernes
             this.visBeskedOmUpassendeAntal();
         }
@@ -435,7 +423,7 @@ public class ProduktGruppeTab extends GridPane {
     /**
      * Metoden viser information om at der er ikke nok stk på lageren
      */
-    private void visBeskedOmUpassendeAntal(){
+    private void visBeskedOmUpassendeAntal() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
@@ -447,7 +435,7 @@ public class ProduktGruppeTab extends GridPane {
     /**
      * Metode der vise fejl besked hvis tilfoejes upassende antal
      */
-    private void fejlAntalTilfoejes(){
+    private void fejlAntalTilfoejes() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);

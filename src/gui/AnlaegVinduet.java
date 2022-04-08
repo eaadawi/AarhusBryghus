@@ -18,11 +18,11 @@ import java.util.List;
 
 public class AnlaegVinduet extends Stage {
 
-    private Ordre ordre;
+    private final Ordre ordre;
 
-    private ComboBox<Produkt> produktComboBox = new ComboBox<>();
-    private TextField textField1 = new TextField();
-    private TextField textField2 = new TextField();
+    private final ComboBox<Produkt> produktComboBox = new ComboBox<>();
+    private final TextField textField1 = new TextField();
+    private final TextField textField2 = new TextField();
 
     public AnlaegVinduet(String title, Ordre ordre) {
         this.initStyle(StageStyle.UTILITY);

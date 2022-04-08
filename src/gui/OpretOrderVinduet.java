@@ -1,6 +1,5 @@
 package gui;
 
-import com.sun.javafx.scene.control.FakeFocusTextField;
 import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -15,20 +14,18 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.*;
 
-import javax.naming.InitialContext;
 import java.util.Optional;
 
 
 public class OpretOrderVinduet extends Stage {
 
     private final Ordre ordre;
-    private final Prisliste prisliste;
 
-    private ListView<Ordrelinje> ordrelinjeListView = new ListView<>();
-    private ComboBox<Betalinsgmetode> betalinsgmetodeComboBox = new ComboBox<>();
+    private final ListView<Ordrelinje> ordrelinjeListView = new ListView<>();
+    private final ComboBox<Betalinsgmetode> betalinsgmetodeComboBox = new ComboBox<>();
 
-    private TextField textFieldDKK = new TextField();
-    private TextField textFieldKlip = new TextField();
+    private final TextField textFieldDKK = new TextField();
+    private final TextField textFieldKlip = new TextField();
 
     /**
      *
@@ -41,7 +38,6 @@ public class OpretOrderVinduet extends Stage {
         //
         this.setTitle(title);
         ordre = o;
-        prisliste = Controller.hentPrislisteFraNavn("Butik");
         //
         GridPane pane = new GridPane();
         this.initContentPane(pane);
@@ -152,7 +148,7 @@ public class OpretOrderVinduet extends Stage {
      * Metoden aabner et vindue for at tilfoeje en ny ordre linje
      */
     private void tilfoejOrdreLinjeKnapMetode() {
-        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilføj ordre linje", null, ordre);
+        TilfoejOrderLinjeVinduet dialog = new TilfoejOrderLinjeVinduet("Tilføj ordre linje", ordre);
         dialog.showAndWait();
         //
         opdatereTF();
@@ -233,20 +229,20 @@ public class OpretOrderVinduet extends Stage {
 class KlippekortVinduetBeloeb extends Stage {
 
     private final Ordre ordre;
-    private ListView<Klippekort> klippekortListView = new ListView<>();
-    private ListView<Klippekort> klippekortListViewValgte = new ListView<>();
+    private final ListView<Klippekort> klippekortListView = new ListView<>();
+    private final ListView<Klippekort> klippekortListViewValgte = new ListView<>();
 
-    private Button buttonOpretNyKlippekort = new Button("Opret Ny");
-    private Button buttonSoeg = new Button("Søg");
-    private Button buttonTilfoejKk = new Button("Tilføj");
-    private Button buttonFjernKk = new Button("Fjern");
+    private final Button buttonOpretNyKlippekort = new Button("Opret Ny");
+    private final Button buttonSoeg = new Button("Søg");
+    private final Button buttonTilfoejKk = new Button("Tilføj");
+    private final Button buttonFjernKk = new Button("Fjern");
 
-    private double samletPrisForKoebteKlippekort;
-    private TextField textFieldKundenavn = new TextField();
-    private TextField textFieldPris = new TextField();
-    private TextField textFieldKlppris = new TextField();
+    private final double samletPrisForKoebteKlippekort;
+    private final TextField textFieldKundenavn = new TextField();
+    private final TextField textFieldPris = new TextField();
+    private final TextField textFieldKlppris = new TextField();
 
-    private Label labelFejlCatch = new Label();
+    private final Label labelFejlCatch = new Label();
 
     public KlippekortVinduetBeloeb(String title, Ordre ordre) {
 
@@ -388,7 +384,7 @@ class KlippekortVinduetBeloeb extends Stage {
 
     private void opretNyKkMetod() {
         OpretNyKlippekortVinduet dialog = new OpretNyKlippekortVinduet("Oprettelse af et nyt klippekort",
-                klippekortListViewValgte, textFieldPris, samletPrisForKoebteKlippekort,ordre);
+                klippekortListViewValgte, textFieldPris, samletPrisForKoebteKlippekort, ordre);
         dialog.showAndWait();
         //henter de tidlige kort sammen med den som var lige oprettet
         klippekortListView.getItems().setAll(Controller.hentKlippekort());
@@ -441,9 +437,9 @@ class KlippekortVinduetBeloeb extends Stage {
 
 class KviteringVinduet extends Stage {
 
-    private Ordre ordre;
-    private TextArea textArea = new TextArea();
-    private double samletPris;
+    private final Ordre ordre;
+    private final TextArea textArea = new TextArea();
+    private final double samletPris;
 
     public KviteringVinduet(String title, Ordre ordre, double pris) {
         this.initStyle(StageStyle.UTILITY);
@@ -488,9 +484,10 @@ class KviteringVinduet extends Stage {
 
     private void txAreaText() {
         StringBuilder sb = new StringBuilder();
-        for (Ordrelinje o : ordre.hentOrdrelinjer())
-            sb.append("\n" + o);
-        sb.append("\n\nI alt: " + samletPris);
+        for (Ordrelinje o : ordre.hentOrdrelinjer()) {
+            sb.append("\n").append(o);
+        }
+        sb.append("\n\nI alt: ").append(samletPris);
 
         textArea.setText(sb.toString());
     }

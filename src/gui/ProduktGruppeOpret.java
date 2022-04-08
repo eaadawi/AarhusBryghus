@@ -10,25 +10,20 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.ProduktGruppe;
-
 
 public class ProduktGruppeOpret extends Stage {
 
-    private final ProduktGruppe produktGruppe;// OBS :nullable
-
     //text field oprettes
-    private TextField textFieldNavnPG = new TextField();
+    private final TextField textFieldNavnPG = new TextField();
 
     /**
      * Note: Nullable param produkt gruppe.
      */
-    public ProduktGruppeOpret(String title, ProduktGruppe produktGruppe) {
+    public ProduktGruppeOpret(String title) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(false);
 
-        this.produktGruppe = produktGruppe;
         this.setTitle(title);
 
         GridPane pane = new GridPane();
@@ -38,7 +33,7 @@ public class ProduktGruppeOpret extends Stage {
         this.setScene(scene);
     }
 
-    private void initContentPane(GridPane pane){
+    private void initContentPane(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
         pane.setVgap(10);
@@ -69,7 +64,7 @@ public class ProduktGruppeOpret extends Stage {
         cancellButton.setText("Cancel");
 
         //knap cancell tilfoejes til pane
-        pane.add(cancellButton,1,1);
+        pane.add(cancellButton, 1, 1);
 
         //knap cancel action tilfoejes at gemme vinduet
         cancellButton.setOnAction(event -> this.hide());
@@ -79,7 +74,7 @@ public class ProduktGruppeOpret extends Stage {
      * Metode opretter produkt gruppe
      * med at tage string fra textFieldNavnPG som navn
      */
-    private void opretProduktGruppe(){
+    private void opretProduktGruppe() {
         Controller.opretProduktGruppe(textFieldNavnPG.getText());
 
         //textFieldNavnPG fjerne text

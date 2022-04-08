@@ -106,21 +106,21 @@ public class TilfoejFustageVinduet extends Stage {
         Produkt fustage = comboBoxType.getSelectionModel().getSelectedItem();
         int stoerelseNy = comboBoxStoerelse.getValue();
 
-        if(fustage instanceof PantProdukt){
+        if (fustage instanceof PantProdukt) {
             int stoerelse = ((PantProdukt) fustage).hentStoerrelse();
-            if(stoerelse!=stoerelseNy){
-                ProduktGruppe pg =fustage.hentProduktGruppe();
+            if (stoerelse != stoerelseNy) {
+                ProduktGruppe pg = fustage.hentProduktGruppe();
                 Prisliste pl = Controller.hentPrislisteFraNavn("Brugerdefinerede fustager");
                 Produkt p = pg.opretProdukt(fustage.hentNavn() + "(" + stoerelseNy + "L)",
                         Integer.parseInt(textFieldAntal.getText()));
                 pl.tilfoejProdukt(p, Double.parseDouble(textFieldPris.getText()));
 
                 ordre.opretOrdrelinje(getIntFraTF(textFieldAntal), p, pl);
-            }else {
+            } else {
                 Prisliste pl = Controller.hentPrislisteFraNavn("Butik");
                 ordre.opretOrdrelinje(getIntFraTF(textFieldAntal), fustage, pl);
             }
-        }else {
+        } else {
             ordre.opretOrdrelinje(getIntFraTF(textFieldAntal),
                     comboBoxType.getSelectionModel().getSelectedItem(), prisliste);
         }

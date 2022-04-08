@@ -12,29 +12,29 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.*;
-import storage.Storage;
+import model.Ordre;
+import model.Prisliste;
+import model.Produkt;
+import model.ProduktGruppe;
 
 
 public class TilfoejOrderLinjeVinduet extends Stage {
 
     private final Ordre ordre;
-    private final Ordrelinje ordrelinje;
 
-    private ComboBox<Prisliste> comboBoxPrisliste = new ComboBox();
-    private ComboBox<ProduktGruppe> comboBoxProduktGruppe = new ComboBox();
-    private ComboBox<Produkt> comboBoxProdukte = new ComboBox();
+    private final ComboBox<Prisliste> comboBoxPrisliste = new ComboBox();
+    private final ComboBox<ProduktGruppe> comboBoxProduktGruppe = new ComboBox();
+    private final ComboBox<Produkt> comboBoxProdukte = new ComboBox();
 
-    private TextField textFieldAntal = new TextField();
+    private final TextField textFieldAntal = new TextField();
 
 
-    public TilfoejOrderLinjeVinduet(String title, Ordrelinje ordrelinje,Ordre ordre) {
+    public TilfoejOrderLinjeVinduet(String title, Ordre ordre) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
 
         //
-        this.ordrelinje = ordrelinje;
         this.setTitle(title);
         this.ordre = ordre;
 
@@ -87,7 +87,7 @@ public class TilfoejOrderLinjeVinduet extends Stage {
 
 
         //ComboBox comboBoxProduktGruppe
-        if(comboBoxPrisliste.getSelectionModel().getSelectedItem()!=null) {
+        if (comboBoxPrisliste.getSelectionModel().getSelectedItem() != null) {
             comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGrupper());
         }
         pane.add(comboBoxProduktGruppe, 1, 1);
@@ -97,7 +97,7 @@ public class TilfoejOrderLinjeVinduet extends Stage {
 
 
         //ComboBox comboBoxProdukte
-        if(comboBoxPrisliste.getSelectionModel().getSelectedItem()!=null&&comboBoxProduktGruppe.getSelectionModel().getSelectedItem()!=null) {
+        if (comboBoxPrisliste.getSelectionModel().getSelectedItem() != null && comboBoxProduktGruppe.getSelectionModel().getSelectedItem() != null) {
             comboBoxProdukte.getItems().setAll(Controller.hentFaellesProdukter(comboBoxProduktGruppe.getSelectionModel().getSelectedItem(), comboBoxPrisliste.getSelectionModel().getSelectedItem()));
         }
         pane.add(comboBoxProdukte, 1, 2);
@@ -114,7 +114,7 @@ public class TilfoejOrderLinjeVinduet extends Stage {
 
     }
 
-    private void oprtOrderLinje(){
+    private void oprtOrderLinje() {
         //int antal = Integer.parseInt(textFieldAntal.getText());
         ordre.opretOrdrelinje(Integer.parseInt(textFieldAntal.getText()),
                 comboBoxProdukte.getSelectionModel().getSelectedItem(),
@@ -127,12 +127,25 @@ public class TilfoejOrderLinjeVinduet extends Stage {
     //
 
 
-    private void valgPrisliste(){
-        comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGrupper());
+    private void valgPrisliste() {
+
+        if (comboBoxProduktGruppe.getSelectionModel().getSelectedItem() != null) {
+            ProduktGruppe pg = comboBoxProduktGruppe.getSelectionModel().getSelectedItem();
+            Prisliste pl = comboBoxPrisliste.getSelectionModel().getSelectedItem();
+            comboBoxProdukte.getItems().setAll(Controller.hentFaellesProdukter(pg, pl));
+        }else {
+            comboBoxProduktGruppe.getItems().setAll(Controller.hentProduktGrupper());
+        }
     }
 
-    private void valgProduktGruppe(ProduktGruppe pg){
-        comboBoxProdukte.getItems().setAll(pg.hentProdukter());
+    private void valgProduktGruppe(ProduktGruppe pg) {
+
+        if (comboBoxPrisliste.getSelectionModel().getSelectedItem() != null) {
+            Prisliste pl = comboBoxPrisliste.getSelectionModel().getSelectedItem();
+            comboBoxProdukte.getItems().setAll(Controller.hentFaellesProdukter(pg, pl));
+        } else {
+            comboBoxProdukte.getItems().setAll(pg.hentProdukter());
+        }
     }
 
 
