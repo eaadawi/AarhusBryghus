@@ -135,7 +135,6 @@ public class Ordre {
         }
     }
 
-    // TODO Opdateres til statistik
     @Override
     public String toString() {
 
