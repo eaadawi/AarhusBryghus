@@ -1,27 +1,19 @@
 package gui;
 
-import com.sun.javafx.property.adapter.PropertyDescriptor;
 import controller.Controller;
-import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.Produkt;
 import model.Prisliste;
+import model.Produkt;
 import model.ProduktGruppe;
 import model.Valuta;
-import storage.Storage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,14 +162,14 @@ public class OpretPrislisteTab extends GridPane {
 
         //HBox til 2 ListView navn og pris
         HBox hBoxLV = new HBox();
-        hBoxLV.getChildren().addAll(produktListView,produktListViewPris);
-        this.add(hBoxLV, 2, 1,2,4);
+        hBoxLV.getChildren().addAll(produktListView, produktListViewPris);
+        this.add(hBoxLV, 2, 1, 2, 4);
 
     }
 
 
     private void opretPrisliste() {
-        OpretPrislisteVinduet dialog = new OpretPrislisteVinduet("Opret Prisliste Vindue",null,null);
+        OpretPrislisteVinduet dialog = new OpretPrislisteVinduet("Opret Prisliste Vindue");
         dialog.showAndWait();
 
         // Wait for the modal dialog to close
@@ -221,14 +213,13 @@ public class OpretPrislisteTab extends GridPane {
             // produktListView opdateres med de produkter som passer til den valgte Prisliste
             produktListView.getItems().setAll(produktList);
             ArrayList<String> priser = new ArrayList<>();
-            for(Produkt p: pl.hentProdukter()){
-                priser.add(pl.hentPris(p) + " " + Valuta.DKK.toString());
+            for (Produkt p : pl.hentProdukter()) {
+                priser.add(pl.hentPris(p) + " " + Valuta.DKK);
             }
             produktListViewPris.getItems().setAll(priser);
 
         }
     }
-
 
 
     /**
@@ -262,10 +253,10 @@ public class OpretPrislisteTab extends GridPane {
             alert.close();
         }
 
-        if(prislisteListView.getItems().isEmpty()){
+        if (prislisteListView.getItems().isEmpty()) {
             produktListView.getItems().clear();
             produktListViewPris.getItems().clear();
-        }else {
+        } else {
             prislisteListView.getSelectionModel().select(0);
         }
     }
@@ -305,8 +296,8 @@ public class OpretPrislisteTab extends GridPane {
 
 /////////////////////////////////////////////////////////////////////////
             ArrayList<String> priser = new ArrayList<>();
-            for(Produkt p: pl.hentProdukter()){
-                priser.add(pl.hentPris(p) + " " + Valuta.DKK.toString());
+            for (Produkt p : pl.hentProdukter()) {
+                priser.add(pl.hentPris(p) + " " + Valuta.DKK);
             }
             produktListViewPris.getItems().setAll(priser);
 
@@ -314,7 +305,6 @@ public class OpretPrislisteTab extends GridPane {
             produktListView.getItems().clear();
             produktListViewPris.getItems().clear();
         }
-
 
 
     }
@@ -335,8 +325,6 @@ public class OpretPrislisteTab extends GridPane {
         //oprettes reaktion på knappe truk
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-
-
             pl.fjernProdukt(p);
             hentOgVisProdukter(pl);
 
@@ -345,17 +333,17 @@ public class OpretPrislisteTab extends GridPane {
             alert.close();
         }
 
-        if(prislisteListView.getItems().isEmpty()){
+        if (prislisteListView.getItems().isEmpty()) {
             produktListView.getItems().clear();
             produktListViewPris.getItems().clear();
-        }else {
+        } else {
             prislisteListView.getSelectionModel().select(0);
         }
 
 
     }
 
-    private void selectedProduktChanged(Button button){
+    private void selectedProduktChanged(Button button) {
         int index = produktListView.getSelectionModel().getSelectedIndex();
         produktListViewPris.getSelectionModel().select(index);
         produktListView.scrollTo(index);//finally
@@ -372,25 +360,20 @@ public class OpretPrislisteTab extends GridPane {
 class OpretPrislisteVinduet extends Stage {
 
 
-   private final Prisliste prisliste;// OBS :nullable
-
     //text field oprettes
-    private TextField textFieldNavnPL = new TextField();
-    private Valuta valuta;
+    private final TextField textFieldNavnPL = new TextField();
 
     //combobox til valuta enum
-    private ComboBox<Valuta> valutaComboBox = new ComboBox<>();
+    private final ComboBox<Valuta> valutaComboBox = new ComboBox<>();
 
     /**
-     *
+     * Opretter et nyt vinduet hvor man kan lave en ny prislist
      */
-    public OpretPrislisteVinduet(String title,Prisliste prisliste,Valuta v) {
+    public OpretPrislisteVinduet(String title) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(false);
 
-        this.prisliste = prisliste;
-        this.valuta = v;
         this.setTitle(title);
 
         GridPane pane = new GridPane();
@@ -474,17 +457,17 @@ class OpretPrislisteVinduet extends Stage {
 
 class PrislistProduktTilfoejVinduet extends Stage {
 
-//    private final Produkt produkt;// OBS :nullable
-    private Prisliste prisliste;
+    //    private final Produkt produkt;// OBS :nullable
+    private final Prisliste prisliste;
 
     //combobox produktGruppe
-    private ComboBox<ProduktGruppe> produktGruppeComboBox = new ComboBox<>();
+    private final ComboBox<ProduktGruppe> produktGruppeComboBox = new ComboBox<>();
 
     //combobox produkt oprettes
-    private ComboBox<Produkt> produktComboBox = new ComboBox<>();
+    private final ComboBox<Produkt> produktComboBox = new ComboBox<>();
 
     //text fields pris produkt
-    private TextField textFieldPrisProdukt = new TextField();
+    private final TextField textFieldPrisProdukt = new TextField();
 
     /**
      * Note: Nullable param produkt gruppe.
@@ -538,16 +521,15 @@ class PrislistProduktTilfoejVinduet extends Stage {
         produktGruppeComboBox.getItems().setAll(Controller.hentProduktGrupper());
 
         //reaktion paa combobox produktGruppe ind i comboboxProdukt
-        ChangeListener<ProduktGruppe> listener = (ov,o,n) -> this.valgteProduktGruppeAendrerProdukter();
+        ChangeListener<ProduktGruppe> listener = (ov, o, n) -> this.valgteProduktGruppeAendrerProdukter();
         produktGruppeComboBox.getSelectionModel().selectedItemProperty().addListener(listener);
         //produktGruppeComboBox valger den foerste element automatisk
         produktGruppeComboBox.getSelectionModel().select(0);
 
 
-
         //comboboxProdukt henter produkter ud af den valgte prisListe
 
-produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getSelectedItem().hentProdukter());
+        produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getSelectedItem().hentProdukter());
 
         //knap tilfoej produkt til prislisten oprettes
         Button tilfoejProduktKnap2 = new Button();
@@ -576,12 +558,6 @@ produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getS
      */
     private void tilfoejProduktTilPL(Prisliste pl) {
 
-        //textfieldAntal til int
-        int pris = Integer.parseInt(textFieldPrisProdukt.getText());
-
-        //
-        //Valuta v = valuta.
-
         // prislisten tilfoeje valgte produkt med den pris
         //som er staar ind i textFieldPrisProdukt som er konverteres til int
         pl.tilfoejProdukt(produktComboBox.getSelectionModel().getSelectedItem(), Integer.parseInt(textFieldPrisProdukt.getText()));
@@ -593,11 +569,11 @@ produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getS
     }
 
 
-    private void valgteProduktGruppeAendrerProdukter(){
+    private void valgteProduktGruppeAendrerProdukter() {
         this.opdatereProduktGrupperComboBox();
     }
 
-    private void opdatereProduktGrupperComboBox(){
+    private void opdatereProduktGrupperComboBox() {
         produktComboBox.getItems().setAll(produktGruppeComboBox.getSelectionModel().getSelectedItem().hentProdukter());
     }
 

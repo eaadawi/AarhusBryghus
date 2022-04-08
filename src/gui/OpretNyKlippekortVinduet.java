@@ -18,13 +18,14 @@ import model.Ordre;
 
 public class OpretNyKlippekortVinduet extends Stage {
 
-    private Ordre ordre;
+    private final Ordre ordre;
     private Klippekort klippekort = null;
-    private TextField textFieldKundenavn = new TextField();
-    private ListView<Klippekort> klippekortListViewValgte = null;
-    private TextField tf = null;
+    private final TextField textFieldKundenavn = new TextField();
+    private final ListView<Klippekort> klippekortListViewValgte;
+    private final TextField tf;
     private double samletKKP;
-    OpretNyKlippekortVinduet(String title, ListView<Klippekort> k, TextField t, double samletKKP, Ordre ordre){
+
+    OpretNyKlippekortVinduet(String title, ListView<Klippekort> k, TextField t, double samletKKP, Ordre ordre) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(true);
@@ -46,7 +47,7 @@ public class OpretNyKlippekortVinduet extends Stage {
         this.setOnCloseRequest(event -> Controller.fjernKlippekort(klippekort));
     }
 
-    private void initContentPane(GridPane pane){
+    private void initContentPane(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
         pane.setVgap(10);
@@ -75,14 +76,14 @@ public class OpretNyKlippekortVinduet extends Stage {
 
     }
 
-    private void opretKnapMetod(){
+    private void opretKnapMetod() {
         klippekort = Controller.opretKlippekort(textFieldKundenavn.getText());
         klippekortListViewValgte.getItems().add(klippekort);
-        double pris = Double.parseDouble(tf.getText())+klippekort.hentPris();
-        samletKKP+=klippekort.hentPris();
+        double pris = Double.parseDouble(tf.getText()) + klippekort.hentPris();
+        samletKKP += klippekort.hentPris();
         ordre.TilfoejTilTotalPris(klippekort.hentPris());
         ordre.tilfoejKlippekort(klippekort);
-        tf.setText(""+pris);
+        tf.setText("" + pris);
         this.hide();
     }
 

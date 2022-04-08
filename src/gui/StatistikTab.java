@@ -2,7 +2,6 @@ package gui;
 
 import controller.Controller;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -17,16 +16,16 @@ import java.util.Set;
 
 public class StatistikTab extends GridPane {
 
-    private ListView<Ordre> listViewOrdre = new ListView();
-    private ListView<Ordre> listViewOrdreKlip = new ListView();
-    private TextField textField1 = new TextField();
-    private TextField textField2 = new TextField();
-    private DatePicker datePickerDato = new DatePicker();
-    private DatePicker datePickerStartDato = new DatePicker();
-    private DatePicker datePickerSlutDato = new DatePicker();
+    private final ListView<Ordre> listViewOrdre = new ListView();
+    private final ListView<Ordre> listViewOrdreKlip = new ListView();
+    private final TextField textField1 = new TextField();
+    private final TextField textField2 = new TextField();
+    private final DatePicker datePickerDato = new DatePicker();
+    private final DatePicker datePickerStartDato = new DatePicker();
+    private final DatePicker datePickerSlutDato = new DatePicker();
 
 
-    public StatistikTab(){
+    public StatistikTab() {
         this.setPadding(new Insets(20));
         this.setHgap(20);
         this.setVgap(10);
@@ -51,10 +50,10 @@ public class StatistikTab extends GridPane {
         this.add(labelFKlip, 2, 0);
 
         //
-        Label labelStartDato = new Label(String.format("%10s","Start dato"));
+        Label labelStartDato = new Label(String.format("%10s", "Start dato"));
 
         //
-        Label labelSlutDato = new Label(String.format("%10s","Slut dato"));
+        Label labelSlutDato = new Label(String.format("%10s", "Slut dato"));
 
         //
         Label labelSFK = new Label("Samlet forbrugte klip");
@@ -70,8 +69,8 @@ public class StatistikTab extends GridPane {
 
         //
 
-        datePickerStartDato.valueProperty().addListener((observable, oldValue, newValue) -> this.listenerDPR(datePickerStartDato,datePickerSlutDato));
-        datePickerSlutDato.valueProperty().addListener((observable, oldValue, newValue) -> this.listenerDPR(datePickerStartDato,datePickerSlutDato));
+        datePickerStartDato.valueProperty().addListener((observable, oldValue, newValue) -> this.listenerDPR(datePickerStartDato, datePickerSlutDato));
+        datePickerSlutDato.valueProperty().addListener((observable, oldValue, newValue) -> this.listenerDPR(datePickerStartDato, datePickerSlutDato));
 
         //-----------------------ListView--------------
 
@@ -87,40 +86,40 @@ public class StatistikTab extends GridPane {
 
         //TextField textField1
         textField1.setEditable(false);
-        this.add(textField1, 1,3);
+        this.add(textField1, 1, 3);
 
         //TextField textField2
         textField2.setEditable(false);
-        this.add(textField2, 3,3);
+        this.add(textField2, 3, 3);
 
         //-----------------------HBox------------------
 
         //
-        HBox hBox1 = new HBox(labelStartDato,datePickerStartDato);
+        HBox hBox1 = new HBox(labelStartDato, datePickerStartDato);
         hBox1.setSpacing(10);
-        HBox hBox2 = new HBox(labelSlutDato,datePickerSlutDato);
+        HBox hBox2 = new HBox(labelSlutDato, datePickerSlutDato);
         hBox2.setSpacing(10);
-        VBox vBox = new VBox(hBox1,hBox2);
+        VBox vBox = new VBox(hBox1, hBox2);
         vBox.setSpacing(10);
-        this.add(vBox, 2, 1,2,1);
+        this.add(vBox, 2, 1, 2, 1);
 
         //
-        HBox hBox0 = new HBox(labelDato,datePickerDato);
+        HBox hBox0 = new HBox(labelDato, datePickerDato);
         hBox0.setSpacing(10);
-        this.add(hBox0, 0, 1,2,1);
+        this.add(hBox0, 0, 1, 2, 1);
 
         //
-        HBox hBox0a = new HBox(labelSamletOmsaetning,textField1);
+        HBox hBox0a = new HBox(labelSamletOmsaetning, textField1);
         hBox0a.setSpacing(10);
-        this.add(hBox0a, 0 , 3,2,1);
+        this.add(hBox0a, 0, 3, 2, 1);
         //
-        HBox hBox1c = new HBox(labelSFK,textField2);
+        HBox hBox1c = new HBox(labelSFK, textField2);
         hBox1c.setSpacing(10);
-        this.add(hBox1c, 2 , 3,2,1);
+        this.add(hBox1c, 2, 3, 2, 1);
     }
 
-    private void listenerDPL(DatePicker dp){
-        if(dp.getValue()!=null){
+    private void listenerDPL(DatePicker dp) {
+        if (dp.getValue() != null) {
             //TODO items
             listViewOrdre.getItems().setAll(Controller.hentOrdrerDato(datePickerDato.getValue()));
 
@@ -130,8 +129,8 @@ public class StatistikTab extends GridPane {
         }
     }
 
-    private void listenerDPR(DatePicker dp1,DatePicker dp2){
-        if (dp1.getValue()!=null && dp2.getValue()!=null){
+    private void listenerDPR(DatePicker dp1, DatePicker dp2) {
+        if (dp1.getValue() != null && dp2.getValue() != null) {
             //TODO items
 
             listViewOrdreKlip.getItems().setAll(Controller.hentOrdrePeriode(datePickerStartDato.getValue(), datePickerSlutDato.getValue()));
@@ -143,15 +142,14 @@ public class StatistikTab extends GridPane {
         }
     }
 
-    private void opdateringKlip(ListView<Ordre> ordreListView, TextField tf){
-        int tal = 0;
+    private void opdateringKlip(ListView<Ordre> ordreListView, TextField tf) {
         Set<Ordre> ordreSet = new HashSet<>(ordreListView.getItems());
-        tal =Controller.udregnSamletForbrugteKlip(ordreSet);
-        tf.setText(""+tal);
+        int tal = Controller.udregnSamletForbrugteKlip(ordreSet);
+        tf.setText("" + tal);
     }
 
-    private void opdateringIkkeKlip(TextField tf){
+    private void opdateringIkkeKlip(TextField tf) {
         double tal = Controller.hentSamletOmsaetning(datePickerDato.getValue());
-        tf.setText(""+tal);
+        tf.setText("" + tal);
     }
 }

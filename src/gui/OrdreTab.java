@@ -13,19 +13,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import model.*;
-import org.mockito.internal.matchers.Or;
 
-import javax.xml.stream.FactoryConfigurationError;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class OrdreTab extends GridPane {
-    private ListView<Ordre> ordreListView = new ListView<>();
-    private ListView<Ordre> udlejningListView = new ListView<>();
-    private Ordre ordre;
-    private Button opretUdlejning = new Button();
-    private Button afrejnUdlejning = new Button("Afrejn udlejning");
+    private final ListView<Ordre> ordreListView = new ListView<>();
+    private final ListView<Ordre> udlejningListView = new ListView<>();
+    private final Button opretUdlejning = new Button();
 
     public OrdreTab() {
         this.setPadding(new Insets(20));
@@ -57,6 +53,8 @@ public class OrdreTab extends GridPane {
         this.add(udlejningListView, 4, 1, 2, 2);
 
         //-------------------------BUTTON-------------------------------
+        Button afrejnUdlejning = new Button("Afrejn udlejning");
+
         //Button opretOrder knap
         Button opretOrder = new Button();
         opretOrder.setText("Opret order");
@@ -86,7 +84,7 @@ public class OrdreTab extends GridPane {
     }
 
     private void opretOrder() {
-        ordre = Controller.opretOrdre();
+        Ordre ordre = Controller.opretOrdre();
         OpretOrderVinduet dialog = new OpretOrderVinduet("Opret ordre vinduet", ordre);
         dialog.showAndWait();
         //
@@ -118,20 +116,21 @@ public class OrdreTab extends GridPane {
             dialog.showAndWait();
         }
 
-            udlejningListView.getItems().setAll(Controller.hentOdreAfType("u"));
+        udlejningListView.getItems().setAll(Controller.hentOdreAfType("u"));
     }
 }
 
 class AfrejnUdlejningVinduet extends Stage {
 
-    private Ordre ordre;
+    private final Ordre ordre;
 
-    private TextField textFieldFustage = new TextField();
-    private TextField textFieldKulsyre = new TextField();
-    private Button buttonAfregnPris = new Button("Afregn pris");
-    private CheckBox checkBox = new CheckBox();
-    private ListView<Ordrelinje> listViewFustage = new ListView<>();
-    private Label labelFejl = new Label();
+    private final TextField textFieldFustage = new TextField();
+    private final TextField textFieldKulsyre = new TextField();
+    private final Button buttonAfregnPris = new Button("Afregn pris");
+    private final CheckBox checkBox = new CheckBox();
+    private final ListView<Ordrelinje> listViewFustage = new ListView<>();
+    private final Label labelFejl = new Label();
+
     public AfrejnUdlejningVinduet(String title, Ordre ordre) {
 
         this.initStyle(StageStyle.UTILITY);
@@ -182,7 +181,7 @@ class AfrejnUdlejningVinduet extends Stage {
         pane.add(labelFustagePant, 0, 1);
         pane.add(labelKulsyrePant, 0, 2);
         pane.add(labelAfregnPris, 2, 6);
-        pane.add(labelFejl, 2, 3,2,1);
+        pane.add(labelFejl, 2, 3, 2, 1);
         //
         pane.add(buttonFustage, 0, 3);
         pane.add(buttonRyd, 0, 5);
@@ -198,7 +197,7 @@ class AfrejnUdlejningVinduet extends Stage {
     }
 
     private void buttonFustageKnapMetod() {
-        LilleFustageVinduet dialog = new LilleFustageVinduet(ordre, listViewFustage,labelFejl);
+        LilleFustageVinduet dialog = new LilleFustageVinduet(ordre, listViewFustage, labelFejl);
         dialog.showAndWait();
 
     }
@@ -207,12 +206,6 @@ class AfrejnUdlejningVinduet extends Stage {
         textFieldFustage.clear();
         textFieldKulsyre.clear();
         listViewFustage.getItems().clear();
-    }
-
-    private void hentFustager() {
-        List<Ordrelinje> ol = ordre.hentOrdrelinjer();
-        ol.removeIf(o -> !o.hentProdukt().hentProduktGruppe().equals("fustage"));
-        listViewFustage.getItems().setAll(ol);
     }
 
     private void buttonAfregnPrisKnapMetod() {
@@ -249,12 +242,13 @@ class AfrejnUdlejningVinduet extends Stage {
 }
 
 class LilleFustageVinduet extends Stage {
-    private Ordre ordre;
-    private ListView<Ordrelinje> fustager;
-    private ComboBox<Ordrelinje> produktComboBox = new ComboBox<>();
-    private TextField textFieldAntal = new TextField();
-    private Label labelFejl;
-    public LilleFustageVinduet(Ordre ordre, ListView<Ordrelinje> fustagerListView,Label labelFejl) {
+    private final Ordre ordre;
+    private final ListView<Ordrelinje> fustager;
+    private final ComboBox<Ordrelinje> produktComboBox = new ComboBox<>();
+    private final TextField textFieldAntal = new TextField();
+    private final Label labelFejl;
+
+    public LilleFustageVinduet(Ordre ordre, ListView<Ordrelinje> fustagerListView, Label labelFejl) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(false);
@@ -321,7 +315,6 @@ class LilleFustageVinduet extends Stage {
     private boolean tjekAntal() {
         boolean result = false;
         Produkt p = produktComboBox.getSelectionModel().getSelectedItem().hentProdukt();
-        Prisliste pl = produktComboBox.getSelectionModel().getSelectedItem().hentPrisliste();
         int index = 0;
         boolean soege = true;
         Ordrelinje ol = null;
@@ -332,6 +325,7 @@ class LilleFustageVinduet extends Stage {
             }
             index++;
         }
+        assert ol != null;
         int antalUdlejning = ol.hentAntal();
         int antalReturn = Integer.parseInt(textFieldAntal.getText());
         try {

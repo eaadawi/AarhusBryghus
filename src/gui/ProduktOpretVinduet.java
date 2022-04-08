@@ -1,7 +1,5 @@
 package gui;
 
-import com.sun.javafx.scene.control.FakeFocusTextField;
-import controller.Controller;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,26 +9,24 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import model.Produkt;
 import model.ProduktGruppe;
 
 public class ProduktOpretVinduet extends Stage {
 
-    private final Produkt produkt;// OBS :nullable
-    private ProduktGruppe produktGruppe;
+    private final ProduktGruppe produktGruppe;
 
     //text fields oprettes til navn og antal
-    private TextField textFieldNavnProdukt = new TextField();
-    private TextField textFieldAntalProdukt = new TextField();
+    private final TextField textFieldNavnProdukt = new TextField();
+    private final TextField textFieldAntalProdukt = new TextField();
+
     /**
      * Note: Nullable param produkt gruppe.
      */
-    public ProduktOpretVinduet(String title, Produkt produkt,ProduktGruppe pg) {
+    public ProduktOpretVinduet(String title, ProduktGruppe pg) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
         this.setResizable(false);
 
-        this.produkt = produkt;
         produktGruppe = pg;
         this.setTitle(title);
 
@@ -41,7 +37,7 @@ public class ProduktOpretVinduet extends Stage {
         this.setScene(scene);
     }
 
-    private void initContentPane(GridPane pane){
+    private void initContentPane(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
         pane.setVgap(10);
@@ -79,7 +75,7 @@ public class ProduktOpretVinduet extends Stage {
         cancellButton.setText("Cancel");
 
         //knap cancell tilfoejes til pane
-        pane.add(cancellButton,1,2);
+        pane.add(cancellButton, 1, 2);
 
         //knap cancel action tilfoejes at gemme vinduet
         cancellButton.setOnAction(event -> this.hide());
@@ -89,7 +85,7 @@ public class ProduktOpretVinduet extends Stage {
     /**
      * Metod som opretter produkt
      */
-    private void opretProdukt(){
+    private void opretProdukt() {
         //textfieldAntal til int
         int antal = Integer.parseInt(textFieldAntalProdukt.getText());
 
